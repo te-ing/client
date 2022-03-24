@@ -10,7 +10,10 @@ dotenvLoad();
 const withNextEnv = nextEnv();
 
 module.exports = {
-  webpack(config, { isServer, buildId }) {
+  future: {
+    webpack5: true,
+  },
+  webpack: function (config, { isServer, buildId }) {
     config.resolve.modules.push(__dirname);
     config.module.rules.push({
       test: /\.svg$/,
