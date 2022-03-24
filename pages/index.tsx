@@ -1,7 +1,8 @@
-function Index() {
-  console.log(process.env.NEXT_PUBLIC_TEST);
+import React from 'react';
+import Login from '../components/login/Login';
 
-  return <div>index</div>;
-}
+const Index: React.FC = () => {
+  return <Login />;
+};
 
 export default Index;
