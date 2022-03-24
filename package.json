@@ -8,11 +8,13 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "npx chromatic --project-token=78967b2e0336"
   },
   "dependencies": {
     "@svgr/webpack": "^6.2.1",
     "axios": "^0.26.1",
+    "chromatic": "^6.5.3",
     "dotenv-load": "^2.0.0",
     "next": "12.1.0",
     "next-env": "^1.1.1",
