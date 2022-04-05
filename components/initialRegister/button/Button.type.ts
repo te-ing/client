@@ -1,3 +1,4 @@
-export interface StyledButtonPropsType {
+export interface ButtonPropsType {
     sort: string;
+    name?: string;
 }
