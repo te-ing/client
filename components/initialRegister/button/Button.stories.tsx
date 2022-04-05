@@ -4,7 +4,7 @@ import Button from './Button';
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
     component: Button,
-    title: 'initialRegister_Button'
+    title: 'InitialRegister Button'
 }
 
 const Template = args => <Button {...args}/>
