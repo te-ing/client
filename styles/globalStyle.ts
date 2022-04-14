@@ -10,6 +10,9 @@ export const GlobalStyle = createGlobalStyle`
     ::-webkit-scrollbar {
         display: none;
     }
+    * {
+        box-sizing: border-box;
+    }
     html{
         font-size: 16px;
         -webkit-text-size-adjust: none;
