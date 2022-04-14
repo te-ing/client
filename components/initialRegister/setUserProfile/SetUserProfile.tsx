@@ -1,8 +1,9 @@
 import React from 'react';
 import * as S from './SetUserProfile.style';
 
-import { ReactComponent as ProfileIcon } from '/images/icon-profile.svg';
-import { ReactComponent as CameraIcon } from '/images/icon-camera.svg';
+import ProfileIcon from '../../../images/icon-profile.svg';
+import CameraIcon from '../../../images/icon-camera.svg';
+
 import Button from '../button/Button';
 
 const SetUserProfile: React.FC = () => {
@@ -13,23 +14,23 @@ const SetUserProfile: React.FC = () => {
                 <S.SubInfo>다양한 작품, 작업물을 올리기 전에 <br /> 나의 관심사를 설정해 두면 도움이 됩니다.</S.SubInfo>
             </S.InfoHeader>
             <S.ProfileWrapper>
-                <ProfileIcon />
-                <CameraIconWraper>
-                    <CameraIcon />
-                </CameraIconWraper>
+                <ProfileIcon width="50px" height="50px"/>
+                <S.CameraIconWraper>
+                    <CameraIcon width="50px" height="50px"/>
+                </S.CameraIconWraper>
             </S.ProfileWrapper>
             <S.UserInfoInputWrapper>
-                <UserInfoInputInner>
-                    <InfoLabel>이메일</InfoLabel>
-                    <UserInfoInput />
-                </UserInfoInputInner>
-                <UserInfoInputInner>
-                    <InfoLabel>이메일</InfoLabel>
-                    <UserInfoInput />
-                </UserInfoInputInner>
+                <S.UserInfoInputInner>
+                    <S.InfoLabel>이메일</S.InfoLabel>
+                    <S.UserInfoInput />
+                </S.UserInfoInputInner>
+                <S.UserInfoInputInner>
+                    <S.InfoLabel>이메일</S.InfoLabel>
+                    <S.UserInfoInput />
+                </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
-            <Button />
-            <SkipButtton />
+            {/* <Button /> */}
+            <S.SkipButton />
         </S.Wrapper>
     )
 }
