@@ -1,9 +1,9 @@
 import React from 'react';
 import * as S from './SetUserProfile.style';
 
-import Button from '../button/Button';
 import { ReactComponent as ProfileIcon } from '/images/icon-profile.svg';
 import { ReactComponent as CameraIcon } from '/images/icon-camera.svg';
+import Button from '../button/Button';
 
 const SetUserProfile: React.FC = () => {
     return (
