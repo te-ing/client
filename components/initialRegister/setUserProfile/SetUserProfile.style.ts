@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
+import Image from 'next/image';
+
 export const Wrapper = styled.div`
     text-align: center;
 `;
@@ -31,9 +33,13 @@ export const ProfileWrapper = styled.figure`
     cursor: pointer;
 `;
 
+export const ProfileIcon = styled(Image)``;
+
+export const CameraIcon = styled(Image)``;
+
 export const CameraIconWraper = styled.div`
     position: absolute;
-    top: 2.5px;
+    top: 2.5px; 
     left: 312.99px;
     display: flex;
     justify-content: center;

@@ -1,8 +1,6 @@
 import React from 'react';
 import * as S from './SetUserProfile.style';
 
-import Image from 'next/image';
-
 import SetUserInterest from '../setUserInterest/SetUserInterest';
 import CompleteRegister from '../completeRegister/CompleteRegister';
 import Button from '../button/Button';
@@ -22,9 +20,9 @@ const SetUserProfile: React.FC = () => {
                 <S.SubInfo>다양한 작품, 작업물을 올리기 전에 <br /> 나의 관심사를 설정해 두면 도움이 됩니다.</S.SubInfo>
             </S.InfoHeader>
             <S.ProfileWrapper>
-                <Image alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
+                <S.ProfileIcon alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
                 <S.CameraIconWraper>
-                <Image alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px"/>
+                <S.CameraIcon alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px"/>
                 </S.CameraIconWraper>
             </S.ProfileWrapper>
             <S.UserInfoInputWrapper>
