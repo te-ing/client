@@ -8,6 +8,7 @@ import SetUserProfile from '../components/initialRegister/setUserProfile/SetUser
 import useModal from '../hooks/useModal';
 
 const Index: React.FC = () => {
+<<<<<<< HEAD
   const { isShowing, setModalVisible} = useModal();
 
   // return <Login />;
@@ -18,6 +19,10 @@ const Index: React.FC = () => {
       </ModalTemplate>
     </Modal>
   )
+=======
+  
+  return <Login />;
+>>>>>>> develop
 };
 
 export default Index;
