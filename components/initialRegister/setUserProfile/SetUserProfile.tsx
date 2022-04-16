@@ -6,12 +6,11 @@ import Image from 'next/image';
 import SetUserInterest from '../setUserInterest/SetUserInterest';
 import Button from '../button/Button';
 
+import useModal from '../../../hooks/useModal';
 
 const SetUserProfile: React.FC = () => {
-    const [isNext, setIsNext] = useState(false);
-    const navigateToInterest = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        setIsNext(true);
-    }
+    const { isNext, navigateToNext } = useModal();
+    
 
     if(isNext) return <SetUserInterest />
     else return (
@@ -36,7 +35,7 @@ const SetUserProfile: React.FC = () => {
                     <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요."/>
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
-            <Button sort='setUserProfile' name= '관심분야 설정하러가기' navigateToInterest={navigateToInterest}/>
+            <Button sort='setUserProfile' name= '관심분야 설정하러가기' navigateToNext={navigateToNext}/>
             <S.SkipButton>다음에 하기</S.SkipButton>
         </S.Wrapper>
     )
