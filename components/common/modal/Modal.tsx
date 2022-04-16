@@ -5,13 +5,12 @@ import type { ModalPropsType } from './Modal.type';
 
 const Modal: React.FC<ModalPropsType> = ({isShowing, hide, children}) => {
     if(isShowing) {
-        document.body.style.setProperty('overflow', 'hidden');
         return ReactDOM.createPortal(
             <Fragment>
                 <S.BodyBlackoutStyle onClick={hide}/>
                 {children}
             </Fragment>,
-            document.body
+            document.querySelector('#portal-section')
         )
     } else return null;
 }
