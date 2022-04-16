@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './SetUserProfile.style';
 
 import Image from 'next/image';
 
+import SetUserInterest from '../setUserInterest/SetUserInterest';
 import Button from '../button/Button';
 
+
 const SetUserProfile: React.FC = () => {
-    return (
+    const [isNext, setIsNext] = useState(false);
+    const navigateToInterest = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setIsNext(true);
+    }
+
+    if(isNext) return <SetUserInterest />
+    else return (
         <S.Wrapper>
             <S.InfoHeader>
                 <S.Title>프로필을 설정 해주세요</S.Title>
@@ -20,7 +28,7 @@ const SetUserProfile: React.FC = () => {
             </S.ProfileWrapper>
             <S.UserInfoInputWrapper>
                 <S.UserInfoInputInner>
-                    <S.InfoLabel htmlFor="email" >이메일</S.InfoLabel>
+                    <S.InfoLabel htmlFor="email">이메일</S.InfoLabel>
                     <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요."/>
                 </S.UserInfoInputInner>
                 <S.UserInfoInputInner>
@@ -28,7 +36,7 @@ const SetUserProfile: React.FC = () => {
                     <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요."/>
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
-            <Button sort='setUserProfile' name= '관심분야 설정하러가기' />
+            <Button sort='setUserProfile' name= '관심분야 설정하러가기' navigateToInterest={navigateToInterest}/>
             <S.SkipButton>다음에 하기</S.SkipButton>
         </S.Wrapper>
     )
