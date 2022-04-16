@@ -7,15 +7,18 @@ import SetUserProfile from '../components/initialRegister/setUserProfile/SetUser
 import useModal from '../hooks/useModal';
 
 const Index: React.FC = () => {
-  const { isShowing, setModalVisible} = useModal();
+  const { isShowing, setModalVisible } = useModal();
 
   // return <Login />;
   return (
+    <>
+    <button onClick={setModalVisible}>test</button>
     <Modal isShowing={isShowing} hide={setModalVisible}>
       <ModalTemplate>
         <SetUserProfile />
       </ModalTemplate>
     </Modal>
+    </>
   )
 };
 

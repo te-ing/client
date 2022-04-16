@@ -13,19 +13,19 @@ const SetUserProfile: React.FC = () => {
                 <S.SubInfo>다양한 작품, 작업물을 올리기 전에 <br /> 나의 관심사를 설정해 두면 도움이 됩니다.</S.SubInfo>
             </S.InfoHeader>
             <S.ProfileWrapper>
-                <Image alt="icon-profile" src="/images/icon-profile.svg" width="50px" height="50px"/>
+                <Image alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
                 <S.CameraIconWraper>
-                <Image alt="icon-camera" src="/images/icon-camera.svg" width="50px" height="50px"/>
+                <Image alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px"/>
                 </S.CameraIconWraper>
             </S.ProfileWrapper>
             <S.UserInfoInputWrapper>
                 <S.UserInfoInputInner>
-                    <S.InfoLabel>이메일</S.InfoLabel>
-                    <S.UserInfoInput />
+                    <S.InfoLabel htmlFor="email" >이메일</S.InfoLabel>
+                    <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요."/>
                 </S.UserInfoInputInner>
                 <S.UserInfoInputInner>
-                    <S.InfoLabel>이메일</S.InfoLabel>
-                    <S.UserInfoInput />
+                    <S.InfoLabel htmlFor="nickname" >닉네임</S.InfoLabel>
+                    <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요."/>
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
             <Button sort='setUserProfile' name= '관심분야 설정하러가기' />
