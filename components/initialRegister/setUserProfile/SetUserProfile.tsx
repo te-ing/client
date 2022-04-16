@@ -28,8 +28,8 @@ const SetUserProfile: React.FC = () => {
                     <S.UserInfoInput />
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
-            {/* <Button /> */}
-            <S.SkipButton />
+            <Button sort='setUserProfile' name= '관심분야 설정하러가기' />
+            <S.SkipButton>다음에 하기</S.SkipButton>
         </S.Wrapper>
     )
 }
