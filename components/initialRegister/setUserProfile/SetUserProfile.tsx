@@ -20,7 +20,12 @@ const SetUserProfile: React.FC = () => {
                 <S.SubInfo>다양한 작품, 작업물을 올리기 전에 <br /> 나의 관심사를 설정해 두면 도움이 됩니다.</S.SubInfo>
             </S.InfoHeader>
             <S.ProfileWrapper>
-                <S.ProfileIcon alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
+                <S.ProfileIconWrapper>
+                    <S.ProfileLabel htmlFor="file-input">
+                    <S.ProfileIcon alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
+                    </S.ProfileLabel>
+                    <S.FileInput id="file-input" type="file"/>
+                </S.ProfileIconWrapper>
                 <S.CameraIconWraper>
                 <S.CameraIcon alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px"/>
                 </S.CameraIconWraper>
