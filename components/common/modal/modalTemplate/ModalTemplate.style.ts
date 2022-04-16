@@ -11,6 +11,7 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 4px;
 `;
 
 export const Inner = styled.div`

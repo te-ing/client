@@ -3,6 +3,8 @@ import * as S from './SetUserProfile.style';
 
 import SetUserInterest from '../setUserInterest/SetUserInterest';
 import CompleteRegister from '../completeRegister/CompleteRegister';
+
+import ImageUploadWrapper from '../../common/imageUploadWrapper/ImageUploadWrapper';
 import Button from '../button/Button';
 
 import useModal from '../../../hooks/useModal';
@@ -20,12 +22,9 @@ const SetUserProfile: React.FC = () => {
                 <S.SubInfo>다양한 작품, 작업물을 올리기 전에 <br /> 나의 관심사를 설정해 두면 도움이 됩니다.</S.SubInfo>
             </S.InfoHeader>
             <S.ProfileWrapper>
-                <S.ProfileIconWrapper>
-                    <S.ProfileLabel htmlFor="file-input">
-                    <S.ProfileIcon alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
-                    </S.ProfileLabel>
-                    <S.FileInput id="file-input" type="file"/>
-                </S.ProfileIconWrapper>
+                <ImageUploadWrapper>
+                <S.ProfileIcon alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
+                </ImageUploadWrapper>
                 <S.CameraIconWraper>
                 <S.CameraIcon alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px"/>
                 </S.CameraIconWraper>
