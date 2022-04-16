@@ -41,6 +41,7 @@ class MyDocument extends Document {
         </Head>
         <body>
           <Main />
+          <div id="portal-section"/>
           <NextScript />
         </body>
       </Html>
