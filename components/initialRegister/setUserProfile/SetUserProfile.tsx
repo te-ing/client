@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as S from './SetUserProfile.style';
 
 import Image from 'next/image';
 
 import SetUserInterest from '../setUserInterest/SetUserInterest';
+import CompleteRegister from '../completeRegister/CompleteRegister';
 import Button from '../button/Button';
 
 import useModal from '../../../hooks/useModal';
 
 const SetUserProfile: React.FC = () => {
-    const { isNext, navigateToNext } = useModal();
+    const { isNext, navigateToNext, isSkip, skip } = useModal();
     
 
     if(isNext) return <SetUserInterest />
+    else if(isSkip) return <CompleteRegister />
     else return (
         <S.Wrapper>
             <S.InfoHeader>
@@ -36,7 +38,7 @@ const SetUserProfile: React.FC = () => {
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
             <Button sort='setUserProfile' name= '관심분야 설정하러가기' navigateToNext={navigateToNext}/>
-            <S.SkipButton>다음에 하기</S.SkipButton>
+            <S.SkipButton onClick={skip}>다음에 하기</S.SkipButton>
         </S.Wrapper>
     )
 }
