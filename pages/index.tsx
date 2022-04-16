@@ -14,7 +14,7 @@ const Index: React.FC = () => {
     <>
     <button onClick={setModalVisible}>test</button>
     <Modal isShowing={isShowing} hide={setModalVisible}>
-      <ModalTemplate>
+      <ModalTemplate hide={setModalVisible}>
         <SetUserProfile />
       </ModalTemplate>
     </Modal>
