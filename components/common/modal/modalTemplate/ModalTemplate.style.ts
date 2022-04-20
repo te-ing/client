@@ -12,7 +12,7 @@ export const Wrapper = styled.div`
 `;
 
 export const Inner = styled.div`
-  padding: 2rem;
+  padding: 25px;
   border: 1px solid #c4c3c2;
   border-radius: 2px;
   background-color: #ffffff;

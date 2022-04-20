@@ -39,8 +39,9 @@ class MyDocument extends Document {
           <meta name="description" content="" />
           <meta name="keywords" content="" />
         </Head>
-        <body>
+        <body id="body">
           <Main />
+          <div id="portal-section"/>
           <NextScript />
         </body>
       </Html>
