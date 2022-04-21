@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userRegisterInfoState } from '../recoil/auth';
@@ -6,7 +6,7 @@ import type { UserRegisterInfoType } from '../recoil/auth';
 
 import { useQuery } from 'react-query';
 
-import * as usersAPI from '../api/users.api';
+import * as usersAPI from '../pages/api/users.api';
 import * as R from '../constants/regExp';
 
 const useUserInfoInput = () => {
