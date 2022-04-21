@@ -12,8 +12,10 @@ export default class BaseAPI {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         path = path.startsWith('/') ? path.slice(1) : path;
 
+        const url = new URL(`api/${path}`, BASE_URL);
+
         this.instance = axios.create({
-            baseURL: `${BASE_URL}`,
+            baseURL: url.href,
             validateStatus: (status) => status < 500,
             paramsSerializer: qs.stringify,
             withCredentials: true
