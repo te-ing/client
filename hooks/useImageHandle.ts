@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilState } from 'recoil';
 
 import { userRegisterInfoState } from '../recoil/auth';
@@ -12,8 +12,12 @@ const useImageHandle = () => {
         const currentFile = (e.target as HTMLInputElement).files[0];
         const readedFile = currentFile && await readFile(currentFile);
 
+        const uploadedUserProfileInfo = {...userInfo, userProfile: readedFile };
 
+        setUserInfo(uploadedUserProfileInfo);
     }
+
+    return { storeImage };
 }
 
 export default useImageHandle;

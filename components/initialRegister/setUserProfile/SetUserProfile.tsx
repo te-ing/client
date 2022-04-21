@@ -7,12 +7,16 @@ import CompleteRegister from '../completeRegister/CompleteRegister';
 import ImageUploadWrapper from '../../common/imageUploadWrapper/ImageUploadWrapper';
 import Button from '../button/Button';
 
+import { useRecoilValue } from 'recoil';
+import { userRegisterInfoState } from '../../../recoil/auth';
+import type { UserRegisterInfoType } from '../../../recoil/auth';
+
 import useModal from '../../../hooks/useModal';
 
 const SetUserProfile: React.FC = () => {
     const { isNext, navigateToNext, isSkip, skip } = useModal();
+    const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
     
-
     if(isNext) return <SetUserInterest />
     else if(isSkip) return <CompleteRegister />
     else return (
@@ -22,8 +26,8 @@ const SetUserProfile: React.FC = () => {
                 <S.SubInfo>다양한 작품, 작업물을 올리기 전에 <br /> 나의 관심사를 설정해 두면 도움이 됩니다.</S.SubInfo>
             </S.InfoHeader>
             <S.ProfileWrapper>
-                <ImageUploadWrapper>
-                <S.ProfileIcon alt="icon-profile" src="/images/icon-profile.svg" width="120px" height="120px"/>
+                <ImageUploadWrapper name="userProfile">
+                <S.ProfileIcon alt="icon-profile" src={`${userProfile ? userProfile : "/images/icon-profile.svg"}`} width="120px" height="120px"/>
                 </ImageUploadWrapper>
                 <S.CameraIconWraper>
                 <S.CameraIcon alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px"/>

@@ -15,6 +15,6 @@ const processFile = (currentFile: File): Promise<string | ArrayBuffer | null> =>
 
 export const readFile = async (currentFile: File) => {
     const readedFile: string | ArrayBuffer | null = await processFile(currentFile);
-
+    
     return readedFile;
 }
