@@ -42,7 +42,7 @@ const SetUserProfile: React.FC = () => {
                     <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요."/>
                 </S.UserInfoInputInner>
                 <S.UserInfoInputInner>
-                    <S.InfoLabel htmlFor="nickname" >닉네임</S.InfoLabel>
+                    <S.InfoLabel htmlFor="nickname">닉네임</S.InfoLabel>
                     <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요." />
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>

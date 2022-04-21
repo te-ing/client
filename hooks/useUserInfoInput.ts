@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userRegisterInfoState } from '../recoil/auth';
@@ -14,6 +14,7 @@ const useUserInfoInput = () => {
     const { email, nickname } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
 
     const [isEmailCorrect, setEmailCorrect] = useState(false);
+    
     const { status } = useQuery(["checkUser", nickname], () => usersAPI.checkUserNickName(nickname), {
         enabled: nickname.length !== 0
     });
@@ -25,7 +26,7 @@ const useUserInfoInput = () => {
         const updatedUserInfo = { ...userInfo, [currentInputName]: currentInputValue };
         
         setUserInfo(updatedUserInfo);
-    }
+    };
 
     useEffect(() => {
         if(email.match(R.email)) setEmailCorrect(true);
