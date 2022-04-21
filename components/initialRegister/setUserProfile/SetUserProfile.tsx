@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as S from './SetUserProfile.style';
 
 import SetUserInterest from '../setUserInterest/SetUserInterest';
@@ -16,7 +16,7 @@ import useModal from '../../../hooks/useModal';
 const SetUserProfile: React.FC = () => {
     const { isNext, navigateToNext, isSkip, skip } = useModal();
     const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
-    
+
     if(isNext) return <SetUserInterest />
     else if(isSkip) return <CompleteRegister />
     else return (

@@ -43,7 +43,9 @@ export const FileInput = styled.input`
     display: none;
 `;
 
-export const ProfileIcon = styled(Image)``;
+export const ProfileIcon = styled(Image)`
+    border-radius: 50%;
+`;
 
 export const CameraIcon = styled(Image)``;
 
