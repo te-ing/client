@@ -6,8 +6,9 @@ import type { UserRegisterInfoType } from '../recoil/auth';
 
 import { useQuery } from 'react-query';
 
-import * as usersAPI from '../pages/api/users.api';
+import UsersAPI from 'pages/api/users.api';
 import * as R from '../constants/regExp';
+import { handleEncode } from 'utils/handleEncode';
 
 const useUserInfoInput = () => {
     const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
@@ -15,7 +16,11 @@ const useUserInfoInput = () => {
 
     const [isEmailCorrect, setEmailCorrect] = useState(false);
     
-    const { status } = useQuery(["checkUser", nickname], () => usersAPI.checkUserNickName(nickname), {
+    const { status } = useQuery(["checkUser", nickname], () => { 
+        const encodedNickname = handleEncode(nickname);
+        const params = { nickname: encodedNickname };
+        UsersAPI.checkUserName(params);
+     }, {
         enabled: nickname.length !== 0
     });
 
