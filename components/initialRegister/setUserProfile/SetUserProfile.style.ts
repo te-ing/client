@@ -102,6 +102,14 @@ export const UserInfoInput = styled.input`
     }
 `;
 
+export const Alert = styled.p`
+    margin: 16px 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 23px;
+    color: #F83D38;
+`;
+
 export const SkipButton = styled.p`
     margin-top: 24px;
     text-align: right;

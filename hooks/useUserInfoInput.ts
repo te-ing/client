@@ -33,7 +33,7 @@ const useUserInfoInput = () => {
         else setEmailCorrect(false);
     }, [email]);
     
-    return { isEmailCorrect, status, handleUserInfo };
+    return { email, nickname, isEmailCorrect, status, handleUserInfo };
 }
 
 export default useUserInfoInput;

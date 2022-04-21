@@ -18,8 +18,8 @@ const SetUserProfile: React.FC = () => {
     const { isNext, navigateToNext, isSkip, skip } = useModal();
     const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
     
-    const { isEmailCorrect, status, handleUserInfo } = useUserInfoInput();
-
+    const { email, nickname, isEmailCorrect, status, handleUserInfo } = useUserInfoInput();
+    console.log(status, nickname);
     if(isNext) return <SetUserInterest />
     else if(isSkip) return <CompleteRegister />
     else return (
@@ -40,10 +40,12 @@ const SetUserProfile: React.FC = () => {
                 <S.UserInfoInputInner>
                     <S.InfoLabel htmlFor="email">이메일</S.InfoLabel>
                     <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요."/>
+                    <S.Alert>{email.length !== 0 && (!isEmailCorrect && '사용할 수 없는 이메일 입니다.')}</S.Alert>
                 </S.UserInfoInputInner>
                 <S.UserInfoInputInner>
                     <S.InfoLabel htmlFor="nickname">닉네임</S.InfoLabel>
                     <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요." />
+                    <S.Alert>{nickname?.length === 0 ? '' : (status === 'success' ? '사용 가능한 닉네임 입니다.' : '중복되는 닉네임 입니다.')}</S.Alert>
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
             <Button sort='setUserProfile' name= '관심분야 설정하러가기' navigateToNext={navigateToNext}/>
