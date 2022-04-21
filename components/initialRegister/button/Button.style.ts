@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import type { ButtonPropsType } from './Button.type';
 
 export const StyledButton = styled.button<ButtonPropsType>`
-    min-width: ${({ sort }) => sort === 'setUserProfile' ? '520px' : (sort === 'setUserInterest' ? '552px' : '368px')};
+    min-width: ${({ sort }) => sort === 'setUserProfile' ? '100%' : (sort === 'setUserInterest' ? '552px' : '368px')};
     min-height: 56px;
     padding: 16px ${({ sort }) => sort === 'setUserProfile' ? '165px' : (sort === 'setUserInterest' ? '197px' : '116.5px')};
     border: none;

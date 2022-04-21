@@ -1,14 +1,25 @@
 import React from 'react';
-import Login from '../components/login/Login';
-import Header from 'components/header/Header';
+
+import Modal from '../components/common/modal/Modal'
+import ModalTemplate from '../components/common/modal/modalTemplate/ModalTemplate';
+import SetUserProfile from '../components/initialRegister/setUserProfile/SetUserProfile';
+
+import useModal from '../hooks/useModal';
 
 const Index: React.FC = () => {
+  const { isShowing, setModalVisible } = useModal();
+
+  // return <Login />;
   return (
     <>
-      <Header />
-      <Login />;
+    <button onClick={setModalVisible}>test</button>
+    <Modal isShowing={isShowing} hide={setModalVisible}>
+      <ModalTemplate hide={setModalVisible}>
+        <SetUserProfile />
+      </ModalTemplate>
+    </Modal>
     </>
-  );
+  )
 };
 
 export default Index;
