@@ -19,7 +19,7 @@ const SetUserProfile: React.FC = () => {
     const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
     
     const { email, nickname, isEmailCorrect, status, handleUserInfo } = useUserInfoInput();
-    console.log(status, nickname);
+    
     if(isNext) return <SetUserInterest />
     else if(isSkip) return <CompleteRegister />
     else return (

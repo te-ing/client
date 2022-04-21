@@ -11,7 +11,10 @@ const useModal = () => {
 
     const resetUserInfo = useResetRecoilState(userRegisterInfoState);
 
-    const navigateToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => setIsNext(true);
+    const navigateToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        // const currentModalButton = (e.target as HTMLButtonElement).name;
+        setIsNext(true);
+    }
     
 
     const skip = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => setIsSkip(true);
