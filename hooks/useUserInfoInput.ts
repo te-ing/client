@@ -6,7 +6,7 @@ import type { UserRegisterInfoType } from '../recoil/auth';
 
 import { useQuery } from 'react-query';
 
-import * as usersAPI from '../api/users';
+import * as usersAPI from '../api/users.api';
 import * as R from '../constants/regExp';
 
 const useUserInfoInput = () => {
@@ -14,7 +14,9 @@ const useUserInfoInput = () => {
     const { email, nickname } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
 
     const [isEmailCorrect, setEmailCorrect] = useState(false);
-    const { data } = useQuery(["checkUser", nickname], () => usersAPI.checkUserNickName(nickname));
+    const { status } = useQuery(["checkUser", nickname], () => usersAPI.checkUserNickName(nickname), {
+        enabled: nickname.length !== 0
+    });
 
     const handleUserInfo = (e: React.FormEvent<HTMLFormElement>) => {
         const currentInputName = (e.target as unknown as HTMLInputElement).id;
@@ -29,7 +31,7 @@ const useUserInfoInput = () => {
         if(email.match(R.email)) setEmailCorrect(true);
         else setEmailCorrect(false);
     }, [email]);
-    console.log(data);
+    
     return { isEmailCorrect, handleUserInfo };
 }
 

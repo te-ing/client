@@ -1,7 +1,4 @@
-import { resolve } from 'path';
-import { atom, selector } from 'recoil';
-
-import { checkUserNickName } from '../api/users';
+import { atom } from 'recoil';
 
 export interface UserCategoryType {
     mainCategory: number;

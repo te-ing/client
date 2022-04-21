@@ -12,13 +12,13 @@ import { userRegisterInfoState } from '../../../recoil/auth';
 import type { UserRegisterInfoType } from '../../../recoil/auth';
 
 import useModal from '../../../hooks/useModal';
-import useUserInfoInput from 'hooks/useUserInfoInput';
+import useUserInfoInput from '../../../hooks/useUserInfoInput';
 
 const SetUserProfile: React.FC = () => {
     const { isNext, navigateToNext, isSkip, skip } = useModal();
     const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
     
-    const { handleUserInfo } = useUserInfoInput();
+    const { isEmailCorrect, handleUserInfo } = useUserInfoInput();
 
     if(isNext) return <SetUserInterest />
     else if(isSkip) return <CompleteRegister />
