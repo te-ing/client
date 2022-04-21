@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+import qs from 'qs';
 
 import { BASE_URL } from 'config';
 
@@ -7,10 +8,14 @@ import type { CustomAxiosRequestConfig } from './type';
 export default class BaseAPI {
     private instance: AxiosInstance;
 
-    constructor() {
+    constructor(path: string) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        path = path.startsWith('/') ? path.slice(1) : path;
+
         this.instance = axios.create({
             baseURL: `${BASE_URL}`,
             validateStatus: (status) => status < 500,
+            paramsSerializer: qs.stringify,
             withCredentials: true
         })
     
