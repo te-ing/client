@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import * as S from './SetUserProfile.style';
 
 import SetUserInterest from '../setUserInterest/SetUserInterest';
@@ -12,10 +12,13 @@ import { userRegisterInfoState } from '../../../recoil/auth';
 import type { UserRegisterInfoType } from '../../../recoil/auth';
 
 import useModal from '../../../hooks/useModal';
+import useUserInfoInput from 'hooks/useUserInfoInput';
 
 const SetUserProfile: React.FC = () => {
     const { isNext, navigateToNext, isSkip, skip } = useModal();
     const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
+    
+    const { handleUserInfo } = useUserInfoInput();
 
     if(isNext) return <SetUserInterest />
     else if(isSkip) return <CompleteRegister />
@@ -33,14 +36,14 @@ const SetUserProfile: React.FC = () => {
                 <S.CameraIcon alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px"/>
                 </S.CameraIconWraper>
             </S.ProfileWrapper>
-            <S.UserInfoInputWrapper>
+            <S.UserInfoInputWrapper onChange={handleUserInfo}>
                 <S.UserInfoInputInner>
                     <S.InfoLabel htmlFor="email">이메일</S.InfoLabel>
                     <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요."/>
                 </S.UserInfoInputInner>
                 <S.UserInfoInputInner>
                     <S.InfoLabel htmlFor="nickname" >닉네임</S.InfoLabel>
-                    <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요."/>
+                    <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요." />
                 </S.UserInfoInputInner>
             </S.UserInfoInputWrapper>
             <Button sort='setUserProfile' name= '관심분야 설정하러가기' navigateToNext={navigateToNext}/>

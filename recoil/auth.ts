@@ -1,4 +1,7 @@
-import { atom } from 'recoil';
+import { resolve } from 'path';
+import { atom, selector } from 'recoil';
+
+import { checkUserNickName } from '../api/users';
 
 export interface UserCategoryType {
     mainCategory: number;
@@ -23,3 +26,21 @@ export const userRegisterInfoState = atom<UserRegisterInfoType>({
         mainCategory: []
     }
 })
+
+// export const getDuplicateNickNameInfo = selector({
+//     key: "get/duplicateNicknameInfo",
+//     get: ({ get }) => {
+//         const { nickname } = get(userRegisterInfoState);
+        
+//         return nickname;
+//         const empty = nickname.length === 0;
+//         if(nickname.length === 0) return;
+
+//         try {
+//             const data = await checkUserNickName(nickname);
+//             return data;
+//         } catch(e) {
+//             throw Error('error');
+//         }
+//     }
+// })
