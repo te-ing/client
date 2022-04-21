@@ -18,7 +18,7 @@ const SetUserProfile: React.FC = () => {
     const { isNext, navigateToNext, isSkip, skip } = useModal();
     const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
     
-    const { isEmailCorrect, handleUserInfo } = useUserInfoInput();
+    const { isEmailCorrect, status, handleUserInfo } = useUserInfoInput();
 
     if(isNext) return <SetUserInterest />
     else if(isSkip) return <CompleteRegister />
