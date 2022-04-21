@@ -16,7 +16,7 @@ export interface UserRegisterInfoType {
 export const userRegisterInfoState = atom<UserRegisterInfoType>({
     key: 'userRegisterInfoState',
     default: {
-        userProfile: "",
+        userProfile: null,
         email: "",
         nickname: "",
         description: "",
