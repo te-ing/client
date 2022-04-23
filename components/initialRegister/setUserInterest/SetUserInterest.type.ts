@@ -8,3 +8,7 @@ export interface UserInterestInfoType {
     mainCategory: string;
     subCategory: UserSubCategoryInfoType[];
 }
+
+export interface StyledTagType {
+    isActive: boolean;
+}

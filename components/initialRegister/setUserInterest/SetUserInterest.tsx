@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import * as S from './SetUserInterest.style';
 
 import { useRecoilState } from 'recoil';
@@ -12,6 +12,19 @@ import type { UserSubCategoryInfoType, UserInterestInfoType } from './SetUserInt
 
 const SetUserInterest: React.FC = () => {
     const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
+
+    const checkActiveButton = (currentTag: string): boolean => {
+        let isActive = false;
+
+        const [mainCategoryID, subCategoryID] = currentTag.split('-');
+        const { mainCategory } = userInfo;
+
+        mainCategory.forEach(({ mainCategory, subCategory }) => {
+            if(mainCategory === Number(mainCategoryID) && subCategory.includes(Number(subCategoryID))) isActive = true;
+        })
+
+        return isActive;
+    }
 
     const storeTagInfo = (mainCategoryID: string, subCategoryID: string) => {
         const { mainCategory } = userInfo;
@@ -70,10 +83,6 @@ const SetUserInterest: React.FC = () => {
 
         storeTagInfo(mainCategoryID, subCategoryID);
     }
-    
-    useEffect(() => {
-        console.log(userInfo.mainCategory);
-    }, [userInfo]);
 
     return (
         <S.Wrapper>
@@ -90,7 +99,7 @@ const SetUserInterest: React.FC = () => {
                                     <S.SubCategoryList onClick={handleClickedTag}>
                                         {
                                             categoryInfo.subCategory.map(({ id, name }: UserSubCategoryInfoType) => {
-                                                return <S.Tag key={id} id={`${categoryInfo.id}-${id}`}>{name}</S.Tag>
+                                                return <S.Tag key={id} id={`${categoryInfo.id}-${id}`} isActive={checkActiveButton(`${categoryInfo.id}-${id}`)}>{name}</S.Tag>
                                             })
                                         }
                                     </S.SubCategoryList>

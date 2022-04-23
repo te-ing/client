@@ -1,4 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+import type { StyledTagType } from './SetUserInterest.type';
 
 export const Wrapper = styled.div`
     max-width: 824.49px;
@@ -51,21 +53,25 @@ export const CategoryName = styled.p`
 
 export const SubCategoryList = styled.div``;
 
-export const Tag = styled.button`
+export const Tag = styled.button<StyledTagType>`
     margin-right: 8px;
     margin-bottom: 12px;
     padding: 8px 10px;
     vertical-align: center;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     border-radius: 50px;
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
     letter-spacing: 0.15px;
     color: #000000;
-    background-color: none;
 
     &:last-child {
         margin-right: 0;
-    }
+    }  
+
+    ${({ isActive }) => isActive && css`
+        border: 1px solid #ffffff;
+        background-color: #BDF486;
+    `}
 `;
