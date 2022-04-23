@@ -1,8 +1,13 @@
 import { atom } from 'recoil';
 
-export interface UserCategoryType {
-    mainCategory: number;
-    subCategory: number[];
+export interface UserSubCategoryInfoType {
+    id: number;
+    name: string;
+}
+
+export interface UserInterestInfoType {
+    mainCategory: string;
+    subcategory: UserSubCategoryInfoType[];
 }
 
 export interface UserRegisterInfoType {
@@ -10,7 +15,7 @@ export interface UserRegisterInfoType {
     email: string;
     nickname: string;
     description: string;
-    mainCategory: UserCategoryType[]
+    mainCategory: UserInterestInfoType[]
 }
 
 export const userRegisterInfoState = atom<UserRegisterInfoType>({
