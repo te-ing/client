@@ -4,6 +4,7 @@ export interface UserSubCategoryInfoType {
 }
 
 export interface UserInterestInfoType {
+    id: number;
     mainCategory: string;
-    subcategory: UserSubCategoryInfoType[];
+    subCategory: UserSubCategoryInfoType[];
 }
