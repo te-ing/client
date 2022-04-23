@@ -1,17 +1,23 @@
 import React from 'react';
 import * as S from './SetUserInterest.style';
 
+import CompleteRegister from '../completeRegister/CompleteRegister';
+
 import { useRecoilState } from 'recoil';
 import { userRegisterInfoState } from 'recoil/auth';
 import type { UserRegisterInfoType } from 'recoil/auth';
 
 import Button from '../button/Button';
 
+import useModal from 'hooks/useModal';
+
 import intereCategories from 'data/interestCategories.json';
 import type { UserSubCategoryInfoType, UserInterestInfoType } from './SetUserInterest.type';
 
 const SetUserInterest: React.FC = () => {
     const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
+
+    const { navigateToNext, isNext } = useModal();
 
     const checkActiveButton = (currentTag: string): boolean => {
         let isActive = false;
@@ -84,6 +90,8 @@ const SetUserInterest: React.FC = () => {
         storeTagInfo(mainCategoryID, subCategoryID);
     }
 
+    if(isNext) return <CompleteRegister />
+    
     return (
         <S.Wrapper>
             <S.InfoHeader>
@@ -109,7 +117,7 @@ const SetUserInterest: React.FC = () => {
                         })
                     }
                 </S.CategoriesWrapper>
-                <Button sort="setUserInteres" name="관심분야 설정 완료"/>
+                <Button sort="setUserInteres" name="관심분야 설정 완료" navigateToNext={navigateToNext}/>
         </S.Wrapper>
     )
 }
