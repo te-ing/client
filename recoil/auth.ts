@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 
 export interface UserCategoryInfoType {
-    mainCategory: string;
-    subcategory: number[];
+    mainCategory: number;
+    subCategory: number[];
 }
 
 export interface UserRegisterInfoType {

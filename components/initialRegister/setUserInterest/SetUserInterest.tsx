@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as S from './SetUserInterest.style';
+
+import { useRecoilState } from 'recoil';
+import { userRegisterInfoState } from 'recoil/auth';
+import type { UserRegisterInfoType } from 'recoil/auth';
 
 import Button from '../button/Button';
 
@@ -7,7 +11,70 @@ import intereCategories from 'data/interestCategories.json';
 import type { UserSubCategoryInfoType, UserInterestInfoType } from './SetUserInterest.type';
 
 const SetUserInterest: React.FC = () => {
+    const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
+
+    const storeTagInfo = (mainCategoryID: string, subCategoryID: string) => {
+        const { mainCategory } = userInfo;
+        let isCategoryExisted = false;
+        let currentCategoryIndex;
+
+        mainCategory.forEach(({ mainCategory }, index) => {
+            if(mainCategory === Number(mainCategoryID)) {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                isCategoryExisted = true;
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                currentCategoryIndex = index;
+                return;
+            }
+        })
+        
+        if(isCategoryExisted) {
+            const { subCategory } = mainCategory[currentCategoryIndex];
+            let updateSubCategory = [];
+            
+            if(subCategory.includes(Number(subCategoryID))) {
+                updateSubCategory = subCategory.filter(id => id !== Number(subCategoryID));
+                
+                if(updateSubCategory.length === 0) {
+                    setUserInfo({ ...userInfo, mainCategory: mainCategory.filter((categoryInfo) => categoryInfo.mainCategory !== Number(mainCategoryID)) })
+                    return;
+                } else {
+                    setUserInfo({ ...userInfo, mainCategory: mainCategory.map((categoryInfo) => {
+                        if(categoryInfo.mainCategory === Number(mainCategoryID)) return {...categoryInfo, subCategory: updateSubCategory};
+                        else return categoryInfo;
+                    })})    
+                }
+            }
+            else {
+                setUserInfo({ ...userInfo, mainCategory: mainCategory.map((categoryInfo) => {
+                    if(categoryInfo.mainCategory === Number(mainCategoryID)) return {...categoryInfo, subCategory: categoryInfo.subCategory.concat(Number(subCategoryID))};
+                    else return categoryInfo;
+                })})
+            }
+        } else {
+            const initialCategory = { 
+                mainCategory: Number(mainCategoryID),
+                subCategory: [Number(subCategoryID)]
+             }
+            
+             setUserInfo({ ...userInfo, mainCategory: [...mainCategory, initialCategory] })
+        }
+    }
+
+    const handleClickedTag = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const currentTag = e.target as HTMLButtonElement;
+
+        if(currentTag.nodeName !== 'BUTTON') return;
+
+        const [mainCategoryID, subCategoryID] = currentTag.id.split('-');
+
+        storeTagInfo(mainCategoryID, subCategoryID);
+    }
     
+    useEffect(() => {
+        console.log(userInfo.mainCategory);
+    }, [userInfo]);
+
     return (
         <S.Wrapper>
             <S.InfoHeader>
@@ -16,14 +83,14 @@ const SetUserInterest: React.FC = () => {
             </S.InfoHeader>        
             <S.CategoriesWrapper>
                     {
-                        intereCategories.data.map(({ id, mainCategory, subCategory }: UserInterestInfoType) => {
+                        intereCategories.data.map((categoryInfo: UserInterestInfoType) => {
                             return (
-                                <S.CategoryInfo key={id}>
-                                    <S.CategoryName>{mainCategory}</S.CategoryName>
-                                    <S.SubCategoryList>
+                                <S.CategoryInfo key={categoryInfo.id}>
+                                    <S.CategoryName>{categoryInfo.mainCategory}</S.CategoryName>
+                                    <S.SubCategoryList onClick={handleClickedTag}>
                                         {
-                                            subCategory.map(({ id, name }: UserSubCategoryInfoType) => {
-                                                return <S.Tag key={id} id={`${id}`}>{name}</S.Tag>
+                                            categoryInfo.subCategory.map(({ id, name }: UserSubCategoryInfoType) => {
+                                                return <S.Tag key={id} id={`${categoryInfo.id}-${id}`}>{name}</S.Tag>
                                             })
                                         }
                                     </S.SubCategoryList>
