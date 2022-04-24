@@ -4,31 +4,30 @@ import { useResetRecoilState } from 'recoil';
 import { userRegisterInfoState } from '../recoil/auth';
 
 const useModal = () => {
-    const [isShowing, setIsShowing] = useState<boolean>(false);
-    
-    const [isNext, setIsNext] = useState<boolean>(false);
-    const [isSkip, setIsSkip] = useState<boolean>(false);
+  const [isShowing, setIsShowing] = useState<boolean>(false);
 
-    const resetUserInfo = useResetRecoilState(userRegisterInfoState);
+  const [isNext, setIsNext] = useState<boolean>(false);
+  const [isSkip, setIsSkip] = useState<boolean>(false);
 
-    const navigateToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        // const currentModalButton = (e.target as HTMLButtonElement).name;
-        setIsNext(true);
-    }
-    
+  const resetUserInfo = useResetRecoilState(userRegisterInfoState);
 
-    const skip = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => setIsSkip(true);
+  const navigateToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    // const currentModalButton = (e.target as HTMLButtonElement).name;
+    setIsNext(true);
+  };
 
-    const initializeForm = () => {
-        resetUserInfo();
-    }
+  const skip = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => setIsSkip(true);
 
-    const setModalVisible = () => {
-        setIsShowing(!isShowing);
-        initializeForm();
-    }
+  const initializeForm = () => {
+    resetUserInfo();
+  };
 
-    return { isShowing, setModalVisible, isNext, navigateToNext, isSkip, skip };
-}
+  const setModalVisible = () => {
+    setIsShowing(!isShowing);
+    initializeForm();
+  };
+
+  return { isShowing, setModalVisible, isNext, navigateToNext, isSkip, skip };
+};
 
 export default useModal;
