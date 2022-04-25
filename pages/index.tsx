@@ -1,6 +1,10 @@
 import React from 'react';
 
+<<<<<<< HEAD
 import Modal from '../components/common/modal/Modal'
+=======
+import Modal from '../components/common/modal/Modal';
+>>>>>>> develop
 import ModalTemplate from '../components/common/modal/ModalTemplate';
 import SetUserProfile from '../components/initialRegister/SetUserProfile';
 
@@ -12,14 +16,14 @@ const Index: React.FC = () => {
   // return <Login />;
   return (
     <>
-    <button onClick={setModalVisible}>test</button>
-    <Modal isShowing={isShowing} hide={setModalVisible}>
-      <ModalTemplate hide={setModalVisible}>
-        <SetUserProfile />
-      </ModalTemplate>
-    </Modal>
+      <button onClick={setModalVisible}>test</button>
+      <Modal isShowing={isShowing} hide={setModalVisible}>
+        <ModalTemplate hide={setModalVisible}>
+          <SetUserProfile />
+        </ModalTemplate>
+      </Modal>
     </>
-  )
+  );
 };
 
 export default Index;

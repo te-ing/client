@@ -28,21 +28,11 @@ const Header: React.FC = () => {
         {isLoggedIn ? (
           <AfterLogin>
             <div>
-              <Image
-                src={'/images/icon-search.svg'}
-                width={'24px'}
-                height={'24px'}
-                alt={'search'}
-              />
+              <Image src={'/images/icon-search.svg'} width={'24px'} height={'24px'} alt={'search'} />
             </div>
             <SearchBar placeholder="검색어를 입력해주세요" />
             <Image src={'/images/icon-notice.svg'} width={'24px'} height={'24px'} alt={'notice'} />
-            <Image
-              src={'/images/icon-profile.svg'}
-              width={'32px'}
-              height={'32px'}
-              alt={'profile'}
-            />
+            <Image src={'/images/icon-profile.svg'} width={'32px'} height={'32px'} alt={'profile'} />
           </AfterLogin>
         ) : (
           <BeforeLogin>

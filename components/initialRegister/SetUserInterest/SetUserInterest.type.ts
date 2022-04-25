@@ -1,14 +1,14 @@
 export interface UserSubCategoryInfoType {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 }
 
 export interface UserInterestInfoType {
-    id: number;
-    mainCategory: string;
-    subCategory: UserSubCategoryInfoType[];
+  id: number;
+  mainCategory: string;
+  subCategory: UserSubCategoryInfoType[];
 }
 
 export interface StyledTagType {
-    isActive: boolean;
+  isActive: boolean;
 }
