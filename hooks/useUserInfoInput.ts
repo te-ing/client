@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userRegisterInfoState } from '../recoil/auth';
 import type { UserRegisterInfoType } from '../recoil/auth';
 
 import { useQuery } from 'react-query';
+import UsersAPI from 'pages/api/users.api';
 
-import * as usersAPI from '../api/users.api';
 import * as R from '../constants/regExp';
+import { handleEncode } from 'utils/handleEncode';
 
 const useUserInfoInput = () => {
   const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
@@ -15,9 +16,17 @@ const useUserInfoInput = () => {
 
   const [isEmailCorrect, setEmailCorrect] = useState(false);
 
-  const { status } = useQuery(['checkUser', nickname], () => usersAPI.checkUserNickName(nickname), {
-    enabled: nickname.length !== 0,
-  });
+  const { status } = useQuery(
+    ['checkUser', nickname],
+    () => {
+      const encodedNickname = handleEncode(nickname);
+      const params = { nickname: encodedNickname };
+      UsersAPI.checkUserName(params);
+    },
+    {
+      enabled: nickname.length !== 0,
+    }
+  );
 
   const handleUserInfo = (e: React.FormEvent<HTMLFormElement>) => {
     const currentInputName = (e.target as unknown as HTMLInputElement).id;
