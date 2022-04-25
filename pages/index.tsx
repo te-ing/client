@@ -1,6 +1,10 @@
 import React from 'react';
 
+<<<<<<< HEAD
+import Modal from '../components/common/modal/Modal'
+=======
 import Modal from '../components/common/modal/Modal';
+>>>>>>> develop
 import ModalTemplate from '../components/common/modal/ModalTemplate';
 import SetUserProfile from '../components/initialRegister/SetUserProfile';
 
