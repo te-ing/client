@@ -13,11 +13,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": ".",
-    "paths": {
-      "@components/*": ["./components/*"],
-      "@pages/*": ["./pages/*"]
-    },
     "rootDir": ".",
     "incremental": true
   },
