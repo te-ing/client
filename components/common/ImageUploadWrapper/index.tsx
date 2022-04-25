@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './ImageUploadWrapper.style';
 
-import useImageHandle from '../../../hooks/useImageHandle';
+import useImageHandle from 'hooks/useImageHandle';
 
 export interface ImageUploadPropsType {
   name: string;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { userRegisterInfoState } from '../recoil/auth';
-import type { UserRegisterInfoType } from '../recoil/auth';
+import { userRegisterInfoState } from 'recoil/auth';
+import type { UserRegisterInfoType } from 'recoil/auth';
 
 import { useQuery } from 'react-query';
 import UsersAPI from 'pages/api/users.api';
 
-import * as R from '../constants/regExp';
+import * as R from 'constants/regExp';
 import { handleEncode } from 'utils/handleEncode';
 
 const useUserInfoInput = () => {

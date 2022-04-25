@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Modal from '../components/common/modal/Modal';
-import ModalTemplate from '../components/common/modal/ModalTemplate';
+import Modal from '../components/common/Modal';
+import ModalTemplate from '../components/common/Modal/ModalTemplate';
 import SetUserProfile from '../components/initialRegister/SetUserProfile';
 
 import useModal from '../hooks/useModal';

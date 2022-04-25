@@ -4,15 +4,15 @@ import * as S from './SetUserProfile.style';
 import SetUserInterest from '../SetUserInterest';
 import CompleteRegister from '../CompleteRegister';
 
-import ImageUploadWrapper from '../../common/ImageUploadWrapper';
+import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import Button from '../Button';
 
 import { useRecoilValue } from 'recoil';
-import { userRegisterInfoState } from '../../../recoil/auth';
-import type { UserRegisterInfoType } from '../../../recoil/auth';
+import { userRegisterInfoState } from 'recoil/auth';
+import type { UserRegisterInfoType } from 'recoil/auth';
 
-import useModal from '../../../hooks/useModal';
-import useUserInfoInput from '../../../hooks/useUserInfoInput';
+import useModal from 'hooks/useModal';
+import useUserInfoInput from 'hooks/useUserInfoInput';
 
 const SetUserProfile: React.FC = () => {
   const { isNext, navigateToNext, isSkip, skip } = useModal();
