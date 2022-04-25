@@ -1,8 +1,11 @@
 import React from 'react';
 import * as S from './ImageUploadWrapper.style';
-import type { ImageUploadPropsType } from './ImageUploadWrapper.type';
 
 import useImageHandle from '../../../hooks/useImageHandle';
+
+export interface ImageUploadPropsType {
+  name: string;
+}
 
 const ImageUploadWrapper: React.FC<ImageUploadPropsType> = ({ children, name }) => {
   const { storeImage } = useImageHandle();

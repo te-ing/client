@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import type { ButtonPropsType } from './Button.type';
+import type { ButtonPropsType } from './index';
 
 export const StyledButton = styled.button<ButtonPropsType>`
   min-width: ${({ sort }) => (sort === 'setUserProfile' ? '100%' : sort === 'setUserInterest' ? '552px' : '368px')};

@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './SetUserProfile.style';
 
 import SetUserInterest from '../SetUserInterest';
-import CompleteRegister from '../completeRegister';
+import CompleteRegister from '../CompleteRegister';
 
 import ImageUploadWrapper from '../../common/ImageUploadWrapper';
 import Button from '../Button';

@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom';
 import * as S from './Modal.style';
 
 export interface ModalPropsType {
-    isShowing: boolean;
-    hide: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  isShowing: boolean;
+  hide: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 }
 
 const Modal: React.FC<ModalPropsType> = ({ isShowing, hide, children }) => {
