@@ -2,7 +2,11 @@ import React, { Fragment, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import * as S from './Modal.style';
-import type { ModalPropsType } from './Modal.type';
+
+export interface ModalPropsType {
+    isShowing: boolean;
+    hide: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}
 
 const Modal: React.FC<ModalPropsType> = ({isShowing, hide, children}) => {
     const [mounted, setMounted] = useState(false);

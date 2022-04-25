@@ -1,13 +1,13 @@
 import React from 'react';
 import * as S from './SetUserInterest.style';
 
-import CompleteRegister from '../completeRegister/CompleteRegister';
+import CompleteRegister from '../completeRegister';
 
 import { useRecoilState } from 'recoil';
 import { userRegisterInfoState } from 'recoil/auth';
 import type { UserRegisterInfoType } from 'recoil/auth';
 
-import Button from '../button/Button';
+import Button from '../Button';
 
 import useModal from 'hooks/useModal';
 
@@ -91,7 +91,7 @@ const SetUserInterest: React.FC = () => {
     }
 
     if(isNext) return <CompleteRegister />
-    
+    console.log(userInfo.mainCategory);
     return (
         <S.Wrapper>
             <S.InfoHeader>
