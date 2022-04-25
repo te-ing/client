@@ -1,7 +1,9 @@
 import React from 'react';
 import * as S from './ModalTemplate.style';
 
-import type { ModalTemplatePropsType } from './ModalTemplate.type';
+export interface ModalTemplatePropsType {
+  hide: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}
 
 const ModalTemplate: React.FC<ModalTemplatePropsType> = ({ hide, children }) => {
   return (

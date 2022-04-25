@@ -1,11 +1,11 @@
 import React from 'react';
 import * as S from './SetUserProfile.style';
 
-import SetUserInterest from '../setUserInterest/SetUserInterest';
-import CompleteRegister from '../completeRegister/CompleteRegister';
+import SetUserInterest from '../SetUserInterest';
+import CompleteRegister from '../completeRegister';
 
-import ImageUploadWrapper from '../../common/imageUploadWrapper/ImageUploadWrapper';
-import Button from '../button/Button';
+import ImageUploadWrapper from '../../common/ImageUploadWrapper';
+import Button from '../Button';
 
 import { useRecoilValue } from 'recoil';
 import { userRegisterInfoState } from '../../../recoil/auth';
