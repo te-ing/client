@@ -1,28 +1,27 @@
 import React from 'react';
 import Button from '.';
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default {
-    component: Button,
-    title: 'InitialRegister Button'
-}
+  component: Button,
+  title: 'InitialRegister Button',
+};
 
-const Template = args => <Button {...args}/>
+const Template = (args) => <Button {...args} />;
 
 export const SetUserProfile = Template.bind({});
 SetUserProfile.args = {
-    sort: 'setUserProfile',
-    name: '관심분야 설정하러가기'
-}
+  sort: 'setUserProfile',
+  name: '관심분야 설정하러가기',
+};
 
 export const SetUserInterest = Template.bind({});
 SetUserInterest.args = {
-    sort: 'setUserInterest',
-    name: '관심분야 설정 완료'
-}
+  sort: 'setUserInterest',
+  name: '관심분야 설정 완료',
+};
 
 export const CompleteRegister = Template.bind({});
 CompleteRegister.args = {
-    sort: 'setUserComplete',
-    name: '프로필 설정하기'
-}
+  sort: 'setUserComplete',
+  name: '프로필 설정하기',
+};
