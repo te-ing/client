@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-import type { StyledTagType } from './SetUserInterest.type';
+import type { StyledTagType } from './index';
 
 export const Wrapper = styled.div`
   max-width: 824.49px;

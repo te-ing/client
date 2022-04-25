@@ -12,7 +12,21 @@ import Button from '../Button';
 import useModal from 'hooks/useModal';
 
 import intereCategories from 'data/interestCategories.json';
-import type { UserSubCategoryInfoType, UserInterestInfoType } from './SetUserInterest.type';
+
+export interface UserSubCategoryInfoType {
+  id: number;
+  name: string;
+}
+
+export interface UserInterestInfoType {
+  id: number;
+  mainCategory: string;
+  subCategory: UserSubCategoryInfoType[];
+}
+
+export interface StyledTagType {
+  isActive: boolean;
+}
 
 const SetUserInterest: React.FC = () => {
   const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
