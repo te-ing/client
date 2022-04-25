@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Modal from '../components/common/modal'
+import Modal from '../components/common/modal/Modal'
 import ModalTemplate from '../components/common/modal/ModalTemplate';
 import SetUserProfile from '../components/initialRegister/SetUserProfile';
 

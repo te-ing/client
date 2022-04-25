@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import type { ButtonPropsType } from './Button.type';
+import type { ButtonPropsType } from './index';
 
 export const StyledButton = styled.button<ButtonPropsType>`
     min-width: 100%;
