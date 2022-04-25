@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { useRecoilState } from 'recoil';
-import { userRegisterInfoState } from '../recoil/auth';
-import type { UserRegisterInfoType } from '../recoil/auth';
+import { userRegisterInfoState } from 'recoil/auth';
+import type { UserRegisterInfoType } from 'recoil/auth';
 
-import { readFile } from '../utils/readFile';
+import { readFile } from 'utils/readFile';
 
 const useImageHandle = () => {
   const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);

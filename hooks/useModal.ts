@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { userRegisterInfoState } from '../recoil/auth';
+import { userRegisterInfoState } from 'recoil/auth';
 
 import { useQuery } from 'react-query';
 import UsersAPI from 'pages/api/users.api';
