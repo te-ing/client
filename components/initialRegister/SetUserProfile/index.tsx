@@ -41,21 +41,14 @@ const SetUserProfile: React.FC = () => {
             />
           </ImageUploadWrapper>
           <S.CameraIconWraper>
-            <S.CameraIcon
-              alt="icon-camera"
-              src="/images/icon-camera.svg"
-              width="28px"
-              height="27px"
-            />
+            <S.CameraIcon alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px" />
           </S.CameraIconWraper>
         </S.ProfileWrapper>
         <S.UserInfoInputWrapper onChange={handleUserInfo}>
           <S.UserInfoInputInner>
             <S.InfoLabel htmlFor="email">이메일</S.InfoLabel>
             <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요." />
-            <S.Alert>
-              {email.length !== 0 && !isEmailCorrect && '사용할 수 없는 이메일 입니다.'}
-            </S.Alert>
+            <S.Alert>{email.length !== 0 && !isEmailCorrect && '사용할 수 없는 이메일 입니다.'}</S.Alert>
           </S.UserInfoInputInner>
           <S.UserInfoInputInner>
             <S.InfoLabel htmlFor="nickname">닉네임</S.InfoLabel>
@@ -69,11 +62,7 @@ const SetUserProfile: React.FC = () => {
             </S.Alert>
           </S.UserInfoInputInner>
         </S.UserInfoInputWrapper>
-        <Button
-          sort="setUserProfile"
-          name="관심분야 설정하러가기"
-          navigateToNext={navigateToNext}
-        />
+        <Button sort="setUserProfile" name="관심분야 설정하러가기" navigateToNext={navigateToNext} />
         <S.SkipButton onClick={skip}>다음에 하기</S.SkipButton>
       </S.Wrapper>
     );
