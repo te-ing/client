@@ -13,6 +13,7 @@ export const theme: DefaultTheme = {
     backgroundGray: '#eeeeee', //색깔 변수 이름 소통 필요
     backgroundHoverGray: '#e0e0e0',
     addTextGray: '#9e9e9e',
+    gray_700: '#616161',
     profileNameBlack: '#212121',
   },
   fontWeight: {

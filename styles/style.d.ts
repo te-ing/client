@@ -14,6 +14,7 @@ declare module 'styled-components' {
       backgroundGray: '#eeeeee';
       backgroundHoverGray: '#e0e0e0';
       addTextGray: '#9e9e9e';
+      gray_700: '#616161';
       profileNameBlack: '#212121';
     };
     fontWeight: {
