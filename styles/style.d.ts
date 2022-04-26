@@ -9,6 +9,9 @@ declare module 'styled-components' {
       green: '#07b495';
       lightGreen: '#99ecdd';
       darkGray: '#54595d';
+      backgroundGray: '#eeeeee';
+      addTextGray: '#9e9e9e';
     };
+    desktop: '1200px';
   }
 }
