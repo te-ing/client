@@ -1,6 +1,3 @@
-import Dotenv from 'dotenv';
-Dotenv.config();
-
 import React, { useState } from 'react';
 
 import AWS from 'aws-sdk';
@@ -13,12 +10,10 @@ const useImageHandle = () => {
   const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
   const [isUpload, setIsUpload] = useState<boolean>(false);
 
-  const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION, AWS_STORAGE_BUCKET_NAME } = process.env;
-
   AWS.config.update({
-    region: AWS_REGION,
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    region: process.env.AWS_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   });
 
   const storeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +22,7 @@ const useImageHandle = () => {
     const params = {
       ACL: 'public-read',
       Body: currentFile,
-      Bucket: AWS_STORAGE_BUCKET_NAME,
+      Bucket: process.env.AWS_STORAGE_BUCKET_NAME,
       Key: `upload/${currentFile.name}`,
     };
 
