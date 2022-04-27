@@ -16,10 +16,13 @@ export const GlobalStyle = createGlobalStyle`
     html{
         font-size: 16px;
         -webkit-text-size-adjust: none;
-        font-family: -apple-system,BlinkMacSystemFont,helvetica,Apple SD Gothic Neo,sans-serif;       
+        font-family: 'Noto Sans KR',sans-serif;       
         font-display: fallback;
         -ms-overflow-style: none;
         scrollbar-width: none;
+    }
+    button,span,input{
+        font-family: 'Noto Sans KR',sans-serif;   
     }
     button {
         background: none;

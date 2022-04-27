@@ -38,6 +38,10 @@ class MyDocument extends Document {
           <meta property="og:url" content="//" />
           <meta name="description" content="" />
           <meta name="keywords" content="" />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <body id="body">
           <Main />
