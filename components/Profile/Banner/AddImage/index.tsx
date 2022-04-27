@@ -1,7 +1,7 @@
 import React from 'react';
 
-import * as S from './styles';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
+import { AddImageWrapper, AddImageSvg, AddImageText } from 'components/common/Atomic/AddItem';
 
 interface Props {
   text: string;
@@ -10,10 +10,10 @@ interface Props {
 const AddImage: React.FC<Props> = ({ text }) => {
   return (
     <ImageUploadWrapper name="banner">
-      <S.AddImageWrapper>
-        <S.AddImageSvg width={80} height={80} />
-        <S.AddImageText>{text}</S.AddImageText>
-      </S.AddImageWrapper>
+      <AddImageWrapper>
+        <AddImageSvg width={80} height={80} />
+        <AddImageText>{text}</AddImageText>
+      </AddImageWrapper>
     </ImageUploadWrapper>
   );
 };

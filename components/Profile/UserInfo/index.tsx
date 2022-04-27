@@ -8,6 +8,7 @@ import {
   MessageButton,
 } from 'components/common/Atomic/Tabs/Button';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
+import { numberWithCommas } from 'utils/numberWithCommas';
 
 const UserInfo = () => {
   const [userName, setUserName] = useState<string>('Andre');
@@ -24,8 +25,8 @@ const UserInfo = () => {
     '그래픽',
     '마케팅',
   ]);
-  const [followers, setFollowers] = useState<string>('10,214');
-  const [followings, setFollowings] = useState<string>('35,150');
+  const [followers, setFollowers] = useState<number>(10214);
+  const [followings, setFollowings] = useState<number>(35150);
   const [currentUser, setCurrentUser] = useState<boolean>(false);
   const [intro, setIntro] = useState<string>(
     '사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.'
@@ -48,9 +49,9 @@ const UserInfo = () => {
           </div>
           <S.FollowInfo>
             <span>팔로워</span>
-            <span>{followers}</span>
+            <span>{numberWithCommas(followers)}</span>
             <span>팔로잉</span>
-            <span>{followings}</span>
+            <span>{numberWithCommas(followings)}</span>
           </S.FollowInfo>
           <p>{intro}</p>
         </S.InfoDescription>
