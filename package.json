@@ -12,6 +12,7 @@
     "chromatic": "npx chromatic --project-token=78967b2e0336"
   },
   "dependencies": {
+    "aws-sdk": "^2.1122.0",
     "axios": "^0.26.1",
     "chromatic": "^6.5.3",
     "dotenv-load": "^2.0.0",
