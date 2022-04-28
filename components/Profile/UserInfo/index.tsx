@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './styles';
 import Image from 'next/image';
+import ProfileEdit from '../ProfileEdit';
 import {
   ProfileEditButton,
   UploadProductButton,
@@ -9,8 +10,13 @@ import {
 } from 'components/common/Atomic/Tabs/Button';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import { numberWithCommas } from 'utils/numberWithCommas';
+import UploadProduct from '../UploadProduct';
+import { User } from 'types/user';
 
-const UserInfo = () => {
+interface Props {
+  info: User;
+}
+const UserInfo: React.FC<Props> = ({ info }) => {
   const [userName, setUserName] = useState<string>('Andre');
   const [abilties, setAbiliies] = useState<string[]>([
     '일러스트레이션',
@@ -37,50 +43,33 @@ const UserInfo = () => {
   return (
     <S.InfoWrapper>
       <S.ProfileImg>
-        <Image src="/images/profile_off.svg" onClick={handler} width={120} height={120} />
+        <Image
+          src={!info.profileImage ? '/images/profile_off.svg' : info.profileImage}
+          onClick={handler}
+          width={120}
+          height={120}
+        />
       </S.ProfileImg>
       <S.InfoSection>
-        <h1>{userName}</h1>
+        <h1>{info.nickname}</h1>
         <S.InfoDescription>
-          <div style={{ width: '400px' }}>
-            {abilties.map((ability, i) => (
-              <Keyword key={i}>{ability}</Keyword>
+          <div>
+            {info.categories.map((ability) => (
+              <Keyword key={ability.id}>{ability.name}</Keyword>
             ))}
           </div>
           <S.FollowInfo>
             <span>팔로워</span>
-            <span>{numberWithCommas(followers)}</span>
+            <span>{numberWithCommas(info.followerCount)}</span>
             <span>팔로잉</span>
-            <span>{numberWithCommas(followings)}</span>
+            <span>{numberWithCommas(info.followingCount)}</span>
           </S.FollowInfo>
-          <p>{intro}</p>
+          <p>{info.description}</p>
         </S.InfoDescription>
       </S.InfoSection>
       <S.InfoAside>
-        {currentUser ? (
-          <>
-            {' '}
-            <ProfileEditButton>
-              <Image src="/images/profile-edit.svg" width={24} height={24} />
-              <span>프로필 수정</span>
-            </ProfileEditButton>
-            <UploadProductButton bgColor>
-              <Image src="/images/profile-edit-write2.svg" width={24} height={24} />
-              <span>작품 업로드</span>
-            </UploadProductButton>
-          </>
-        ) : (
-          <>
-            <FollowButton bgColor>
-              <Image src="/images/icon-add-round.svg" width={24} height={24} />
-              <span>팔로우</span>
-            </FollowButton>
-            <MessageButton>
-              <Image src="/images/icon-message.svg" width={24} height={24} />
-              <span>메시지</span>
-            </MessageButton>
-          </>
-        )}
+        <ProfileEdit />
+        <UploadProduct />
       </S.InfoAside>
     </S.InfoWrapper>
   );

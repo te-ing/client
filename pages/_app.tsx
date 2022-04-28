@@ -6,6 +6,7 @@ import { GlobalStyle } from '../styles/globalStyle';
 import { theme } from '../styles/theme';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 const queryClient = new QueryClient();
 
@@ -22,6 +23,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <ThemeProvider theme={theme}>
             <Component {...pageProps} />
           </ThemeProvider>
+          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
         </QueryClientProvider>
       </RecoilRoot>
     </>

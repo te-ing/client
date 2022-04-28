@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from 'react';
+import { useQuery } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import UserInfo from 'components/Profile/UserInfo';
 import ItemList from 'components/Profile/ItemList';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { tabMenuArr } from 'constants/tabMenu';
+import usersApi from './api/users.api';
 
 const Profile: React.FC = () => {
-  const [user, getUserQuery] = useState('serre'); // useQuery로 유저정보 받아옴.
+  const { isLoading, isError, error, data, isSuccess } = useQuery(['user-profile'], () => usersApi.checkUsers(2)); // useQuery로 유저정보 받아옴.
 
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
   const Items = {
@@ -40,11 +42,16 @@ const Profile: React.FC = () => {
     },
     [currentTab]
   );
-
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
+  if (isError) {
+    return <h1>{error}</h1>;
+  }
   return (
     <Layout>
-      <Banner />
-      <UserInfo />
+      <Banner bannerImg={data?.data.backgroundImage} />
+      <UserInfo info={data?.data} />
       <div style={{ marginBottom: '40px' }}>
         {tabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
