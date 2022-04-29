@@ -1,54 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import * as S from './styles';
 import Image from 'next/image';
 import ProfileEdit from '../ProfileEdit';
-import {
-  ProfileEditButton,
-  UploadProductButton,
-  FollowButton,
-  MessageButton,
-} from 'components/common/Atomic/Tabs/Button';
+import { camera_icon, default_profile } from 'constants/imgUrl';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import { numberWithCommas } from 'utils/numberWithCommas';
 import UploadProduct from '../UploadProduct';
 import { User } from 'types/user';
+import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
+import { ProfileIcon, CameraIcon, CameraIconWraper, ProfileWrapper } from 'components/common/Atomic/Profile';
+import { UseMutateFunction } from 'react-query';
+import { AxiosResponse } from 'axios';
 
 interface Props {
+  editMode: boolean;
   info: User;
+  editModeOnOff: (flag: boolean) => () => void;
+  testFormHook: (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  userInfoMutate: UseMutateFunction<AxiosResponse<any, any>, unknown, void, unknown>;
 }
-const UserInfo: React.FC<Props> = ({ info }) => {
-  const [userName, setUserName] = useState<string>('Andre');
-  const [abilties, setAbiliies] = useState<string[]>([
-    '일러스트레이션',
-    '그래픽 디자인',
-    '일러스트레이션',
-    '그래픽 디자인',
-    '일러스트레이션',
-    '그래픽 디자인',
-    '일러스트레이션',
-    '그래픽 디자인',
-    '일러스트레이션',
-    '그래픽',
-    '마케팅',
-  ]);
-  const [followers, setFollowers] = useState<number>(10214);
-  const [followings, setFollowings] = useState<number>(35150);
-  const [currentUser, setCurrentUser] = useState<boolean>(false);
-  const [intro, setIntro] = useState<string>(
-    '사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.사용자 소개입니다.'
-  );
-  const handler = () => {
-    setCurrentUser(!currentUser);
-  };
+const UserInfo: React.FC<Props> = ({ editMode, info, editModeOnOff, testFormHook, userInfoMutate }) => {
   return (
     <S.InfoWrapper>
       <S.ProfileImg>
-        <Image
-          src={!info.profileImage ? '/images/profile_off.svg' : info.profileImage}
-          onClick={handler}
-          width={120}
-          height={120}
-        />
+        {editMode ? (
+          <ImageUploadWrapper name="editProfile">
+            <ProfileWrapper>
+              <ProfileIcon
+                alt="icon-profile"
+                src={!info.profileImage ? default_profile : info.profileImage}
+                width={116}
+                height={116}
+              />
+              <CameraIconWraper direction="left">
+                <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
+              </CameraIconWraper>
+              {/* <S.ImgWrapper alt="icon-camera" src={camera_icon} width={36} height={36} /> */}
+            </ProfileWrapper>
+          </ImageUploadWrapper>
+        ) : (
+          <ProfileWrapper>
+            <S.ImgWrapper
+              alt="icon-profile"
+              src={!info.profileImage ? default_profile : info.profileImage}
+              width={116}
+              height={116}
+            />
+          </ProfileWrapper>
+        )}
       </S.ProfileImg>
       <S.InfoSection>
         <h1>{info.nickname}</h1>
@@ -64,12 +63,16 @@ const UserInfo: React.FC<Props> = ({ info }) => {
             <span>팔로잉</span>
             <span>{numberWithCommas(info.followingCount)}</span>
           </S.FollowInfo>
-          <p>{info.description}</p>
+          {editMode ? (
+            <S.DescriptionArea name="description" onChange={testFormHook} placeholder="사용자 소개를 입력해주세요." />
+          ) : (
+            <p>{info.description}</p>
+          )}
         </S.InfoDescription>
       </S.InfoSection>
       <S.InfoAside>
-        <ProfileEdit />
-        <UploadProduct />
+        <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} userInfoMutate={userInfoMutate} />
+        {!editMode && <UploadProduct />}
       </S.InfoAside>
     </S.InfoWrapper>
   );

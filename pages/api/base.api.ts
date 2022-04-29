@@ -22,7 +22,12 @@ export default class BaseAPI {
     });
 
     this.instance.interceptors.request.use((config: CustomAxiosRequestConfig) => {
-      if (config.isRequiredLogin) console.log('로그인 필수 기능');
+      if (config.isRequiredLogin) {
+        console.log('로그인 필수 기능');
+        config.headers[
+          'Authorization'
+        ] = `Bearer "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEyMjkwODguMDQ3MjY3LCJleHAiOjE2NTE4MzM4ODguMDQ3MjY3LCJzb2NpYWxfaWQiOiIxMDc1MTg4NDkwMzk1ODQ2MTI2ODYifQ.JqVEYVlTvLB_8YYZBuWEe6fYO75xTZtA1PmMYOUAH_o"`;
+      }
 
       return config;
     });

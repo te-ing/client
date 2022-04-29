@@ -9,6 +9,24 @@ export const InfoWrapper = styled.div`
 
 export const ProfileImg = styled.div``;
 
+export const ImgWrapper = styled(Image)`
+  border-radius: 50%;
+`;
+
+export const CameraIcon = styled(Image)``;
+
+export const CameraIconWraper = styled.div`
+  position: absolute;
+  top: 2.5px;
+  left: 312.99px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 7px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  background-color: #616161;
+`;
 export const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
@@ -53,5 +71,30 @@ export const FollowInfo = styled.div`
 
   span:nth-child(2n-1) {
     margin-right: 4px;
+  }
+`;
+
+export const DescriptionArea = styled.textarea`
+  box-sizing: border-box;
+  resize: none;
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.color.gray_400};
+  &::placeholder {
+    font-family: 'Noto Sans KR', sans serif;
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-size: 12px;
+    line-height: 1.416666;
+    color: ${({ theme }) => theme.color.gray_400};
+  }
+
+  &::-webkit-scrollbar {
+    display: block;
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #2f3542;
+  }
+  &::-webkit-scrollbar-track {
   }
 `;

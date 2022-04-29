@@ -8,8 +8,8 @@ export const DefaultButton = styled.button<{ bgColor?: boolean }>`
   justify-content: center;
 
   ${({ bgColor, theme }) => {
-    const color = bgColor ? theme.color.DefaultPrimaryGreen : theme.color.backgroundGray;
-    const pressed = bgColor ? theme.color.PressedPrimaryGreen : theme.color.backgroundHoverGray;
+    const color = bgColor ? theme.color.DefaultPrimaryGreen : theme.color.gray_200;
+    const pressed = bgColor ? theme.color.PressedPrimaryGreen : theme.color.gray_300;
     return css`
       background-color: ${color};
       &: hover {

@@ -8,13 +8,16 @@ import AddImage from './AddImage';
 import { userRegisterInfoState, UserRegisterInfoType } from 'recoil/auth';
 
 interface Props {
+  editMode: boolean;
   bannerImg: string;
 }
-const Banner: React.FC<Props> = ({ bannerImg }) => {
-  const [banner, setBanner] = useState<string>();
-
+const Banner: React.FC<Props> = ({ editMode, bannerImg }) => {
   return (
-    <S.BannerWrapper url={bannerImg}>{!bannerImg && <AddImage text="프로필 배너를 추가 해주세요." />}</S.BannerWrapper>
+    <S.BannerWrapper url={bannerImg}>
+      {(!bannerImg || editMode) && (
+        <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가 해주세요.' : '배너 변경하기'} />
+      )}
+    </S.BannerWrapper>
   );
 };
 

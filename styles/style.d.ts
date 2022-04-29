@@ -13,11 +13,10 @@ declare module 'styled-components' {
       PressedPrimaryGreen: '#abf066';
       lightGreen: '#99ecdd';
       darkGray: '#54595d';
-      backgroundGray: '#eeeeee';
-      backgroundHoverGray: '#e0e0e0';
       addTextGray: '#9e9e9e';
       gray_100: '#f5f5f5';
-      gray_300: '#e5e5e5';
+      gray_200: '#eeeeee';
+      gray_300: '#e0e0e0';
       gray_400: '#bdbdbd';
       gray_500: '#757575';
       gray_700: '#616161';
