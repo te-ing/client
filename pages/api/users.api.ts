@@ -15,7 +15,6 @@ class UsersAPI extends BaseAPI {
     return this.post(`/id`, body);
   }
   editUser(params: unknown, body: UserEditForm, config: CustomAxiosRequestConfig) {
-    console.log(body);
     return this.put(`/${params}`, body, config);
   }
 }

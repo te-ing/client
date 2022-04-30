@@ -35,21 +35,21 @@ export default class BaseAPI {
 
   protected async get(url: string, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.get(url, config);
-    return response;
+    return response.data;
   }
 
   protected async post(url: string, data?: unknown, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.post(url, data, config);
-    return response;
+    return response.data;
   }
 
   protected async put(url: string, data?: unknown, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.put(url, data, config);
-    return response;
+    return response.data;
   }
 
   protected async delete(url: string, data?: object, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.delete(url, { ...config, ...data });
-    return response;
+    return response.data;
   }
 }
