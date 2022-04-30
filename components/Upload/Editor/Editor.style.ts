@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  margin-top: 24px;
+  margin: 24px 0;
 `;
 
 export const EditorWrapper = styled.div``;
