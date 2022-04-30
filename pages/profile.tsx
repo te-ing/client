@@ -25,7 +25,7 @@ import Message from 'components/User/Message';
 const Profile: React.FC = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
-    onSuccess: ({ data }) => {
+    onSuccess: (data) => {
       setTestForm(userEditForm(data));
     },
   }); // useQuery로 유저정보 받아옴.
@@ -102,8 +102,8 @@ const Profile: React.FC = () => {
   return (
     //컴포넌트 구조 변경 필요
     <Layout>
-      <Banner bannerImg={data?.data.backgroundImage}>
-        {(!data?.data.backgroundImage || editMode) && (
+      <Banner bannerImg={data?.backgroundImage}>
+        {(!data?.backgroundImage || editMode) && (
           <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가 해주세요.' : '배너 변경하기'} />
         )}
       </Banner>
@@ -114,7 +114,7 @@ const Profile: React.FC = () => {
               <ProfileWrapper>
                 <ProfileIcon
                   alt="icon-profile"
-                  src={!data?.data.profileImage ? default_profile : data?.data.profileImage}
+                  src={!data?.profileImage ? default_profile : data?.profileImage}
                   width={116}
                   height={116}
                 />
@@ -127,7 +127,7 @@ const Profile: React.FC = () => {
             <ProfileWrapper>
               <ImgWrapper
                 alt="icon-profile"
-                src={!data?.data.profileImage ? default_profile : data?.data.profileImage}
+                src={!data?.profileImage ? default_profile : data?.profileImage}
                 width={116}
                 height={116}
               />
@@ -135,23 +135,23 @@ const Profile: React.FC = () => {
           )}
         </ProfileImg>
         <InfoSection>
-          <h1>{data?.data.nickname}</h1>
+          <h1>{data?.nickname}</h1>
           <InfoDescription>
             <div>
-              {data?.data.categories.map((ability) => (
+              {data?.categories.map((ability) => (
                 <Keyword key={ability.id}>{ability.name}</Keyword>
               ))}
             </div>
             <FollowInfo>
               <span>팔로워</span>
-              <span>{numberWithCommas(data?.data.followerCount)}</span>
+              <span>{numberWithCommas(data?.followerCount)}</span>
               <span>팔로잉</span>
-              <span>{numberWithCommas(data?.data.followingCount)}</span>
+              <span>{numberWithCommas(data?.followingCount)}</span>
             </FollowInfo>
             {editMode ? (
               <DescriptionArea name="description" onChange={testFormHook} placeholder="사용자 소개를 입력해주세요." />
             ) : (
-              <p>{data?.data.description}</p>
+              <p>{data?.description}</p>
             )}
           </InfoDescription>
         </InfoSection>
