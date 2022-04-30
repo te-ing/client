@@ -1,14 +1,27 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import Image from 'next/image';
+import styled from 'styled-components';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
+import AddImage from 'components/Profile/AddImage';
 import UserInfo from 'components/Profile/UserInfo';
 import ItemList from 'components/Profile/ItemList';
+import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
+import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
+import { camera_icon, default_profile } from 'constants/imgUrl';
 import { tabMenuArr } from 'constants/tabMenu';
 import usersApi from './api/users.api';
 import { User, UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
+import { numberWithCommas } from 'utils/numberWithCommas';
+import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
+import ProfileEdit from 'components/Profile/ProfileEdit';
+import UploadProduct from 'components/Profile/UploadProduct';
+import Following from 'components/User/Following';
+import Message from 'components/User/Message';
+
 const Profile: React.FC = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
@@ -19,6 +32,7 @@ const Profile: React.FC = () => {
 
   const { mutate: userInfoMutate } = useMutation(() => usersApi.editUser(4, testForm, { isRequiredLogin: true }), {
     onSuccess: (data) => {
+      console.log('data', data);
       queryClient.setQueryData('user-profile', data);
     },
   });
@@ -88,14 +102,64 @@ const Profile: React.FC = () => {
   return (
     //컴포넌트 구조 변경 필요
     <Layout>
-      <Banner editMode={editMode} bannerImg={data?.data.backgroundImage} />
-      <UserInfo
-        editMode={editMode}
-        info={data?.data}
-        editModeOnOff={editModeOnOff}
-        testFormHook={testFormHook}
-        userInfoMutate={userInfoMutate}
-      ></UserInfo>
+      <Banner bannerImg={data?.data.backgroundImage}>
+        {(!data?.data.backgroundImage || editMode) && (
+          <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가 해주세요.' : '배너 변경하기'} />
+        )}
+      </Banner>
+      <UserInfo>
+        <ProfileImg>
+          {editMode ? (
+            <ImageUploadWrapper name="editProfile">
+              <ProfileWrapper>
+                <ProfileIcon
+                  alt="icon-profile"
+                  src={!data?.data.profileImage ? default_profile : data?.data.profileImage}
+                  width={116}
+                  height={116}
+                />
+                <CameraIconWrapper direction="left">
+                  <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
+                </CameraIconWrapper>
+              </ProfileWrapper>
+            </ImageUploadWrapper>
+          ) : (
+            <ProfileWrapper>
+              <ImgWrapper
+                alt="icon-profile"
+                src={!data?.data.profileImage ? default_profile : data?.data.profileImage}
+                width={116}
+                height={116}
+              />
+            </ProfileWrapper>
+          )}
+        </ProfileImg>
+        <InfoSection>
+          <h1>{data?.data.nickname}</h1>
+          <InfoDescription>
+            <div>
+              {data?.data.categories.map((ability) => (
+                <Keyword key={ability.id}>{ability.name}</Keyword>
+              ))}
+            </div>
+            <FollowInfo>
+              <span>팔로워</span>
+              <span>{numberWithCommas(data?.data.followerCount)}</span>
+              <span>팔로잉</span>
+              <span>{numberWithCommas(data?.data.followingCount)}</span>
+            </FollowInfo>
+            {editMode ? (
+              <DescriptionArea name="description" onChange={testFormHook} placeholder="사용자 소개를 입력해주세요." />
+            ) : (
+              <p>{data?.data.description}</p>
+            )}
+          </InfoDescription>
+        </InfoSection>
+        <InfoAside>
+          <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
+          {!editMode && <UploadProduct />}
+        </InfoAside>
+      </UserInfo>
       <div style={{ marginBottom: '40px' }}>
         {tabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
@@ -104,9 +168,96 @@ const Profile: React.FC = () => {
           </TabButton>
         ))}
       </div>
-      <ItemList itemList={Items[currentTab]} />
+      {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
+      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
+      {/* <Banner editMode={editMode} bannerImg={data?.data.backgroundImage} />
+      <UserInfo
+        editMode={editMode}
+        info={data?.data}
+        editModeOnOff={editModeOnOff}
+        testFormHook={testFormHook}
+        userInfoMutate={userInfoMutate}
+      ></UserInfo>
+      */}
     </Layout>
   );
 };
 
 export default Profile;
+
+export const ProfileImg = styled.div``;
+
+export const ImgWrapper = styled(Image)`
+  border-radius: 50%;
+`;
+
+export const InfoSection = styled.div`
+  margin-left: 24px;
+  width: 610px;
+
+  & > h1{
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight : ${({ theme }) => theme.fontWeight.bold}
+    color: ${({ theme }) => theme.color.profileNameBlack};
+    margin-bottom: 16px;
+  }
+`;
+export const InfoDescription = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+
+  p {
+    color: ${({ theme }) => theme.color.gray_700};
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-size: 12px;
+    line-height: 1.416666;
+  }
+`;
+
+export const FollowInfo = styled.div`
+  margin-bottom: 8px;
+  span {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.833333;
+    letter-spacing: -0.01em;
+    color: ${({ theme }) => theme.color.gray_700};
+    margin-right: 16px;
+  }
+
+  span:nth-child(2n-1) {
+    margin-right: 4px;
+  }
+`;
+
+export const DescriptionArea = styled.textarea`
+  box-sizing: border-box;
+  resize: none;
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.color.gray_400};
+  &::placeholder {
+    font-family: 'Noto Sans KR', sans serif;
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-size: 12px;
+    line-height: 1.416666;
+    color: ${({ theme }) => theme.color.gray_400};
+  }
+
+  &::-webkit-scrollbar {
+    display: block;
+    width: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #2f3542;
+  }
+  &::-webkit-scrollbar-track {
+  }
+`;
+
+export const InfoAside = styled.div`
+  position: absolute;
+  right: 24px;
+`;

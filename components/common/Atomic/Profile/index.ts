@@ -15,7 +15,7 @@ export const ProfileIcon = styled(Image)`
 
 export const CameraIcon = styled(Image)``;
 
-export const CameraIconWraper = styled.div<{ direction: string }>`
+export const CameraIconWrapper = styled.div<{ direction: string }>`
   width: 36px;
   height: 36px;
   position: absolute;
