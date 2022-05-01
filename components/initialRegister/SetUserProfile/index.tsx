@@ -32,7 +32,7 @@ const SetUserProfile: React.FC = () => {
           </S.SubInfo>
         </S.InfoHeader>
         <S.ProfileWrapper>
-          <ImageUploadWrapper name="userProfile">
+          <ImageUploadWrapper name="profile">
             <S.ProfileIcon
               alt="icon-profile"
               src={`${userProfile ? userProfile : '/images/icon-profile.svg'}`}

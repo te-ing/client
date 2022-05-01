@@ -8,7 +8,7 @@ export interface ImageUploadPropsType {
 }
 
 const ImageUploadWrapper: React.FC<ImageUploadPropsType> = ({ children, name }) => {
-  const { storeImage } = useImageHandle();
+  const { storeImage } = useImageHandle(name);
 
   return (
     <S.Wrapper>
