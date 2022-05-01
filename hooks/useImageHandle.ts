@@ -29,16 +29,12 @@ const useImageHandle = (name: string) => {
     const currentFile = (e.target as HTMLInputElement).files[0];
     const currentFileName = currentFile.name.replaceAll(' ', '');
 
-    const currentFileExtension = currentFileName.split('.')[1];
-
-    if (currentFileExtension !== ('png' || 'jpg' || 'jpeg')) return;
-
     const params = {
       ACL: 'public-read',
       Body: currentFile,
       Bucket: process.env.NEXT_PUBLIC_AWS_STORAGE_BUCKET_NAME,
       Key: `${name}/${currentFileName}`,
-      ContentType: `text/${currentFileExtension}`, // text/plain
+      ContentType: 'text/plain',
     };
 
     myBucket
