@@ -10,6 +10,9 @@ dotenvLoad();
 const withNextEnv = nextEnv();
 
 module.exports = {
+  images: {
+    domains: ['boraimageserver.s3.ap-northeast-2.amazonaws.com'],
+  },
   future: {
     webpack5: true,
   },

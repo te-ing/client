@@ -1,42 +1,34 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
-import Image from 'next/image';
-import styled from 'styled-components';
+import { useQuery, QueryClient, dehydrate } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
-import AddImage from 'components/Profile/AddImage';
 import ItemList from 'components/Profile/ItemList';
-import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
-import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { camera_icon, default_profile } from 'constants/imgUrl';
 import { tabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
-import { User, UserEditForm } from 'types/user';
-import { userEditForm } from 'utils/userEditForm';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
+import { ProfileWrapper } from 'components/common/Atomic/Profile';
+import { default_profile } from 'constants/imgUrl';
 import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
-import ProfileEdit from 'components/Profile/ProfileEdit';
-import UploadProduct from 'components/Profile/UploadProduct';
+import Following from 'components/User/Following';
+import Message from 'components/User/Message';
+import styled from 'styled-components';
+import { GetStaticPropsContext } from 'next';
 
-const Profile: React.FC = () => {
-  const queryClient = useQueryClient();
-  const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
-    onSuccess: (data) => {
-      setTestForm(userEditForm(data));
+const UserProfile: React.FC = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { isLoading, isError, error, data } = useQuery(['user-profile', id], () => usersApi.checkUsers(id), {
+    onError: (error) => {
+      console.log(error);
     },
   }); // useQuery로 유저정보 받아옴.
 
-  const { mutate: userInfoMutate } = useMutation(() => usersApi.editUser(4, testForm, { isRequiredLogin: true }), {
-    onSuccess: (data) => {
-      console.log('data', data);
-      queryClient.setQueryData('user-profile', data);
-    },
-  });
-
-  const [editMode, setEditMode] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState('post');
-  const [testForm, setTestForm] = useState<UserEditForm>();
+
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
   const Items = {
     post: ['작업물1'], //['아이템1', '아이템2'],
@@ -54,16 +46,6 @@ const Profile: React.FC = () => {
     ],
   };
 
-  const editModeOnOff = useCallback(
-    (flag: boolean) => () => {
-      setEditMode(flag);
-      if (!flag) {
-        userInfoMutate();
-      }
-    },
-    [editMode]
-  );
-
   const selectTab = useCallback(
     (id: string) => () => {
       tabMenuArr.forEach((tab) => {
@@ -78,56 +60,22 @@ const Profile: React.FC = () => {
     [currentTab]
   );
 
-  const testFormHook = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      const { name, value } = e.target;
-      console.log('name = %s value = %s', name, value);
-      console.log('banner : ', testForm.backgroundImage);
-      console.log('profile : ', testForm.profileImage);
-      console.log('description : ', testForm.description);
-      setTestForm({ ...testForm, [name]: value });
-    },
-    [testForm, setTestForm]
-  );
-  if (isLoading) {
-    return <h1>Loading</h1>;
-  }
   if (isError) {
     return <h1>{error}</h1>;
   }
   return (
     <Layout>
-      <Banner bannerImg={data?.backgroundImage}>
-        {(!data?.backgroundImage || editMode) && (
-          <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가 해주세요.' : '배너 변경하기'} />
-        )}
-      </Banner>
+      <Banner bannerImg={data?.backgroundImage} />
       <InfoWrapper>
         <ProfileImg>
-          {editMode ? (
-            <ImageUploadWrapper name="editProfile">
-              <ProfileWrapper>
-                <ProfileIcon
-                  alt="icon-profile"
-                  src={!data?.profileImage ? default_profile : data?.profileImage}
-                  width={116}
-                  height={116}
-                />
-                <CameraIconWrapper direction="left">
-                  <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
-                </CameraIconWrapper>
-              </ProfileWrapper>
-            </ImageUploadWrapper>
-          ) : (
-            <ProfileWrapper>
-              <ImgWrapper
-                alt="icon-profile"
-                src={!data?.profileImage ? default_profile : data?.profileImage}
-                width={116}
-                height={116}
-              />
-            </ProfileWrapper>
-          )}
+          <ProfileWrapper>
+            <ImgWrapper
+              alt="icon-profile"
+              src={!data?.profileImage ? default_profile : data?.profileImage}
+              width={116}
+              height={116}
+            />
+          </ProfileWrapper>
         </ProfileImg>
         <InfoSection>
           <h1>{data?.nickname}</h1>
@@ -139,20 +87,17 @@ const Profile: React.FC = () => {
             </div>
             <FollowInfo>
               <span>팔로워</span>
-              <span>{numberWithCommas(data?.followerCount)}</span>
+              <span>{numberWithCommas(Number(data?.followerCount))}</span>
               <span>팔로잉</span>
-              <span>{numberWithCommas(data?.followingCount)}</span>
+              <span>{numberWithCommas(Number(data?.followingCount))}</span>
             </FollowInfo>
-            {editMode ? (
-              <DescriptionArea name="description" onChange={testFormHook} placeholder="사용자 소개를 입력해주세요." />
-            ) : (
-              <p>{data?.description}</p>
-            )}
+
+            <p>{data?.description}</p>
           </InfoDescription>
         </InfoSection>
         <InfoAside>
-          <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
-          {!editMode && <UploadProduct />}
+          <Following />
+          <Message />
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
@@ -163,13 +108,31 @@ const Profile: React.FC = () => {
           </TabButton>
         ))}
       </div>
-      {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
+      {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
       {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
     </Layout>
   );
 };
 
-export default Profile;
+export const getServerSideProps = async (context: GetStaticPropsContext) => {
+  try {
+    const queryClient = new QueryClient();
+    const id = context.params?.id as string;
+
+    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.checkUsers(queryKey[1]));
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
+export default UserProfile;
 
 export const InfoWrapper = styled.div`
   padding: 24px;

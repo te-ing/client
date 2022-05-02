@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import React from 'react';
 
 import * as S from './styles';
 
-import AddImage from './AddImage';
-
-import { userRegisterInfoState, UserRegisterInfoType } from 'recoil/auth';
-
-const Banner: React.FC = () => {
-  const [banner, setBanner] = useState<string>();
-
-  return <S.BannerWrapper url={banner}>{!banner && <AddImage text="프로필 배너를 추가 해주세요." />}</S.BannerWrapper>;
+interface Props {
+  bannerImg: string;
+}
+const Banner: React.FC<Props> = ({ bannerImg, children }) => {
+  return <S.BannerWrapper url={bannerImg}>{children}</S.BannerWrapper>;
 };
 
 export default Banner;

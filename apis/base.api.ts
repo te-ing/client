@@ -22,7 +22,12 @@ export default class BaseAPI {
     });
 
     this.instance.interceptors.request.use((config: CustomAxiosRequestConfig) => {
-      if (config.isRequiredLogin) console.log('로그인 필수 기능');
+      if (config.isRequiredLogin) {
+        console.log('로그인 필수 기능');
+        config.headers[
+          'Authorization'
+        ] = `Bearer "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEyMjkwODguMDQ3MjY3LCJleHAiOjE2NTE4MzM4ODguMDQ3MjY3LCJzb2NpYWxfaWQiOiIxMDc1MTg4NDkwMzk1ODQ2MTI2ODYifQ.JqVEYVlTvLB_8YYZBuWEe6fYO75xTZtA1PmMYOUAH_o"`;
+      }
 
       return config;
     });
@@ -30,21 +35,21 @@ export default class BaseAPI {
 
   protected async get(url: string, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.get(url, config);
-    return response;
+    return response.data;
   }
 
   protected async post(url: string, data?: unknown, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.post(url, data, config);
-    return response;
+    return response.data;
   }
 
   protected async put(url: string, data?: unknown, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.put(url, data, config);
-    return response;
+    return response.data;
   }
 
   protected async delete(url: string, data?: object, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.delete(url, { ...config, ...data });
-    return response;
+    return response.data;
   }
 }

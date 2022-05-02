@@ -1,15 +1,17 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import Image from 'next/image';
+import { scrap_icon, edit_icon } from 'constants/imgUrl';
 
 interface Props {
   item: string; //작품 정보에 대한 타입을 정의해줘야함
+  editMode?: boolean;
 }
-const Thumbnail: React.FC<Props> = ({ item }) => {
+const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
   return (
     <ItemCard>
       <ImageWrapper>
-        <Image src="/images/icon-folder-add.svg" width={24} height={24} />
+        <Image src={editMode ? edit_icon : scrap_icon} width={24} height={24} />
       </ImageWrapper>
       {item.length > 0 && (
         <ItemInfo>
