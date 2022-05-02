@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import AddImage from 'components/Profile/AddImage';
-import UserInfo from 'components/Profile/UserInfo';
 import ItemList from 'components/Profile/ItemList';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
@@ -19,8 +18,6 @@ import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
-import Following from 'components/User/Following';
-import Message from 'components/User/Message';
 
 const Profile: React.FC = () => {
   const queryClient = useQueryClient();
@@ -84,7 +81,6 @@ const Profile: React.FC = () => {
   const testFormHook = useCallback(
     (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
       const { name, value } = e.target;
-      // console.log(e.target);
       console.log('name = %s value = %s', name, value);
       console.log('banner : ', testForm.backgroundImage);
       console.log('profile : ', testForm.profileImage);
@@ -100,14 +96,13 @@ const Profile: React.FC = () => {
     return <h1>{error}</h1>;
   }
   return (
-    //컴포넌트 구조 변경 필요
     <Layout>
       <Banner bannerImg={data?.backgroundImage}>
         {(!data?.backgroundImage || editMode) && (
           <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가 해주세요.' : '배너 변경하기'} />
         )}
       </Banner>
-      <UserInfo>
+      <InfoWrapper>
         <ProfileImg>
           {editMode ? (
             <ImageUploadWrapper name="editProfile">
@@ -159,7 +154,7 @@ const Profile: React.FC = () => {
           <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
           {!editMode && <UploadProduct />}
         </InfoAside>
-      </UserInfo>
+      </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
         {tabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
@@ -170,20 +165,18 @@ const Profile: React.FC = () => {
       </div>
       {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
       {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-      {/* <Banner editMode={editMode} bannerImg={data?.data.backgroundImage} />
-      <UserInfo
-        editMode={editMode}
-        info={data?.data}
-        editModeOnOff={editModeOnOff}
-        testFormHook={testFormHook}
-        userInfoMutate={userInfoMutate}
-      ></UserInfo>
-      */}
     </Layout>
   );
 };
 
 export default Profile;
+
+export const InfoWrapper = styled.div`
+  padding: 24px;
+  position: relative;
+  margin-bottom: 80px;
+  display: flex;
+`;
 
 export const ProfileImg = styled.div``;
 

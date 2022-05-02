@@ -2,19 +2,14 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useQuery, QueryClient, dehydrate } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
-import UserInfo from 'components/Profile/UserInfo';
 import ItemList from 'components/Profile/ItemList';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { tabMenuArr } from 'constants/tabMenu';
 import usersApi from '../api/users.api';
-import { User, UserEditForm } from 'types/user';
-import { userEditForm } from 'utils/userEditForm';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
-import AddImage from 'components/Profile/AddImage';
-import { CameraIcon, CameraIconWrapper, ProfileIcon, ProfileWrapper } from 'components/common/Atomic/Profile';
-import { camera_icon, default_profile } from 'constants/imgUrl';
+import { ProfileWrapper } from 'components/common/Atomic/Profile';
+import { default_profile } from 'constants/imgUrl';
 import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import Following from 'components/User/Following';
@@ -27,10 +22,10 @@ const UserProfile: React.FC = () => {
   const { id } = router.query;
 
   const { isLoading, isError, error, data } = useQuery(['user-profile', id], () => usersApi.checkUsers(id), {
-    // enabled: !!id,
+    onError: (error) => {
+      console.log(error);
+    },
   }); // useQuery로 유저정보 받아옴.
-
-  // console.log(id);
 
   const [currentTab, setCurrentTab] = useState('post');
 
@@ -65,18 +60,13 @@ const UserProfile: React.FC = () => {
     [currentTab]
   );
 
-  // if (isLoading) {
-  //   return <h1>Loading</h1>;
-  // }
   if (isError) {
     return <h1>{error}</h1>;
   }
   return (
-    //컴포넌트 구조 변경 필요
     <Layout>
       <Banner bannerImg={data?.backgroundImage} />
-
-      <UserInfo>
+      <InfoWrapper>
         <ProfileImg>
           <ProfileWrapper>
             <ImgWrapper
@@ -109,7 +99,7 @@ const UserProfile: React.FC = () => {
           <Following />
           <Message />
         </InfoAside>
-      </UserInfo>
+      </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
         {tabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
@@ -120,69 +110,10 @@ const UserProfile: React.FC = () => {
       </div>
       {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
       {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-      {/* <Banner editMode={editMode} bannerImg={data?.data.backgroundImage} />
-      <UserInfo
-        editMode={editMode}
-        info={data?.data}
-        editModeOnOff={editModeOnOff}
-        testFormHook={testFormHook}
-        userInfoMutate={userInfoMutate}
-      ></UserInfo>
-      */}
     </Layout>
-
-    // <Layout>
-    //   <Banner bannerImg={data?.data.backgroundImage} />
-    //   <Image src={data?.data.profileImage} width={120} height={120} />
-    //   {/* <UserInfo editMode={editMode} info={data?.data}></UserInfo> */}
-    //   <div style={{ marginBottom: '40px' }}>
-    //     {tabMenuArr.map((tab, i) => (
-    //       <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
-    //         {tab.name}
-    //         <span>{Items[tab.id].length}</span>
-    //       </TabButton>
-    //     ))}
-    //   </div>
-    //   {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
-    //   {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    // </Layout>
   );
 };
 
-// export const getStaticPaths = async () => {
-//   return {
-//     paths: [{ params: { id: '2' } }, { params: { id: '4' } }],
-//     fallback: true,
-//   };
-// };
-// // export const testFetch = async (id: string | string[]) => {
-// //   const response = await usersApi.checkUsers(id);
-
-// //   return response;
-// // };
-// export const getStaticProps = async (context: GetStaticPropsContext) => {
-//   const queryClient = new QueryClient();
-
-//   const id = context?.params?.id;
-
-//   try {
-//     await queryClient.prefetchQuery(['user-profile', id], () => usersApi.checkUsers(id));
-//     // await queryClient.prefetchQuery(['user-profile', id], () => testFetch(id));
-//     return {
-//       props: {
-//         dehydratedState: dehydrate(queryClient), //JSON.parse(JSON.stringify(dehydrate(queryClient))),
-//       },
-//     };
-//   } catch (err) {
-//     console.error(err);
-//   }
-
-//   return {
-//     props: {
-//       id: 0,
-//     },
-//   };
-// };
 export const getServerSideProps = async (context: GetStaticPropsContext) => {
   try {
     const queryClient = new QueryClient();
@@ -196,17 +127,19 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
       },
     };
   } catch (err) {
-    // console.error(err);
+    console.error(err);
+    return err;
   }
-
-  return {
-    props: {
-      id: 0,
-    },
-  };
 };
 
 export default UserProfile;
+
+export const InfoWrapper = styled.div`
+  padding: 24px;
+  position: relative;
+  margin-bottom: 80px;
+  display: flex;
+`;
 
 export const ProfileImg = styled.div``;
 

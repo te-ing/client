@@ -1,8 +1,6 @@
 import React from 'react';
 import { ProfileEditButton } from 'components/common/Atomic/Tabs/Button';
 import Image from 'next/image';
-import { UseMutateFunction } from 'react-query';
-import { AxiosResponse } from 'axios';
 
 interface Props {
   editMode: boolean;
