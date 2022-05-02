@@ -4,7 +4,7 @@ import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { userRegisterInfoState } from 'recoil/auth';
 
 import { useQuery } from 'react-query';
-import UsersAPI from 'pages/api/users.api';
+import UsersAPI from 'apis/users.api';
 
 const useModal = () => {
   const [isShowing, setIsShowing] = useState<boolean>(false);

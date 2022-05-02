@@ -11,7 +11,7 @@ import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'comp
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { camera_icon, default_profile } from 'constants/imgUrl';
 import { tabMenuArr } from 'constants/tabMenu';
-import usersApi from './api/users.api';
+import usersApi from 'apis/users.api';
 import { User, UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
 import { numberWithCommas } from 'utils/numberWithCommas';

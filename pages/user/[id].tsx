@@ -5,7 +5,7 @@ import Banner from 'components/Profile/Banner';
 import ItemList from 'components/Profile/ItemList';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { tabMenuArr } from 'constants/tabMenu';
-import usersApi from '../api/users.api';
+import usersApi from 'apis/users.api';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { ProfileWrapper } from 'components/common/Atomic/Profile';
