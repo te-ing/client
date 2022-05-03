@@ -9,10 +9,9 @@ import useModal from '../hooks/useModal';
 const Index: React.FC = () => {
   const { isShowing, setModalVisible } = useModal();
 
-  // return <Login />;
   return (
     <>
-      <button onClick={setModalVisible}>test</button>
+      <button onClick={setModalVisible}>홈입니당</button>
       <Modal isShowing={isShowing} hide={setModalVisible}>
         <ModalTemplate hide={setModalVisible}>
           <SetUserProfile />
