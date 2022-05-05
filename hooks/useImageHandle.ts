@@ -7,13 +7,13 @@ import { userRegisterInfoState } from 'recoil/auth';
 import type { UserRegisterInfoType } from 'recoil/auth';
 
 const useImageHandle = (name: string) => {
-  const [info, setInfo] = (function fetchStore(name) {
-    switch (name) {
-      case 'profile':
-        return useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
-    }
-  })(name);
-  const [isUpload, setIsUpload] = useState<boolean>(false);
+  // const [info, setInfo] = (function fetchStore(name) {
+  //   switch (name) {
+  //     case 'profile':
+  //       return useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
+  //   }
+  // })(name);
+  // const [isUpload, setIsUpload] = useState<boolean>(false);
 
   AWS.config.update({
     accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
