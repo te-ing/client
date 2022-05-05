@@ -3,9 +3,8 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  position: static;
-  height: 80px;
-  background: white;
+  height: 60px;
+  background-color: #fff;
   border-bottom: 1px solid #e0e0e0;
 `;
 
@@ -20,6 +19,7 @@ export const ButtonWrapper = styled.div`
 export const MenuTab = styled.div`
   display: flex;
   justify-content: space-between;
+  position: relative;
 `;
 
 export const Logo = styled.div`
@@ -41,13 +41,24 @@ export const Logo = styled.div`
   line-height: 17px;
 `;
 
-export const NavButtons = styled.div`
+export const NavButtons = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 75px;
   height: 32px;
   margin: 0px 16px;
+`;
+
+export const Line = styled.div<{ tabNum: number }>`
+  position: absolute;
+  top: 32px;
+  left: ${(props) => (props.tabNum === 1 ? '18px' : props.tabNum === 2 ? '125px' : '229px')};
+
+  width: 75px;
+  height: 4px;
+  background-color: #abf066;
+  transition-duration: 0.4s;
 `;
 
 export const AfterLogin = styled.div`

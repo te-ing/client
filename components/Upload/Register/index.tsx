@@ -1,11 +1,9 @@
-import React from 'react';
 import * as S from './Register.style';
-
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 
 const contents = ['image', 'edit', 'video'];
 
-const Register: React.FC = () => {
+const Register = () => {
   return (
     <S.Wrapper>
       <S.RegisterInfo>
@@ -16,14 +14,14 @@ const Register: React.FC = () => {
               <ImageUploadWrapper name="works" key={content}>
                 <S.RegisterButton>
                   <S.UploadIcon
-                    alt={`${content}`}
-                    src={`${
+                    alt={content}
+                    src={
                       content === 'image'
                         ? '/images/icon-upload_image.svg'
                         : content === 'edit'
                         ? '/images/icon-upload_edit.svg'
                         : '/images/icon-upload_video.svg'
-                    }`}
+                    }
                     width="20px"
                     height="20px"
                   />

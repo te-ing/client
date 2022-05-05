@@ -1,47 +1,44 @@
-import React, { useState } from 'react';
-import {
-  Wrapper,
-  ButtonWrapper,
-  MenuTab,
-  Logo,
-  NavButtons,
-  AfterLogin,
-  SearchBar,
-  BeforeLogin,
-  Login,
-  SignUp,
-} from './Header.style';
+import { useEffect, useState } from 'react';
+import * as S from './Header.style';
 import Image from 'next/image';
 
-const Header: React.FC = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [tabNum, setTabNum] = useState(1);
+
+  useEffect(() => {
+    console.log(tabNum);
+  }, [tabNum]);
 
   return (
-    <Wrapper>
-      <ButtonWrapper>
-        <MenuTab>
-          <Logo>로고입니다</Logo>
-          <NavButtons>커뮤니티</NavButtons>
-          <NavButtons>메뉴</NavButtons>
-          <NavButtons>메뉴</NavButtons>
-        </MenuTab>
+    <S.Wrapper>
+      <S.ButtonWrapper>
+        <div>
+          <Image src={'/images/logo.svg'} width={'112px'} height={'20px'} />
+        </div>
+        <S.MenuTab>
+          <S.NavButtons onClick={() => setTabNum(1)}>커뮤니티</S.NavButtons>
+          <S.NavButtons onClick={() => setTabNum(2)}>메뉴</S.NavButtons>
+          <S.NavButtons onClick={() => setTabNum(3)}>메뉴</S.NavButtons>
+          <S.Line tabNum={tabNum}></S.Line>
+        </S.MenuTab>
         {isLoggedIn ? (
-          <AfterLogin>
+          <S.AfterLogin>
             <div>
               <Image src={'/images/icon-search.svg'} width={'24px'} height={'24px'} alt={'search'} />
             </div>
-            <SearchBar placeholder="검색어를 입력해주세요" />
+            <S.SearchBar placeholder="검색어를 입력해주세요" />
             <Image src={'/images/icon-notice.svg'} width={'24px'} height={'24px'} alt={'notice'} />
             <Image src={'/images/icon-profile.svg'} width={'32px'} height={'32px'} alt={'profile'} />
-          </AfterLogin>
+          </S.AfterLogin>
         ) : (
-          <BeforeLogin>
-            <Login onClick={() => setIsLoggedIn(true)}>로그인</Login>
-            <SignUp>회원가입</SignUp>
-          </BeforeLogin>
+          <S.BeforeLogin>
+            <S.Login onClick={() => setIsLoggedIn(true)}>로그인</S.Login>
+            <S.SignUp>회원가입</S.SignUp>
+          </S.BeforeLogin>
         )}
-      </ButtonWrapper>
-    </Wrapper>
+      </S.ButtonWrapper>
+    </S.Wrapper>
   );
 };
 
