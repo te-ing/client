@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -12,20 +12,20 @@ import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { camera_icon, default_profile } from 'constants/imgUrl';
 import { tabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
-import { User, UserEditForm } from 'types/user';
+import { UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
 import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 
-const Profile: React.FC = () => {
+const TeamManagement = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
     onSuccess: (data) => {
       setTestForm(userEditForm(data));
     },
-  }); // useQuery로 유저정보 받아옴.
+  }); // useQuery로 팀(유저 x) 정보 받아옴.
 
   const { mutate: userInfoMutate } = useMutation(() => usersApi.editUser(4, testForm, { isRequiredLogin: true }), {
     onSuccess: (data) => {
@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
     },
   });
 
-  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState(false);
   const [currentTab, setCurrentTab] = useState('post');
   const [testForm, setTestForm] = useState<UserEditForm>();
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
@@ -45,12 +45,6 @@ const Profile: React.FC = () => {
       '스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.',
       '스크랩2',
       '스크랩3',
-      '스크랩4',
-      '스크랩5',
-      '스크랩6',
-      '스크랩7',
-      '스크랩8',
-      '스크랩9',
     ],
   };
 
@@ -167,7 +161,7 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default TeamManagement;
 
 export const InfoWrapper = styled.div`
   padding: 24px;
