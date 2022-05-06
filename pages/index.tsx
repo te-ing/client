@@ -15,7 +15,6 @@ import Image from 'next/image';
 const Index: React.FC = () => {
   const { isShowing, setModalVisible } = useModal();
 
-  // return <Login />;
   return (
     <Layout>
       <MainHeader>
