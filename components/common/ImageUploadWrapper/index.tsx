@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as S from './ImageUploadWrapper.style';
 
 import useImageHandle from 'hooks/useImageHandle';
 
 export interface ImageUploadPropsType {
   name: string;
+  children: JSX.Element;
 }
 
-const ImageUploadWrapper: React.FC<ImageUploadPropsType> = ({ children, name }) => {
+const ImageUploadWrapper = ({ children, name }: ImageUploadPropsType) => {
   const { storeImage } = useImageHandle(name);
+
+  useEffect(() => {
+    console.log(name);
+    console.log(storeImage);
+  }, [name]);
 
   return (
     <S.Wrapper>
