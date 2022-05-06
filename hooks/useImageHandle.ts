@@ -2,18 +2,7 @@ import React, { useState } from 'react';
 
 import AWS from 'aws-sdk';
 
-import { useRecoilState } from 'recoil';
-import { userRegisterInfoState } from 'recoil/auth';
-import type { UserRegisterInfoType } from 'recoil/auth';
-import { ConfigurationServicePlaceholders } from 'aws-sdk/lib/config_service_placeholders';
-
 const useImageHandle = (name: string) => {
-  // const [info, setInfo] = (function fetchStore(name) {
-  //   switch (name) {
-  //     case 'profile':
-  //       return useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
-  //   }
-  // })(name);
   const [isUpload, setIsUpload] = useState(false);
 
   const awsObj = AWS.config.update({

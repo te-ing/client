@@ -51,6 +51,7 @@ const TeamManagement = () => {
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
       setEditMode(flag);
+
       if (!flag) {
         userInfoMutate();
       }
@@ -83,12 +84,15 @@ const TeamManagement = () => {
     },
     [testForm, setTestForm]
   );
+
   if (isLoading) {
     return <h1>Loading</h1>;
   }
+
   if (isError) {
     return <h1>{error}</h1>;
   }
+
   return (
     <Layout>
       <Banner bannerImg={data?.backgroundImage}>
@@ -97,7 +101,7 @@ const TeamManagement = () => {
         )}
       </Banner>
       <InfoWrapper>
-        <ProfileImg>
+        <div>
           {editMode ? (
             <ImageUploadWrapper name="editProfile">
               <ProfileWrapper>
@@ -122,7 +126,7 @@ const TeamManagement = () => {
               />
             </ProfileWrapper>
           )}
-        </ProfileImg>
+        </div>
         <InfoSection>
           <h1>{data?.nickname}</h1>
           <InfoDescription>
@@ -169,8 +173,6 @@ export const InfoWrapper = styled.div`
   margin-bottom: 80px;
   display: flex;
 `;
-
-export const ProfileImg = styled.div``;
 
 export const ImgWrapper = styled(Image)`
   border-radius: 50%;
