@@ -190,14 +190,15 @@ export const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
 
-  & > h1{
+  & > h1 {
     font-size: 20px;
     line-height: 1.3;
-    font-weight : ${({ theme }) => theme.fontWeight.bold}
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
     color: ${({ theme }) => theme.color.profileNameBlack};
     margin-bottom: 16px;
   }
 `;
+
 export const InfoDescription = styled.div`
   display: flex;
   flex-direction: column;

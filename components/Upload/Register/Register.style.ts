@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import Image from 'next/image';
-
 export const Wrapper = styled.div`
   position: relative;
   width: 1140px;
@@ -10,8 +8,6 @@ export const Wrapper = styled.div`
   box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.12), 0px 0px 8px rgba(0, 0, 0, 0.12);
   overflow: scroll;
 `;
-
-export const RegisterInfo = styled.div``;
 
 export const RegisterSubInfo = styled.p`
   margin-bottom: 24px;
@@ -40,8 +36,6 @@ export const RegisterButton = styled.button`
   background-color: #e4facc;
   cursor: pointer;
 `;
-
-export const UploadIcon = styled(Image)``;
 
 export const UploadButton = styled.button`
   position: absolute;
