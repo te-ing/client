@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
+import styled from 'styled-components';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import Image from 'next/image';
-import styled from 'styled-components';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import AddImage from 'components/Profile/AddImage';
@@ -103,7 +103,7 @@ const TeamManagement = () => {
               <ProfileWrapper>
                 <ProfileIcon
                   alt="icon-profile"
-                  src={!data?.profileImage ? default_profile : data?.profileImage}
+                  src={data?.profileImage ? data?.profileImage : default_profile}
                   width={116}
                   height={116}
                 />
@@ -116,7 +116,7 @@ const TeamManagement = () => {
             <ProfileWrapper>
               <ImgWrapper
                 alt="icon-profile"
-                src={!data?.profileImage ? default_profile : data?.profileImage}
+                src={data?.profileImage ? data?.profileImage : default_profile}
                 width={116}
                 height={116}
               />
