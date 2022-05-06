@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  height: 60px;
+  height: 70px;
   background-color: #fff;
   border-bottom: 1px solid #e0e0e0;
 `;
@@ -52,7 +52,7 @@ export const NavButtons = styled.button`
 
 export const Line = styled.div<{ tabNum: number }>`
   position: absolute;
-  top: 32px;
+  top: 42px;
   left: ${(props) => (props.tabNum === 1 ? '18px' : props.tabNum === 2 ? '125px' : '229px')};
 
   width: 75px;

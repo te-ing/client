@@ -1,19 +1,22 @@
 import * as S from './Register.style';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
+import useImageHandle from 'hooks/useImageHandle';
+import Image from 'next/image';
 
 const contents = ['image', 'edit', 'video'];
 
 const Register = () => {
   return (
     <S.Wrapper>
-      <S.RegisterInfo>
+      <div>
         <S.RegisterSubInfo>컨텐츠를 등록 해주세요!</S.RegisterSubInfo>
         <S.RegisterButtonWrapper>
           {contents.map((content) => {
+            console.log(contents);
             return (
               <ImageUploadWrapper name="works" key={content}>
                 <S.RegisterButton>
-                  <S.UploadIcon
+                  <Image
                     alt={content}
                     src={
                       content === 'image'
@@ -30,7 +33,7 @@ const Register = () => {
             );
           })}
         </S.RegisterButtonWrapper>
-      </S.RegisterInfo>
+      </div>
       <S.UploadButton>업로드 하기</S.UploadButton>
     </S.Wrapper>
   );
