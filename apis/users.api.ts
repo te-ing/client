@@ -4,6 +4,7 @@ import type { UserRegisterInfoType } from 'recoil/auth';
 import { UserEditForm } from 'types/user';
 import type { CustomAxiosRequestConfig } from './type';
 class UsersAPI extends BaseAPI {
+  //https://apibora.shop/api/users/
   checkUserName(params: unknown) {
     return this.get('/check_nickname', { params });
   }
