@@ -13,7 +13,7 @@ const Header = () => {
   return (
     <S.Wrapper>
       <S.ButtonWrapper>
-        <div>
+        <div style={{ cursor: 'pointer' }} onClick={() => (window.location.href = '/')}>
           <Image src={'/images/logo.svg'} width={'112px'} height={'20px'} />
         </div>
         <S.MenuTab>

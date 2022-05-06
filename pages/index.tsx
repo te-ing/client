@@ -49,7 +49,7 @@ const Index: React.FC = () => {
 
 const MainHeader = styled(FlexBox)`
   justify-content: space-between;
-  margin: 24px 16px;
+  margin: 24px 0 36px;
 `;
 
 const SearchBox = styled.div`

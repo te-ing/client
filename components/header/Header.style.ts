@@ -53,7 +53,7 @@ export const NavButtons = styled.button`
 export const Line = styled.div<{ tabNum: number }>`
   position: absolute;
   top: 42px;
-  left: ${(props) => (props.tabNum === 1 ? '18px' : props.tabNum === 2 ? '125px' : '229px')};
+  left: ${(props) => (props.tabNum === 1 ? '18px' : props.tabNum === 2 ? '125px' : '230px')};
 
   width: 75px;
   height: 4px;
