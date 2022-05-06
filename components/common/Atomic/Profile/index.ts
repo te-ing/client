@@ -2,13 +2,14 @@ import styled, { css, DefaultTheme } from 'styled-components';
 import Image from 'next/image';
 
 export const ProfileWrapper = styled.div`
-    position: relative;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    justify-content: center';
-    align-items: center;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
 export const ProfileIcon = styled(Image)`
   border-radius: 50%;
 `;

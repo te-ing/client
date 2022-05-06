@@ -18,7 +18,7 @@ export const FlexColumn = styled(FlexBox)`
   flex-direction: column;
 `;
 
-export const ButtonFlexCenter = styled.button`
+export const ButtonCenter = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,8 +34,10 @@ export const TextBox = styled.p<{
   size: string;
   weight?: number;
   center?: boolean;
+  marginBottom?: string;
 }>`
   font-size: ${(props) => props.size};
   font-weight: ${(props) => props.weight};
-  ${(props) => (props.center ? 'margin: 0 auto' : '')}
+  ${(props) => (props.center ? 'margin: 0 auto' : '')};
+  ${(props) => (props.marginBottom ? `margin-bottom: ${props.marginBottom}` : '')};
 `;
