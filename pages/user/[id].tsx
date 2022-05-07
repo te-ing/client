@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { useQuery, QueryClient, dehydrate } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';

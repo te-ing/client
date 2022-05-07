@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -12,7 +12,7 @@ import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { camera_icon, default_profile } from 'constants/imgUrl';
 import { tabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
-import { User, UserEditForm } from 'types/user';
+import { UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
 import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';

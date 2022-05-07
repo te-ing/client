@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 import AWS from 'aws-sdk';
 
 const useImageHandle = (name: string) => {

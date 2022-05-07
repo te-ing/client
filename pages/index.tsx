@@ -1,9 +1,6 @@
-import React from 'react';
-
 import Modal from 'components/common/Modal';
 import ModalTemplate from 'components/common/Modal/ModalTemplate';
 import SetUserProfile from 'components/initialRegister/SetUserProfile';
-
 import useModal from 'hooks/useModal';
 import Layout from 'components/Layout';
 import { FlexBox } from 'styles/commonStyles';
