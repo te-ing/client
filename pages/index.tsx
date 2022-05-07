@@ -5,10 +5,12 @@ import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
 
 const Index = () => {
+  const { isShowing, setModalVisible } = useModal();
+
   // return <Login />;
 
   return (
-    <>
+    <Layout setModalVisible={setModalVisible}>
       <MainHeader>
         <SearchBox>
           <SearchInput placeholder="검색어를 입력해주세요." />
@@ -28,7 +30,12 @@ const Index = () => {
           <MainCard />
         ))}
       </MainContent>
-    </>
+      <Modal isShowing={isShowing} hide={setModalVisible}>
+        <ModalTemplate hide={setModalVisible}>
+          <SetUserProfile />
+        </ModalTemplate>
+      </Modal>
+    </Layout>
   );
 };
 
