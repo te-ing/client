@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import * as S from './Header.style';
 import Image from 'next/image';
+import useModal from 'hooks/useModal';
 
-const Header = () => {
+const Header = ({ setModalVisible }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tabNum, setTabNum] = useState(1);
 
@@ -33,7 +34,14 @@ const Header = () => {
           </S.AfterLogin>
         ) : (
           <S.BeforeLogin>
-            <S.Login onClick={() => setIsLoggedIn(true)}>로그인</S.Login>
+            <S.Login
+              onClick={() => {
+                setIsLoggedIn(true);
+                setModalVisible();
+              }}
+            >
+              로그인
+            </S.Login>
             <S.SignUp>회원가입</S.SignUp>
           </S.BeforeLogin>
         )}

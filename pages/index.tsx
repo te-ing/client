@@ -9,12 +9,12 @@ import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
 
-const Index: React.FC = () => {
+const Index = () => {
   const { isShowing, setModalVisible } = useModal();
 
   // return <Login />;
   return (
-    <Layout>
+    <Layout setModalVisible={setModalVisible}>
       <MainHeader>
         <SearchBox>
           <SearchInput placeholder="검색어를 입력해주세요." />
@@ -34,7 +34,6 @@ const Index: React.FC = () => {
           <MainCard />
         ))}
       </MainContent>
-      <button onClick={setModalVisible}>test</button>
       <Modal isShowing={isShowing} hide={setModalVisible}>
         <ModalTemplate hide={setModalVisible}>
           <SetUserProfile />

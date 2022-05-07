@@ -33,8 +33,6 @@ export const ProfileWrapper = styled.figure`
   cursor: pointer;
 `;
 
-export const ProfileIconWrapper = styled.div``;
-
 export const ProfileLabel = styled.label`
   cursor: pointer;
 `;
@@ -46,8 +44,6 @@ export const FileInput = styled.input`
 export const ProfileIcon = styled(Image)`
   border-radius: 50%;
 `;
-
-export const CameraIcon = styled(Image)``;
 
 export const CameraIconWraper = styled.div`
   position: absolute;
