@@ -3,11 +3,7 @@ import BaseAPI from './base.api';
 import type { UserRegisterInfoType } from 'recoil/auth';
 import { User, UserEditForm } from 'types/user';
 import type { CustomAxiosRequestConfig } from './type';
-<<<<<<< HEAD
-
-=======
 import { PostOauthBody, PostOauthResponse } from './type/users.types';
->>>>>>> 1c44efd29badf8c0f761597c350871f3dc5be616
 class UsersAPI extends BaseAPI {
   //https://apibora.shop/api/users/
   checkUserName(params: unknown) {
