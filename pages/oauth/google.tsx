@@ -26,7 +26,6 @@ const GoogleLogin = () => {
       const body = { access_token };
       const { data } = await usersApi.googleOauth(body);
       sessionStorage.setItem('jwtToken', data.accessToken);
-
       if (data.message === 'signup') {
         setModalVisible();
       } else {

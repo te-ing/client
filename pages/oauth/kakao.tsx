@@ -28,7 +28,6 @@ const KakaoLogin = () => {
       } = kakaoAccessToken;
       const body = { access_token };
       const { data } = await usersApi.kakaoOauth(body);
-      console.log(data);
       sessionStorage.setItem('jwtToken', data.accessToken);
       if (data.message === 'signup') {
         setModalVisible();
