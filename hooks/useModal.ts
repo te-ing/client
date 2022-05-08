@@ -6,11 +6,9 @@ import UsersAPI from 'apis/users.api';
 
 const useModal = () => {
   const [isShowing, setIsShowing] = useState(false);
-
   const [isNext, setIsNext] = useState(false);
   const [isSkip, setIsSkip] = useState(false);
   const [isComplete, setComplete] = useState(false);
-
   const userInfo = useRecoilValue(userRegisterInfoState);
   const resetUserInfo = useResetRecoilState(userRegisterInfoState);
 

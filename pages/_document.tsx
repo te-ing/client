@@ -31,6 +31,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           {/*<link rel="shortcut icon" href="/favicon.svg" type="image/svg" />*/}
           <meta property="og:title" content="" />
           <meta property="og:image" content="" />
@@ -42,11 +43,12 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
             rel="stylesheet"
           />
+          <title>DreamIn</title>
         </Head>
         <body id="body">
           <Main />
-          <div id="portal-section" />
           <NextScript />
+          <div id="portal-section" /> {/* Modal */}
         </body>
       </Html>
     );

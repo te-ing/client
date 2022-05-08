@@ -3,9 +3,10 @@ import * as S from './Header.style';
 import Image from 'next/image';
 import useModal from 'hooks/useModal';
 
-const Header = ({ setModalVisible }) => {
+const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tabNum, setTabNum] = useState(1);
+  const { isShowing, setModalVisible } = useModal();
 
   useEffect(() => {
     console.log(tabNum);
