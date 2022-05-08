@@ -19,7 +19,7 @@ import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 
-const Profile: React.FC = () => {
+const Profile = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
     onSuccess: (data) => {
@@ -99,7 +99,7 @@ const Profile: React.FC = () => {
     <Layout>
       <Banner bannerImg={data?.backgroundImage}>
         {(!data?.backgroundImage || editMode) && (
-          <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가 해주세요.' : '배너 변경하기'} />
+          <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'} />
         )}
       </Banner>
       <InfoWrapper>
