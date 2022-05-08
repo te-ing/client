@@ -14,7 +14,7 @@ const MainCard = () => {
       <CardInfo>
         <FlexCenter>
           <ProfileImageBox>
-            <Image src={'/images/profile-edit.svg'} width={32} height={32} />
+            <Image src={'/images/icon-profile.svg'} width={32} height={32} />
           </ProfileImageBox>
           <TextBox size="20" weight={600}>
             작업자 이름
@@ -65,7 +65,6 @@ const CardInfo = styled(FlexBox)`
 
 const ProfileImageBox = styled.div`
   border-radius: 50%;
-  border: 1px solid #8e8e8e;
   margin-right: 8px;
 
   cursor: pointer;

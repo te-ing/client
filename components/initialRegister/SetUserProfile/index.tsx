@@ -13,6 +13,7 @@ import type { UserRegisterInfoType } from 'recoil/auth';
 
 import useModal from 'hooks/useModal';
 import useUserInfoInput from 'hooks/useUserInfoInput';
+import Image from 'next/image';
 
 const SetUserProfile: React.FC = () => {
   const { isNext, navigateToNext, isSkip, skip } = useModal();
@@ -41,7 +42,7 @@ const SetUserProfile: React.FC = () => {
             />
           </ImageUploadWrapper>
           <S.CameraIconWraper>
-            <S.CameraIcon alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px" />
+            <Image alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px" />
           </S.CameraIconWraper>
         </S.ProfileWrapper>
         <S.UserInfoInputWrapper onChange={handleUserInfo}>
