@@ -33,6 +33,10 @@ export const DefaultButton = styled.button<{ bgColor?: boolean }>`
   }
 `;
 
+export const UploadButton = styled(DefaultButton)`
+  height: 48px;
+`;
+
 export const ProfileEditButton = styled(DefaultButton)`
   padding: 10px 24px 10px 20px;
 `;

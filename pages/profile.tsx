@@ -17,6 +17,7 @@ import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
+import { UploadButton } from 'components/common/Atomic/Tabs/Button';
 
 const Profile = () => {
   const queryClient = useQueryClient();
@@ -152,6 +153,7 @@ const Profile = () => {
         <InfoAside>
           <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
           {!editMode && <UploadProduct />}
+          <UploadButton />
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>

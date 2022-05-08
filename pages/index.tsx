@@ -3,11 +3,6 @@ import styled from 'styled-components';
 import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
-import useModal from 'hooks/useModal';
-import { RecoilRoot } from 'recoil';
-import Layout from 'components/Layout';
-import Modal from 'components/common/Modal';
-import ModalTemplate from 'components/common/Modal/ModalTemplate';
 import SetUserProfile from 'components/initialRegister/SetUserProfile';
 
 const Index = () => {

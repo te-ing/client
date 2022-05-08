@@ -1,14 +1,22 @@
 import { useEffect, useState } from 'react';
 import * as S from './Header.style';
 import Image from 'next/image';
+import Login from 'components/Login';
 import useModal from 'hooks/useModal';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tabNum, setTabNum] = useState(1);
-  const { isShowing, setModalVisible } = useModal();
+  const { setModalVisible, isShowing } = useModal();
+
+  const handleLogin = () => {
+    setModalVisible();
+  };
 
   useEffect(() => {
+    if (sessionStorage.getItem('jwtToken')) {
+      setIsLoggedIn(true);
+    }
     console.log(tabNum);
   }, [tabNum]);
 
@@ -35,17 +43,11 @@ const Header = () => {
           </S.AfterLogin>
         ) : (
           <S.BeforeLogin>
-            <S.Login
-              onClick={() => {
-                setIsLoggedIn(true);
-                setModalVisible();
-              }}
-            >
-              로그인
-            </S.Login>
+            <S.Login onClick={handleLogin}>로그인</S.Login>
             <S.SignUp>회원가입</S.SignUp>
           </S.BeforeLogin>
         )}
+        <Login isShowing={isShowing} setModalVisible={setModalVisible} />
       </S.ButtonWrapper>
     </S.Wrapper>
   );
