@@ -47,7 +47,7 @@ const Header = () => {
             <S.SignUp>회원가입</S.SignUp>
           </S.BeforeLogin>
         )}
-        {isShowing && <Login isShowing={isShowing} setModalVisible={setModalVisible} />}
+        <Login isShowing={isShowing} setModalVisible={setModalVisible} />
       </S.ButtonWrapper>
     </S.Wrapper>
   );
