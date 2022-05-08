@@ -1,13 +1,16 @@
 import usersApi from 'apis/users.api';
 import axios from 'axios';
+import useModal from 'hooks/useModal';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import SignUpModal from './components/SignUpModal';
 
-const Oauth = () => {
+const GoogleLogin = () => {
   const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const GOOGLE_CLIENT_SECRET = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
   const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
+  const { isShowing, setModalVisible } = useModal();
 
   const route = useRouter();
 
@@ -21,12 +24,10 @@ const Oauth = () => {
         data: { access_token },
       } = googleAccessToken;
       const body = { access_token };
-      const { data } = await usersApi.kakaoOauth(body);
-      console.log(data);
+      const { data } = await usersApi.googleOauth(body);
       sessionStorage.setItem('jwtToken', data.accessToken);
-
       if (data.message === 'signup') {
-        route.push({ pathname: '/oauth', query: { isSignUp: true } });
+        setModalVisible();
       } else {
         route.push('/');
       }
@@ -41,6 +42,7 @@ const Oauth = () => {
     <>
       <OauthWrapper>
         <OauthContent>
+          <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
           <div>구글로그인이에요</div>
         </OauthContent>
       </OauthWrapper>
@@ -48,7 +50,7 @@ const Oauth = () => {
   );
 };
 
-export default Oauth;
+export default GoogleLogin;
 
 export const OauthWrapper = styled.div`
   max-width: 1200px;

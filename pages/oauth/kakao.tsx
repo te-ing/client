@@ -1,14 +1,17 @@
 import usersApi from 'apis/users.api';
 import axios from 'axios';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import styled from 'styled-components';
+import useModal from 'hooks/useModal';
 
-const Oauth = () => {
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import SignUpModal from './components/SignUpModal';
+
+const KakaoLogin = () => {
   const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_REST_API_KEY;
   const KAKAO_CLIENT_SECRET = process.env.NEXT_PUBLIC_SECRET_KEY;
-
   const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+  const { isShowing, setModalVisible } = useModal();
 
   const route = useRouter();
 
@@ -27,7 +30,7 @@ const Oauth = () => {
       const { data } = await usersApi.kakaoOauth(body);
       sessionStorage.setItem('jwtToken', data.accessToken);
       if (data.message === 'signup') {
-        route.push({ pathname: '/oauth', query: { isSignUp: '' } });
+        setModalVisible();
       } else {
         route.push('/');
       }
@@ -42,18 +45,14 @@ const Oauth = () => {
     <>
       <OauthWrapper>
         <OauthContent>
-          <div>여기서 로그인하세요~~</div>
-          <div>
-            <p>카카오 로그인 성공했어요~~</p>
-          </div>
-          <div>login here</div>
+          <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
         </OauthContent>
       </OauthWrapper>
     </>
   );
 };
 
-export default Oauth;
+export default KakaoLogin;
 
 export const OauthWrapper = styled.div`
   max-width: 1200px;
