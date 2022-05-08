@@ -5,7 +5,7 @@ import useModal from 'hooks/useModal';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import SignUpModal from './components/SignUpModal';
+import SignUpModal from './_components/SignUpModal';
 
 const KakaoLogin = () => {
   const KAKAO_REST_API_KEY = process.env.NEXT_PUBLIC_REST_API_KEY;

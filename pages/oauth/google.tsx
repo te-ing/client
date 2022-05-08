@@ -4,7 +4,7 @@ import useModal from 'hooks/useModal';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import SignUpModal from './components/SignUpModal';
+import SignUpModal from './_components/SignUpModal';
 
 const GoogleLogin = () => {
   const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
