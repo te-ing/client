@@ -64,7 +64,7 @@ const UserProfile: React.FC = () => {
     return <h1>{error}</h1>;
   }
   return (
-    <Layout>
+    <>
       <Banner bannerImg={data?.backgroundImage} />
       <InfoWrapper>
         <ProfileImg>
@@ -110,7 +110,7 @@ const UserProfile: React.FC = () => {
       </div>
       {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
       {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </Layout>
+    </>
   );
 };
 

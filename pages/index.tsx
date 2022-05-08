@@ -6,6 +6,7 @@ import Image from 'next/image';
 
 const Index = () => {
   // return <Login />;
+
   return (
     <>
       <MainHeader>

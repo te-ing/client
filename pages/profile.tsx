@@ -17,7 +17,6 @@ import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
-import Header from 'components/header';
 
 const Profile = () => {
   const queryClient = useQueryClient();
