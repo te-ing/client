@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as S from './Header.style';
 import Image from 'next/image';
-import useModal from 'hooks/useModal';
 
 const Header = ({ setModalVisible }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import styled from 'styled-components';
-import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import AddImage from 'components/Profile/AddImage';
 import ItemList from 'components/Profile/ItemList';
@@ -18,6 +17,7 @@ import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
+import Header from 'components/header';
 
 const Profile = () => {
   const queryClient = useQueryClient();
@@ -96,7 +96,7 @@ const Profile = () => {
     return <h1>{error}</h1>;
   }
   return (
-    <Layout>
+    <>
       <Banner bannerImg={data?.backgroundImage}>
         {(!data?.backgroundImage || editMode) && (
           <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'} />
@@ -165,7 +165,7 @@ const Profile = () => {
       </div>
       {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
       {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </Layout>
+    </>
   );
 };
 
