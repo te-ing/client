@@ -34,7 +34,9 @@ const Profile = () => {
       onSuccess: (data) => {
         setValues(userEditForm(data));
         setUserInfo(data);
-        console.log(data);
+      },
+      onError: () => {
+        Router.push('/');
       },
     }
   );
@@ -42,7 +44,7 @@ const Profile = () => {
   const { mutate: userInfoMutate } = useMutation(
     () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
     {
-      onSuccess: ({ data }) => {
+      onSuccess: (data) => {
         queryClient.setQueryData('user-profile', data);
       },
     }

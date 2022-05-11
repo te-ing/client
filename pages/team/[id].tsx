@@ -1,59 +1,63 @@
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient, QueryClient, dehydrate } from 'react-query';
 import Image from 'next/image';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import AddImage from 'components/Profile/AddImage';
 import ItemList from 'components/Profile/ItemList';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
-import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
+import { ProfileIcon, ProfileWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { camera_icon, default_profile } from 'constants/imgUrl';
-import { tabMenuArr } from 'constants/tabMenu';
+import { camera_icon, team_profile_icon } from 'constants/imgUrl';
+import { teamTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
 import { UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
-import { numberWithCommas } from 'utils/numberWithCommas';
-import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
+import { useRouter } from 'next/router';
+import teamsApi from 'apis/teams.api';
+import { GetStaticPropsContext } from 'next';
+import useForm from 'hooks/useForm';
+import { teamEditForm } from 'utils/teamEditForm';
+import { TeamEditForm } from 'types/team';
 
-const TeamManagement = () => {
+const TeamProfile = () => {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const { isLoading, isError, error, data } = useQuery(['team-profile', id], () => teamsApi.checkTeamProfile(id), {
+    onSuccess: (data) => {
+      setValues(teamEditForm(data));
+    },
+    onError: (error) => {
+      console.log(error);
+    },
+  }); // useQuery로 유저정보 받아옴.
   const queryClient = useQueryClient();
-  const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
-    onSuccess: (data) => {
-      setTestForm(userEditForm(data));
-    },
-  }); // useQuery로 팀(유저 x) 정보 받아옴.
 
-  const { mutate: userInfoMutate } = useMutation(() => usersApi.editUser(4, testForm, { isRequiredLogin: true }), {
-    onSuccess: (data) => {
-      console.log('data', data);
-      queryClient.setQueryData('user-profile', data);
-    },
-  });
+  const { mutate: teamInfoMutate } = useMutation(
+    () => teamsApi.editTeamProfile(id, values, { isRequiredLogin: true }),
+    {
+      onSuccess: (data) => {
+        queryClient.setQueryData(['team-profile', id], data);
+      },
+    }
+  );
 
   const [editMode, setEditMode] = useState(false);
   const [currentTab, setCurrentTab] = useState('post');
-  const [testForm, setTestForm] = useState<UserEditForm>();
+  const [values, setValues, handler] = useForm<TeamEditForm>();
+
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
-  const Items = {
-    post: ['작업물1'], //['아이템1', '아이템2'],
-    scrap: [
-      '',
-      '스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.',
-      '스크랩2',
-      '스크랩3',
-    ],
-  };
 
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
       setEditMode(flag);
 
       if (!flag) {
-        userInfoMutate();
+        teamInfoMutate();
       }
     },
     [editMode]
@@ -61,7 +65,7 @@ const TeamManagement = () => {
 
   const selectTab = useCallback(
     (id: string) => () => {
-      tabMenuArr.forEach((tab) => {
+      teamTabMenuArr.forEach((tab) => {
         if (tab.id === id) {
           tab.isActive = true;
           setCurrentTab(tab.id);
@@ -73,18 +77,6 @@ const TeamManagement = () => {
     [currentTab]
   );
 
-  const testFormHook = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      const { name, value } = e.target;
-      console.log('name = %s value = %s', name, value);
-      console.log('banner : ', testForm.backgroundImage);
-      console.log('profile : ', testForm.profileImage);
-      console.log('description : ', testForm.description);
-      setTestForm({ ...testForm, [name]: value });
-    },
-    [testForm, setTestForm]
-  );
-
   if (isLoading) {
     return <h1>Loading</h1>;
   }
@@ -94,7 +86,8 @@ const TeamManagement = () => {
   }
 
   return (
-    <Layout>
+    // <Layout>
+    <>
       <Banner bannerImg={data?.backgroundImage}>
         {(!data?.backgroundImage || editMode) && (
           <AddImage editMode={editMode} text={!editMode ? '팀 프로젝트 배너를 추가 해주세요.' : '배너 변경하기'} />
@@ -105,14 +98,14 @@ const TeamManagement = () => {
           {editMode ? (
             <ImageUploadWrapper name="editProfile">
               <ProfileWrapper>
-                <ProfileIcon
+                <ImgWrapper
                   alt="icon-profile"
-                  src={data?.profileImage ? data?.profileImage : default_profile}
-                  width={116}
-                  height={116}
+                  src={data?.teamProfileImage ? data?.teamProfileImage : team_profile_icon}
+                  width={120}
+                  height={120}
                 />
-                <CameraIconWrapper direction="left">
-                  <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
+                <CameraIconWrapper>
+                  <Image alt="icon-camera" src={camera_icon} width={24} height={24} />
                 </CameraIconWrapper>
               </ProfileWrapper>
             </ImageUploadWrapper>
@@ -120,27 +113,18 @@ const TeamManagement = () => {
             <ProfileWrapper>
               <ImgWrapper
                 alt="icon-profile"
-                src={data?.profileImage ? data?.profileImage : default_profile}
-                width={116}
-                height={116}
+                src={data?.teamProfileImage ? data?.teamProfileImage : team_profile_icon}
+                width={120}
+                height={120}
               />
             </ProfileWrapper>
           )}
         </div>
         <InfoSection>
-          <h1>{data?.nickname}</h1>
+          <h1>{data?.title}</h1>
           <InfoDescription>
-            <div>
-              {data?.categories.map((ability) => (
-                <Keyword key={ability.id}>{ability.name}</Keyword>
-              ))}
-            </div>
-            <FollowInfo>
-              <span>즐겨찾기</span>
-              <span>{numberWithCommas(data?.followerCount)}</span>
-            </FollowInfo>
             {editMode ? (
-              <DescriptionArea name="description" onChange={testFormHook} placeholder="사용자 소개를 입력해주세요." />
+              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
             ) : (
               <p>{data?.description}</p>
             )}
@@ -152,20 +136,39 @@ const TeamManagement = () => {
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
-        {tabMenuArr.map((tab, i) => (
+        {teamTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
-            <span>{Items[tab.id].length}</span>
+            {/* <span>{Items[tab.id].length}</span> */}
           </TabButton>
         ))}
       </div>
-      {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
-      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </Layout>
+      {/* {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
+      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />} */}
+      {/* </Layout> */}
+    </>
   );
 };
 
-export default TeamManagement;
+export const getServerSideProps = async (context: GetStaticPropsContext) => {
+  try {
+    const queryClient = new QueryClient();
+    const id = context.params?.id as string;
+
+    await queryClient.prefetchQuery(['team-profile', id], ({ queryKey }) => teamsApi.checkTeamProfile(queryKey[1]));
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
+
+export default TeamProfile;
 
 export const InfoWrapper = styled.div`
   padding: 24px;
@@ -175,7 +178,7 @@ export const InfoWrapper = styled.div`
 `;
 
 export const ImgWrapper = styled(Image)`
-  border-radius: 50%;
+  border-radius: 12px;
 `;
 
 export const InfoSection = styled.div`
@@ -248,4 +251,19 @@ export const DescriptionArea = styled.textarea`
 export const InfoAside = styled.div`
   position: absolute;
   right: 24px;
+`;
+
+export const CameraIconWrapper = styled.div`
+  width: 36px;
+  height: 36px;
+  position: absolute;
+  left: -18px;
+  bottom: -8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.color.gray_700};
 `;

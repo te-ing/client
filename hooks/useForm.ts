@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 const useForm = <T>(
-  initialData: T
+  initialData?: T
 ): [T, Dispatch<SetStateAction<T>>, (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void] => {
   const [values, setValues] = useState(initialData);
   const handler = useCallback(
