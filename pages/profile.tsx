@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import styled from 'styled-components';
@@ -9,7 +9,7 @@ import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { camera_icon, default_profile } from 'constants/imgUrl';
-import { tabMenuArr } from 'constants/tabMenu';
+import { userTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
 import { UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
@@ -18,25 +18,39 @@ import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import { UploadButton } from 'components/common/Atomic/Tabs/Button';
+import useForm from 'hooks/useForm';
+import Router from 'next/router';
+import { userInfo } from 'recoil/auth';
+import { useRecoilState } from 'recoil';
 
 const Profile = () => {
   const queryClient = useQueryClient();
-  const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
-    onSuccess: (data) => {
-      setTestForm(userEditForm(data));
-    },
-  }); // useQuery로 유저정보 받아옴.
+  const [, setUserInfo] = useRecoilState(userInfo);
 
-  const { mutate: userInfoMutate } = useMutation(() => usersApi.editUser(4, testForm, { isRequiredLogin: true }), {
-    onSuccess: (data) => {
-      console.log('data', data);
-      queryClient.setQueryData('user-profile', data);
-    },
-  });
+  const { isLoading, isError, error, data } = useQuery(
+    ['user-profile'],
+    () => usersApi.checkUsers(sessionStorage.getItem('id')),
+    {
+      onSuccess: (data) => {
+        setValues(userEditForm(data));
+        setUserInfo(data);
+        console.log(data);
+      },
+    }
+  );
+
+  const { mutate: userInfoMutate } = useMutation(
+    () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
+    {
+      onSuccess: ({ data }) => {
+        queryClient.setQueryData('user-profile', data);
+      },
+    }
+  );
 
   const [editMode, setEditMode] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState('post');
-  const [testForm, setTestForm] = useState<UserEditForm>();
+  const [values, setValues, handler] = useForm<UserEditForm>();
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
   const Items = {
     post: ['작업물1'], //['아이템1', '아이템2'],
@@ -66,7 +80,7 @@ const Profile = () => {
 
   const selectTab = useCallback(
     (id: string) => () => {
-      tabMenuArr.forEach((tab) => {
+      userTabMenuArr.forEach((tab) => {
         if (tab.id === id) {
           tab.isActive = true;
           setCurrentTab(tab.id);
@@ -78,17 +92,11 @@ const Profile = () => {
     [currentTab]
   );
 
-  const testFormHook = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-      const { name, value } = e.target;
-      console.log('name = %s value = %s', name, value);
-      console.log('banner : ', testForm.backgroundImage);
-      console.log('profile : ', testForm.profileImage);
-      console.log('description : ', testForm.description);
-      setTestForm({ ...testForm, [name]: value });
-    },
-    [testForm, setTestForm]
-  );
+  useEffect(() => {
+    if (!sessionStorage.getItem('jwtToken')) {
+      Router.push('/');
+    }
+  }, []);
   if (isLoading) {
     return <h1>Loading</h1>;
   }
@@ -144,7 +152,7 @@ const Profile = () => {
               <span>{numberWithCommas(data?.followingCount)}</span>
             </FollowInfo>
             {editMode ? (
-              <DescriptionArea name="description" onChange={testFormHook} placeholder="사용자 소개를 입력해주세요." />
+              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
             ) : (
               <p>{data?.description}</p>
             )}
@@ -157,7 +165,7 @@ const Profile = () => {
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
-        {tabMenuArr.map((tab, i) => (
+        {userTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
             <span>{Items[tab.id].length}</span>

@@ -11,3 +11,5 @@ export const edit_icon = '/images/edit-icon.svg';
 export const following_icon = '/images/icon-add-round.svg';
 
 export const message_icon = '/images/icon-message.svg';
+
+export const team_profile_icon = '/images/team-profile-icon.svg';
