@@ -13,6 +13,14 @@ export interface UserRegisterInfoType {
   mainCategory: UserCategoryType[];
 }
 
+export interface socialLoginState {
+  accessToken: string;
+  id: number;
+  message: string;
+  nickname: string;
+  socialType: string;
+}
+
 export const userRegisterInfoState = atom<UserRegisterInfoType>({
   key: 'userRegisterInfoState',
   default: {
@@ -21,6 +29,17 @@ export const userRegisterInfoState = atom<UserRegisterInfoType>({
     nickname: '',
     description: '',
     mainCategory: [],
+  },
+});
+
+export const socialLoginState = atom<socialLoginState>({
+  key: 'socialLoginState',
+  default: {
+    accessToken: '',
+    id: 0,
+    message: '',
+    nickname: '',
+    socialType: '',
   },
 });
 

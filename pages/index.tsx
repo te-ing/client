@@ -59,7 +59,6 @@ const SearchIcon = styled.div`
   position: absolute;
   top: 10px;
   left: 8px;
-
   cursor: pointer;
 `;
 

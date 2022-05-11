@@ -2,6 +2,7 @@ import React from 'react';
 import { FollowButton } from 'components/common/Atomic/Tabs/Button';
 import Image from 'next/image';
 import { following_icon } from 'constants/imgUrl';
+
 const Following = () => {
   return (
     <FollowButton bgColor>

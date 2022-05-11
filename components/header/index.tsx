@@ -17,8 +17,7 @@ const Header = () => {
     if (sessionStorage.getItem('jwtToken')) {
       setIsLoggedIn(true);
     }
-    console.log(tabNum);
-  }, [tabNum]);
+  }, []);
 
   return (
     <S.Wrapper>
