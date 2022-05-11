@@ -28,10 +28,7 @@ export default class BaseAPI {
 
     this.instance.interceptors.request.use((config: CustomAxiosRequestConfig) => {
       if (config.isRequiredLogin) {
-        this.handleAuthenticationInterceptor;
-        // config.headers[
-        //   'Authorization'
-        // ] = `Bearer "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE2NTEyMjkwODguMDQ3MjY3LCJleHAiOjE2NTE4MzM4ODguMDQ3MjY3LCJzb2NpYWxfaWQiOiIxMDc1MTg4NDkwMzk1ODQ2MTI2ODYifQ.JqVEYVlTvLB_8YYZBuWEe6fYO75xTZtA1PmMYOUAH_o"`;
+        config = this.handleAuthenticationInterceptor(config);
       }
 
       return config;
@@ -62,7 +59,7 @@ export default class BaseAPI {
     return {
       ...config,
       headers: {
-        Authorization: `Bearer ${this.getJwtToken()}`,
+        Authorization: `Bearer "${this.getJwtToken()}"`,
       },
     };
   }
