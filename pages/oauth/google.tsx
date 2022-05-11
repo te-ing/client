@@ -1,8 +1,11 @@
 import usersApi from 'apis/users.api';
 import axios from 'axios';
+import Layout from 'components/Layout';
 import useModal from 'hooks/useModal';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import { socialLoginState } from 'recoil/auth';
 import styled from 'styled-components';
 import SignUpModal from './_components/SignUpModal';
 
@@ -11,6 +14,7 @@ const GoogleLogin = () => {
   const GOOGLE_CLIENT_SECRET = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
   const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
   const { isShowing, setModalVisible } = useModal();
+  const [, setSocialLoginState] = useRecoilState(socialLoginState);
 
   const route = useRouter();
 
@@ -25,7 +29,9 @@ const GoogleLogin = () => {
       } = googleAccessToken;
       const body = { access_token };
       const { data } = await usersApi.googleOauth(body);
+      setSocialLoginState(data);
       sessionStorage.setItem('jwtToken', data.accessToken);
+      sessionStorage.setItem('id', String(data.id));
       if (data.message === 'signup') {
         setModalVisible();
       } else {
@@ -39,23 +45,15 @@ const GoogleLogin = () => {
   }, []);
 
   return (
-    <>
-      <OauthWrapper>
-        <OauthContent>
-          <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
-          <div>구글로그인이에요</div>
-        </OauthContent>
-      </OauthWrapper>
-    </>
+    <Layout>
+      <OauthContent>
+        <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
+      </OauthContent>
+    </Layout>
   );
 };
 
 export default GoogleLogin;
-
-export const OauthWrapper = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
 
 const OauthContent = styled.div`
   margin: 0 30px;
