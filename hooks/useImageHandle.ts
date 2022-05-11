@@ -9,8 +9,6 @@ const useImageHandle = (name: string) => {
     secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
   });
 
-  console.log(awsObj);
-
   const myBucket = new AWS.S3({
     params: { Bucket: process.env.NEXT_PUBLIC_AWS_STORAGE_BUCKET_NAME },
     region: process.env.NEXT_PUBLIC_AWS_REGION,
@@ -19,8 +17,6 @@ const useImageHandle = (name: string) => {
   const storeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile = (e.target as HTMLInputElement).files[0];
     const currentFileName = currentFile.name.replaceAll(' ', '');
-    console.log(currentFile);
-    console.log(currentFileName);
 
     const params = {
       ACL: 'public-read',

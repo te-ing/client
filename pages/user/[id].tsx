@@ -4,7 +4,7 @@ import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import ItemList from 'components/Profile/ItemList';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { tabMenuArr } from 'constants/tabMenu';
+import { userTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -48,7 +48,7 @@ const UserProfile: React.FC = () => {
 
   const selectTab = useCallback(
     (id: string) => () => {
-      tabMenuArr.forEach((tab) => {
+      userTabMenuArr.forEach((tab) => {
         if (tab.id === id) {
           tab.isActive = true;
           setCurrentTab(tab.id);
@@ -101,7 +101,7 @@ const UserProfile: React.FC = () => {
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
-        {tabMenuArr.map((tab, i) => (
+        {userTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
             <span>{Items[tab.id].length}</span>
