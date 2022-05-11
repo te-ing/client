@@ -1,20 +1,15 @@
-import React from 'react';
-import Modal from 'components/common/Modal';
-import ModalTemplate from 'components/common/Modal/ModalTemplate';
-import SetUserProfile from 'components/initialRegister/SetUserProfile';
-import useModal from 'hooks/useModal';
-import Layout from 'components/Layout';
 import { FlexBox } from 'styles/commonStyles';
 import styled from 'styled-components';
 import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
+import SetUserProfile from 'components/initialRegister/SetUserProfile';
 
-const Index: React.FC = () => {
-  const { isShowing, setModalVisible } = useModal();
+const Index = () => {
+  // return <Login />;
 
   return (
-    <Layout>
+    <>
       <MainHeader>
         <SearchBox>
           <SearchInput placeholder="검색어를 입력해주세요." />
@@ -34,13 +29,7 @@ const Index: React.FC = () => {
           <MainCard />
         ))}
       </MainContent>
-      <button onClick={setModalVisible}>test</button>
-      <Modal isShowing={isShowing} hide={setModalVisible}>
-        <ModalTemplate hide={setModalVisible}>
-          <SetUserProfile />
-        </ModalTemplate>
-      </Modal>
-    </Layout>
+    </>
   );
 };
 

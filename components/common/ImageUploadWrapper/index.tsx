@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import * as S from './ImageUploadWrapper.style';
-
 import useImageHandle from 'hooks/useImageHandle';
 
 export interface ImageUploadPropsType {
@@ -17,10 +16,10 @@ const ImageUploadWrapper = ({ children, name }: ImageUploadPropsType) => {
   }, [name]);
 
   return (
-    <S.Wrapper>
+    <>
       <S.ProfileLabel htmlFor="file-input">{children}</S.ProfileLabel>
       <S.FileInput id="file-input" type="file" name={name} onChange={storeImage} />
-    </S.Wrapper>
+    </>
   );
 };
 

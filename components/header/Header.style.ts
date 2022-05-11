@@ -94,6 +94,8 @@ export const Login = styled.div`
 
   background: #eeeeee;
   border-radius: 30px;
+
+  cursor: pointer;
 `;
 
 export const SignUp = styled.div`
@@ -110,4 +112,6 @@ export const SignUp = styled.div`
   border-radius: 30px;
 
   color: white;
+
+  cursor: pointer;
 `;

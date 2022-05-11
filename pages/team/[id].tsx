@@ -1,7 +1,8 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
+import styled from 'styled-components';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import Image from 'next/image';
-import styled from 'styled-components';
+import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import AddImage from 'components/Profile/AddImage';
 import ItemList from 'components/Profile/ItemList';
@@ -17,15 +18,14 @@ import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
-import { UploadButton } from 'components/common/Atomic/Tabs/Button';
 
-const Profile = () => {
+const TeamManagement = () => {
   const queryClient = useQueryClient();
   const { isLoading, isError, error, data } = useQuery(['user-profile'], () => usersApi.checkUsers(4), {
     onSuccess: (data) => {
       setTestForm(userEditForm(data));
     },
-  }); // useQuery로 유저정보 받아옴.
+  }); // useQuery로 팀(유저 x) 정보 받아옴.
 
   const { mutate: userInfoMutate } = useMutation(() => usersApi.editUser(4, testForm, { isRequiredLogin: true }), {
     onSuccess: (data) => {
@@ -34,7 +34,7 @@ const Profile = () => {
     },
   });
 
-  const [editMode, setEditMode] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState(false);
   const [currentTab, setCurrentTab] = useState('post');
   const [testForm, setTestForm] = useState<UserEditForm>();
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
@@ -45,18 +45,13 @@ const Profile = () => {
       '스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.',
       '스크랩2',
       '스크랩3',
-      '스크랩4',
-      '스크랩5',
-      '스크랩6',
-      '스크랩7',
-      '스크랩8',
-      '스크랩9',
     ],
   };
 
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
       setEditMode(flag);
+
       if (!flag) {
         userInfoMutate();
       }
@@ -89,27 +84,30 @@ const Profile = () => {
     },
     [testForm, setTestForm]
   );
+
   if (isLoading) {
     return <h1>Loading</h1>;
   }
+
   if (isError) {
     return <h1>{error}</h1>;
   }
+
   return (
-    <>
+    <Layout>
       <Banner bannerImg={data?.backgroundImage}>
         {(!data?.backgroundImage || editMode) && (
-          <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'} />
+          <AddImage editMode={editMode} text={!editMode ? '팀 프로젝트 배너를 추가 해주세요.' : '배너 변경하기'} />
         )}
       </Banner>
       <InfoWrapper>
-        <ProfileImg>
+        <div>
           {editMode ? (
             <ImageUploadWrapper name="editProfile">
               <ProfileWrapper>
                 <ProfileIcon
                   alt="icon-profile"
-                  src={!data?.profileImage ? default_profile : data?.profileImage}
+                  src={data?.profileImage ? data?.profileImage : default_profile}
                   width={116}
                   height={116}
                 />
@@ -122,13 +120,13 @@ const Profile = () => {
             <ProfileWrapper>
               <ImgWrapper
                 alt="icon-profile"
-                src={!data?.profileImage ? default_profile : data?.profileImage}
+                src={data?.profileImage ? data?.profileImage : default_profile}
                 width={116}
                 height={116}
               />
             </ProfileWrapper>
           )}
-        </ProfileImg>
+        </div>
         <InfoSection>
           <h1>{data?.nickname}</h1>
           <InfoDescription>
@@ -138,10 +136,8 @@ const Profile = () => {
               ))}
             </div>
             <FollowInfo>
-              <span>팔로워</span>
+              <span>즐겨찾기</span>
               <span>{numberWithCommas(data?.followerCount)}</span>
-              <span>팔로잉</span>
-              <span>{numberWithCommas(data?.followingCount)}</span>
             </FollowInfo>
             {editMode ? (
               <DescriptionArea name="description" onChange={testFormHook} placeholder="사용자 소개를 입력해주세요." />
@@ -153,7 +149,6 @@ const Profile = () => {
         <InfoAside>
           <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
           {!editMode && <UploadProduct />}
-          <UploadButton />
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
@@ -166,11 +161,11 @@ const Profile = () => {
       </div>
       {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
       {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </>
+    </Layout>
   );
 };
 
-export default Profile;
+export default TeamManagement;
 
 export const InfoWrapper = styled.div`
   padding: 24px;
@@ -178,8 +173,6 @@ export const InfoWrapper = styled.div`
   margin-bottom: 80px;
   display: flex;
 `;
-
-export const ProfileImg = styled.div``;
 
 export const ImgWrapper = styled(Image)`
   border-radius: 50%;

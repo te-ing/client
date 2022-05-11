@@ -1,14 +1,14 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-
 import * as S from './Modal.style';
 
 export interface ModalPropsType {
   isShowing: boolean;
   hide: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+  children: JSX.Element;
 }
 
-const Modal: React.FC<ModalPropsType> = ({ isShowing, hide, children }) => {
+const Modal = ({ isShowing, hide, children }: ModalPropsType) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -21,10 +21,10 @@ const Modal: React.FC<ModalPropsType> = ({ isShowing, hide, children }) => {
     if (isShowing) {
       document.getElementById('body').style.overflow = 'hidden';
       return ReactDOM.createPortal(
-        <Fragment>
+        <>
           <S.BodyBlackoutStyle onClick={hide} />
           {children}
-        </Fragment>,
+        </>,
         document.querySelector('#portal-section')
       );
     } else {

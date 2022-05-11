@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { useQuery, QueryClient, dehydrate } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
@@ -64,7 +64,7 @@ const UserProfile: React.FC = () => {
     return <h1>{error}</h1>;
   }
   return (
-    <Layout>
+    <>
       <Banner bannerImg={data?.backgroundImage} />
       <InfoWrapper>
         <ProfileImg>
@@ -110,7 +110,7 @@ const UserProfile: React.FC = () => {
       </div>
       {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
       {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </Layout>
+    </>
   );
 };
 
@@ -151,10 +151,10 @@ export const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
 
-  & > h1{
+  & > h1 {
     font-size: 20px;
     line-height: 1.3;
-    font-weight : ${({ theme }) => theme.fontWeight.bold}
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
     color: ${({ theme }) => theme.color.profileNameBlack};
     margin-bottom: 16px;
   }

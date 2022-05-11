@@ -9,13 +9,13 @@ const Register = () => {
   return (
     <S.Wrapper>
       <div>
-        <S.RegisterSubInfo>컨텐츠를 등록 해주세요!</S.RegisterSubInfo>
+        <S.RegisterSubInfo>컨텐츠를 등록해주세요!</S.RegisterSubInfo>
         <S.RegisterButtonWrapper>
           {contents.map((content) => {
             console.log(contents);
             return (
               <ImageUploadWrapper name="works" key={content}>
-                <S.RegisterButton>
+                <S.RegisterButton onClick={() => useImageHandle}>
                   <Image
                     alt={content}
                     src={
