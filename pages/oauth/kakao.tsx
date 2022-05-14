@@ -50,16 +50,10 @@ const KakaoLogin = () => {
   return (
     <>
       <Layout>
-        <OauthContent>
-          <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
-        </OauthContent>
+        <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
       </Layout>
     </>
   );
 };
 
 export default KakaoLogin;
-
-const OauthContent = styled.div`
-  margin: 0 30px;
-`;
