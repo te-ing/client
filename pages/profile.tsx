@@ -44,7 +44,8 @@ const Profile = () => {
   const { mutate: userInfoMutate } = useMutation(
     () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
     {
-      onSuccess: (data) => {
+      onSuccess: ({ data }) => {
+        // console.log(data);
         queryClient.setQueryData('user-profile', data);
       },
     }
