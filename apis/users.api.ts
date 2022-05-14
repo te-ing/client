@@ -23,6 +23,10 @@ class UsersAPI extends BaseAPI {
     return this.put(`/${params}`, body, config);
   }
 
+  followingUser(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`/${params}/follow`, {}, config);
+  }
+
   kakaoOauth(body, config?: CustomAxiosRequestConfig) {
     return this.post<PostOauthBody, PostOauthResponse>('kakao', body, { ...config });
   }

@@ -96,7 +96,7 @@ const UserProfile: React.FC = () => {
           </InfoDescription>
         </InfoSection>
         <InfoAside>
-          <Following />
+          <Following userId={id} />
           <Message />
         </InfoAside>
       </InfoWrapper>

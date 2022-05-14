@@ -47,7 +47,7 @@ export default class BaseAPI {
 
   protected async put<T, K>(url: string, data?: T, config?: CustomAxiosRequestConfig) {
     const response = await this.instance.put<T, K>(url, data, config);
-    return response.data;
+    return response;
   }
 
   protected async delete<T>(url: string, data?: object, config?: CustomAxiosRequestConfig) {
