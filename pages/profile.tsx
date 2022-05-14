@@ -50,7 +50,7 @@ const Profile = () => {
 
   const [editMode, setEditMode] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState('post');
-  const [values, setValues, handler] = useForm<UserEditForm>();
+  const [values, setValues, handler] = useForm<UserEditForm | null>(null);
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
   const Items = {
     post: ['작업물1'], //['아이템1', '아이템2'],
