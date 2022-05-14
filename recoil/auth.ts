@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { User } from 'types/user';
 
 export interface UserCategoryType {
   mainCategory: number;
@@ -20,6 +21,11 @@ export interface socialLoginState {
   nickname: string;
   socialType: string;
 }
+
+export const userInfo = atom<User | null>({
+  key: 'userInfo',
+  default: null,
+});
 
 export const userRegisterInfoState = atom<UserRegisterInfoType>({
   key: 'userRegisterInfoState',

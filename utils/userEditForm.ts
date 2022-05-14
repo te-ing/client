@@ -1,7 +1,6 @@
 import { User, UserEditForm } from 'types/user';
 
 export const userEditForm = (user: User): UserEditForm => {
-  console.log('user', user);
   return {
     email: user.email,
     nickname: user.nickname,
