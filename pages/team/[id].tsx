@@ -10,7 +10,7 @@ import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { camera_icon, default_profile } from 'constants/imgUrl';
-import { tabMenuArr } from 'constants/tabMenu';
+import { teamTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
 import { UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
@@ -61,7 +61,7 @@ const TeamManagement = () => {
 
   const selectTab = useCallback(
     (id: string) => () => {
-      tabMenuArr.forEach((tab) => {
+      teamTabMenuArr.forEach((tab) => {
         if (tab.id === id) {
           tab.isActive = true;
           setCurrentTab(tab.id);
@@ -152,7 +152,7 @@ const TeamManagement = () => {
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
-        {tabMenuArr.map((tab, i) => (
+        {teamTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
             <span>{Items[tab.id].length}</span>
