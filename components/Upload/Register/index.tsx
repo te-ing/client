@@ -11,11 +11,11 @@ const Register = () => {
   const inputOpenImageRef = useRef(null);
 
   const handleChangeFile = (e) => {
-    const reader = new FileReader();
-
     const file = e.target.files[0];
-    reader.readAsDataURL(file);
 
+    // 로컬에 미리보기 렌더링
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
     reader.onload = (e) => {
       setImgFile(e.target.result);
     };
