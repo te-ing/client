@@ -46,15 +46,9 @@ const GoogleLogin = () => {
 
   return (
     <Layout>
-      <OauthContent>
-        <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
-      </OauthContent>
+      <SignUpModal isShowing={isShowing} setModalVisible={setModalVisible} />
     </Layout>
   );
 };
 
 export default GoogleLogin;
-
-const OauthContent = styled.div`
-  margin: 0 30px;
-`;

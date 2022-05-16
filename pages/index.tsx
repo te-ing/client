@@ -6,8 +6,6 @@ import Image from 'next/image';
 import SetUserProfile from 'components/initialRegister/SetUserProfile';
 
 const Index = () => {
-  // return <Login />;
-
   return (
     <>
       <MainHeader>

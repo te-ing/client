@@ -9,6 +9,8 @@ declare module 'styled-components' {
       blue: '#00bac7';
       gray: '#f6f6f6';
       green: '#07b495';
+      kakaoLoginButtonYellow: '#FEE500';
+      mainLogoGreen: '#5BB028';
       DefaultPrimaryGreen: '#bdF486';
       PressedPrimaryGreen: '#abf066';
       lightGreen: '#99ecdd';

@@ -20,9 +20,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           <Hydrate state={pageProps.dehydratedState}>
             <ThemeProvider theme={theme}>
               <GlobalStyle />
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <Component {...pageProps} />
             </ThemeProvider>
           </Hydrate>
           <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
