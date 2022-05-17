@@ -24,6 +24,10 @@ import MemberCard from 'components/Team/MemberCard';
 
 const TeamProfile = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const [editMode, setEditMode] = useState(false);
+  const [currentTab, setCurrentTab] = useState('post');
+  const [values, setValues, handler] = useForm<TeamEditForm>();
   const { id } = router.query;
 
   const { isLoading, isError, error, data } = useQuery(['team-profile', '1'], () => teamsApi.checkTeamProfile('1'), {
@@ -34,7 +38,6 @@ const TeamProfile = () => {
       console.log(error);
     },
   }); // useQuery로 유저정보 받아옴.
-  const queryClient = useQueryClient();
 
   const { mutate: teamInfoMutate } = useMutation(
     () => teamsApi.editTeamProfile('1', values, { isRequiredLogin: true }),
@@ -44,10 +47,6 @@ const TeamProfile = () => {
       },
     }
   );
-
-  const [editMode, setEditMode] = useState(false);
-  const [currentTab, setCurrentTab] = useState('post');
-  const [values, setValues, handler] = useForm<TeamEditForm>();
 
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
 

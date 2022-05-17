@@ -4,8 +4,12 @@ import type { UserRegisterInfoType } from 'recoil/auth';
 import { User, UserEditForm } from 'types/user';
 import type { CustomAxiosRequestConfig } from './type';
 import { PostOauthBody, PostOauthResponse } from './type/users.types';
+import { TeamTypes } from 'types/team';
 class UsersAPI extends BaseAPI {
   //https://apibora.shop/api/users/
+  getTeamList(config: CustomAxiosRequestConfig) {
+    return this.get<TeamTypes[]>(`/teams`, config);
+  }
   checkUserName(params: unknown) {
     return this.get('/check_nickname', { params });
   }

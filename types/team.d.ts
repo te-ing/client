@@ -16,3 +16,10 @@ export interface TeamEditForm {
   team_profile_image: string;
   background_image: string;
 }
+
+export interface MemberTypes {
+  id: number;
+  memberType: string;
+  nickname: string;
+  postCount: number;
+}

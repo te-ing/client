@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useQuery, QueryClient, dehydrate } from 'react-query';
+import { useQuery, QueryClient, dehydrate, useMutation, useQueryClient } from 'react-query';
 import Image from 'next/image';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
@@ -9,7 +9,7 @@ import ItemList from 'components/Profile/ItemList';
 
 import { ProfileWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { team_profile_icon } from 'constants/imgUrl';
+import { camera_icon, team_profile_icon } from 'constants/imgUrl';
 import { teamTabMenuArr } from 'constants/tabMenu';
 
 import { useRouter } from 'next/router';
@@ -18,17 +18,67 @@ import { GetStaticPropsContext } from 'next';
 
 import Message from 'components/Team/Message';
 import ApplyTeam from 'components/Team/ApplyTeam';
+import useForm from 'hooks/useForm';
+import { TeamEditForm } from 'types/team';
+import ProfileEdit from 'components/Profile/ProfileEdit';
+import UploadProduct from 'components/Profile/UploadProduct';
+import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
+import QuitTeam from 'components/Team/QuitTeam';
+
+//props로 id 넘겨주기
 
 const TeamProfile = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const { id } = router.query;
 
-  const { isLoading, isError, error, data } = useQuery(['team-profile', id], () => teamsApi.checkTeamProfile(id)); // useQuery로 유저정보 받아옴.
+  const {
+    isLoading: profileIsLoading,
+    isError: profileIsError,
+    error: profileError,
+    data: profileData,
+  } = useQuery(['team-profile', id], () => teamsApi.checkTeamProfile(id), {
+    onSuccess: (data) => {
+      console.log('profile', data);
+    },
+  });
+  const {
+    isLoading: memberisLoading,
+    isError: memberisError,
+    error: memberError,
+    data: membersData,
+  } = useQuery(['team-members', id], () => teamsApi.checkTeamMembers(id), {
+    onSuccess: (data) => {
+      console.log('memeber', data);
+    },
+  });
 
-  const [currentTab, setCurrentTab] = useState('post');
+  const { mutate: teamInfoMutate } = useMutation(
+    () => teamsApi.editTeamProfile('1', values, { isRequiredLogin: true }),
+    {
+      onSuccess: ({ data }) => {
+        queryClient.setQueryData(['team-profile', '1'], data);
+      },
+    }
+  );
+  const [editMode, setEditMode] = useState(false);
+  const [currentTab, setCurrentTab] = useState('postCount');
+  const [values, setValues, handler] = useForm<TeamEditForm>();
+  const [userId, setUserId] = useState<number>();
   // const [values, setValues, handler] = useForm<TeamEditForm>();
 
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
+
+  const editModeOnOff = useCallback(
+    (flag: boolean) => () => {
+      setEditMode(flag);
+
+      if (!flag) {
+        teamInfoMutate();
+      }
+    },
+    [editMode]
+  );
 
   const selectTab = useCallback(
     (id: string) => () => {
@@ -44,52 +94,85 @@ const TeamProfile = () => {
     [currentTab]
   );
 
-  if (isLoading) {
+  useEffect(() => {
+    setUserId(parseInt(sessionStorage.getItem('id')));
+  }, []);
+
+  if (profileIsLoading || memberisLoading) {
     return <h1>Loading</h1>;
   }
 
-  if (isError) {
-    return <h1>{error}</h1>;
+  if (profileError || memberError) {
+    return <h1>{profileError || memberError}</h1>;
   }
 
   return (
-    // <Layout>
-    <>
-      <Banner bannerImg={data?.backgroundImage} />
+    <Layout>
+      <Banner bannerImg={profileData?.backgroundImage} />
       <InfoWrapper>
         <div>
-          <ProfileWrapper>
-            <ImgWrapper
-              alt="icon-profile"
-              src={data?.teamProfileImage ? data?.teamProfileImage : team_profile_icon}
-              width={120}
-              height={120}
-            />
-          </ProfileWrapper>
+          {editMode ? (
+            <ImageUploadWrapper name="editProfile">
+              <ProfileWrapper>
+                <ImgWrapper
+                  alt="icon-profile"
+                  src={profileData?.teamProfileImage ? profileData?.teamProfileImage : team_profile_icon}
+                  width={120}
+                  height={120}
+                />
+                <CameraIconWrapper>
+                  <Image alt="icon-camera" src={camera_icon} width={24} height={24} />
+                </CameraIconWrapper>
+              </ProfileWrapper>
+            </ImageUploadWrapper>
+          ) : (
+            <ProfileWrapper>
+              <ImgWrapper
+                alt="icon-profile"
+                src={profileData?.teamProfileImage ? profileData?.teamProfileImage : team_profile_icon}
+                width={120}
+                height={120}
+              />
+            </ProfileWrapper>
+          )}
         </div>
         <InfoSection>
-          <h1>{data?.title}</h1>
+          <h1>{profileData?.title}</h1>
           <InfoDescription>
-            <p>{data?.description}</p>
+            {editMode ? (
+              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
+            ) : (
+              <p>{profileData?.description}</p>
+            )}
           </InfoDescription>
         </InfoSection>
         <InfoAside>
-          <ApplyTeam />
-          <Message />
+          {profileData.leader === userId ? (
+            <>
+              <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
+              {!editMode && <UploadProduct />}
+            </>
+          ) : membersData.map((member) => member.id).includes(userId) ? (
+            <QuitTeam />
+          ) : (
+            <>
+              <ApplyTeam />
+              <Message />
+            </>
+          )}
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
         {teamTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
-            {/* <span>{Items[tab.id].length}</span> */}
+            <span>{profileData[tab.id]}</span>
           </TabButton>
         ))}
       </div>
-      {/* {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
-      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />} */}
-      {/* </Layout> */}
-    </>
+      {/* {currentTab === 'postCount' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
+      {currentTab === 'memberCount' && <ItemList itemList={Items[currentTab]} />} */}
+    </Layout>
   );
 };
 

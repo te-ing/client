@@ -24,9 +24,8 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <QueryClientProvider client={queryClient.current}>
           <Hydrate state={pageProps.dehydratedState}>
             <ThemeProvider theme={theme}>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <GlobalStyle />
+              <Component {...pageProps} />
             </ThemeProvider>
           </Hydrate>
           <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />

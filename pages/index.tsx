@@ -4,12 +4,11 @@ import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
 import SetUserProfile from 'components/initialRegister/SetUserProfile';
+import Layout from 'components/Layout';
 
 const Index = () => {
-  // return <Login />;
-
   return (
-    <>
+    <Layout>
       <MainHeader>
         <SearchBox>
           <SearchInput placeholder="검색어를 입력해주세요." />
@@ -29,7 +28,7 @@ const Index = () => {
           <MainCard />
         ))}
       </MainContent>
-    </>
+    </Layout>
   );
 };
 

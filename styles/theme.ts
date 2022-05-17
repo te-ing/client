@@ -19,7 +19,10 @@ export const theme: DefaultTheme = {
     gray_400: '#bdbdbd',
     gray_500: '#757575',
     gray_700: '#616161',
+    gray_800: '#424242',
     profileNameBlack: '#212121',
+    kakaoLoginButtonYellow: '#FEE500',
+    mainLogoGreen: '#5BB028',
   },
   fontWeight: {
     bold: 700,

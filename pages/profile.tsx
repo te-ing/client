@@ -22,6 +22,7 @@ import useForm from 'hooks/useForm';
 import Router from 'next/router';
 import { userInfo } from 'recoil/auth';
 import { useRecoilState } from 'recoil';
+import Layout from 'components/Layout';
 
 const Profile = () => {
   const queryClient = useQueryClient();
@@ -52,24 +53,9 @@ const Profile = () => {
   );
 
   const [editMode, setEditMode] = useState<boolean>(false);
-  const [currentTab, setCurrentTab] = useState('post');
-  const [values, setValues, handler] = useForm<UserEditForm>();
+  const [currentTab, setCurrentTab] = useState('postCount');
+  const [values, setValues, handler] = useForm<UserEditForm | null>(null);
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
-  const Items = {
-    post: ['작업물1'], //['아이템1', '아이템2'],
-    scrap: [
-      '',
-      '스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.',
-      '스크랩2',
-      '스크랩3',
-      '스크랩4',
-      '스크랩5',
-      '스크랩6',
-      '스크랩7',
-      '스크랩8',
-      '스크랩9',
-    ],
-  };
 
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
@@ -107,7 +93,7 @@ const Profile = () => {
     return <h1>{error}</h1>;
   }
   return (
-    <>
+    <Layout>
       <Banner bannerImg={data?.backgroundImage}>
         {(!data?.backgroundImage || editMode) && (
           <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'} />
@@ -171,13 +157,13 @@ const Profile = () => {
         {userTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
-            <span>{Items[tab.id].length}</span>
+            <span>{data[tab.id]}</span>
           </TabButton>
         ))}
       </div>
-      {currentTab === 'post' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
-      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </>
+      {/* {currentTab === 'postCount' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
+      {currentTab === 'scrapCount' && <ItemList itemList={Items[currentTab]} />} */}
+    </Layout>
   );
 };
 
