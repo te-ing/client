@@ -5,9 +5,9 @@ import useModal from 'hooks/useModal';
 
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { socialLoginState } from 'recoil/auth';
-import styled from 'styled-components';
+
 import SignUpModal from './_components/SignUpModal';
 
 const KakaoLogin = () => {
@@ -15,7 +15,7 @@ const KakaoLogin = () => {
   const KAKAO_CLIENT_SECRET = process.env.NEXT_PUBLIC_SECRET_KEY;
   const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
   const { isShowing, setModalVisible } = useModal();
-  const [, setSocialLoginState] = useRecoilState(socialLoginState);
+  const setSocialLoginState = useSetRecoilState(socialLoginState);
 
   const route = useRouter();
 

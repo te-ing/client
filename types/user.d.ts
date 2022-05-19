@@ -1,11 +1,13 @@
+export type Category = { id: number; name: string };
+
 export interface User {
-  id: string;
+  id: number;
   email: string;
   nickname: string;
   description: string;
   profileImage: string;
   backgroundImage: string;
-  categories: { id: number; name: string }[];
+  categories: Category[];
   postCount: number;
   scrapCount: number;
   followerCount: number;

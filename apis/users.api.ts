@@ -3,7 +3,8 @@ import BaseAPI from './base.api';
 import type { UserRegisterInfoType } from 'recoil/auth';
 import { User, UserEditForm } from 'types/user';
 import type { CustomAxiosRequestConfig } from './type';
-import { PostOauthBody, PostOauthResponse } from './type/users.types';
+import { GetUserInfoParams, PostOauthBody, PostOauthResponse } from './type/users.types';
+
 class UsersAPI extends BaseAPI {
   //https://apibora.shop/api/users/
   checkUserName(params: unknown) {
@@ -12,6 +13,10 @@ class UsersAPI extends BaseAPI {
 
   checkUsers(params: unknown) {
     return this.get<User>(`/${params}`);
+  }
+
+  getUserInfo(params: User['id']) {
+    return this.get<User>(`${params}`);
   }
 
   registerUser(body: UserRegisterInfoType) {
@@ -23,11 +28,11 @@ class UsersAPI extends BaseAPI {
     return this.put(`/${params}`, body, config);
   }
 
-  kakaoOauth(body, config?: CustomAxiosRequestConfig) {
+  kakaoOauth(body: PostOauthBody, config?: CustomAxiosRequestConfig) {
     return this.post<PostOauthBody, PostOauthResponse>('kakao', body, { ...config });
   }
 
-  googleOauth(body, config?: CustomAxiosRequestConfig) {
+  googleOauth(body: PostOauthBody, config?: CustomAxiosRequestConfig) {
     return this.post<PostOauthBody, PostOauthResponse>('google', body, { ...config });
   }
 }
