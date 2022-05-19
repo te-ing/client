@@ -22,6 +22,10 @@ class TeamsAPI extends BaseAPI {
     return this.put(`${params}`, body, config);
   }
 
+  deleteTeam(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.delete(`${params}`, config);
+  }
+
   //   editUser(params: unknown, body: UserEditForm, config: CustomAxiosRequestConfig) {
   //     return this.put(`/${params}`, body, config);
   //   }

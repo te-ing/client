@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-const ExportMember = () => {
+const ExportMemberButton = () => {
   return <ExportButton>내보내기</ExportButton>;
 };
 
-export default ExportMember;
+export default ExportMemberButton;
 
 const ExportButton = styled.button`
   width: 153px;

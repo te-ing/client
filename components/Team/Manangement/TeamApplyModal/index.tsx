@@ -3,50 +3,39 @@ import styled from 'styled-components';
 import { close_icon } from 'constants/imgUrl';
 import Image from 'next/image';
 import ManagedMemberCard from '../ManagedMemberCard.tsx';
-import { useMutation, useQueryClient } from 'react-query';
-import teamsApi from 'apis/teams.api';
-
+import ExportMemberButton from '../ExportMemberButton';
+import MessageButton from '../MessageButton';
 interface Props {
   teamId: string;
   onOffHandler: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
-  const queryClient = useQueryClient();
-  const { mutate: deleteTeam } = useMutation(() => teamsApi.deleteTeam(teamId, { isRequiredLogin: true }), {
-    onSuccess: () => {
-      onOffHandler(false);
-      queryClient.invalidateQueries(['team-list']);
-    },
-  });
-
-  const deleteTeamHandler = () => {
-    deleteTeam();
-  };
-
+const TeamApplyModal = ({ teamId, onOffHandler }: Props) => {
   return (
     <Modal>
       <ModalBox>
         <CloseButton onClick={() => onOffHandler(false)}>
           <Image src={close_icon} width={24} height={24} />
         </CloseButton>
-        <h1>멤버 관리</h1>
-        <p>멤버들에게 메시지를 보내거나 팀장으로서 관리해보세요.</p>
+        <h1>가입 요청</h1>
+        <p>
+          가입요청이 도착했습니다. <br />
+          수락 혹은 거절로 응답 해주세요.
+        </p>
         <ListContainer>
           <div>
-            <ManagedMemberCard></ManagedMemberCard>
-            <ManagedMemberCard></ManagedMemberCard>
-            <ManagedMemberCard></ManagedMemberCard>
-            <ManagedMemberCard></ManagedMemberCard>
+            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
+            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
+            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
+            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
           </div>
-          <button onClick={deleteTeamHandler}>팀 삭제</button>
         </ListContainer>
       </ModalBox>
     </Modal>
   );
 };
 
-export default TeamMemberModal;
+export default TeamApplyModal;
 
 const Modal = styled.div`
   left: 0;
@@ -65,7 +54,7 @@ const Modal = styled.div`
 const ModalBox = styled.div`
   position: relative;
   width: 414px;
-  height: 564px;
+  height: 535px;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 16px;
@@ -73,22 +62,23 @@ const ModalBox = styled.div`
   flex-direction: column;
   align-items: center;
 
-  & h1 {
-    font-weight: ${({ theme }) => theme.fontWeight.bold};
+  & > h1 {
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
     font-size: 24px;
     line-height: 1.458333;
     margin-bottom: 12px;
     color: ${({ theme }) => theme.color.black};
   }
 
-  & p {
-    width: 205px;
+  & > p {
+    width: 300px;
     font-weight: 400;
     font-size: 16px;
     line-height: 1.25;
     margin-bottom: 20px;
     text-align: center;
     color: ${({ theme }) => theme.color.gray_800};
+    letter-spacing: 0.4px;
   }
 `;
 
@@ -100,7 +90,7 @@ const CloseButton = styled.button`
 const ListContainer = styled.div`
   width: 100%;
   & > div {
-    height: 396px;
+    height: 400px;
     overflow: auto;
     display: grid;
     row-gap: 8px;
@@ -117,12 +107,5 @@ const ListContainer = styled.div`
       border-radius: 50px;
       background-color: #c4c4c4;
     }
-  }
-
-  & button {
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-    font-size: 14px;
-    line-height: 1.428571;
-    color: ${({ theme }) => theme.color.gray_500};
   }
 `;

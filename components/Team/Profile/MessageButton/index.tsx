@@ -1,7 +1,8 @@
 import React from 'react';
-import Image from 'next/image';
 import { MessageButton } from 'components/common/Atomic/Tabs/Button';
+import Image from 'next/image';
 import { message_icon } from 'constants/imgUrl';
+
 const Message = () => {
   return (
     <MessageButton>

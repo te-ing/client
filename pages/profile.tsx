@@ -46,7 +46,7 @@ const Profile = () => {
     () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
     {
       onSuccess: ({ data }) => {
-        // console.log(data);
+        console.log(data);
         queryClient.setQueryData('user-profile', data);
       },
     }

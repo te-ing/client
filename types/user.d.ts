@@ -1,3 +1,5 @@
+type CategoryType = { id: number; name: sring };
+
 export interface User {
   id: number;
   email: string;
@@ -5,7 +7,7 @@ export interface User {
   description: string;
   profileImage: string;
   backgroundImage: string;
-  categories: { id: number; name: string }[];
+  categories: CategoryType[];
   postCount: number;
   scrapCount: number;
   followerCount: number;

@@ -17,3 +17,7 @@ export const team_profile_icon = '/images/team-profile-icon.svg';
 export const team_add_icon = '/images/team-add-icon.svg';
 
 export const close_icon = '/images/close_icon.svg';
+
+export const user_multiple_icon = '/images/user-multiple-icon.svg';
+
+export const setting_icon = '/images/setting-icon.svg';

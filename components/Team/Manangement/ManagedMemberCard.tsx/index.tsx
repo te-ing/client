@@ -6,9 +6,13 @@ import { ImgWrapper } from 'pages/profile';
 import { default_profile } from 'constants/imgUrl';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import { numberWithCommas } from 'utils/numberWithCommas';
-import ExportMember from '../ExportMember';
-import Message from '../Message';
-const ManagedMemberCard = () => {
+
+interface Props {
+  leftButton: JSX.Element;
+  rightButton: JSX.Element;
+}
+
+const ManagedMemberCard = ({ leftButton, rightButton }: Props) => {
   return (
     <CardContainer>
       <div>
@@ -30,8 +34,8 @@ const ManagedMemberCard = () => {
         </InfoSection>
       </div>
       <div>
-        <ExportMember></ExportMember>
-        <Message></Message>
+        {leftButton}
+        {rightButton}
       </div>
     </CardContainer>
   );
@@ -56,10 +60,8 @@ const CardContainer = styled.div`
 const InfoSection = styled.div`
   display: flex;
   flex-direction: column;
-  //   justify-content: space-between;
   margin-left: 24px;
-  padding: 9px 0;
-
+  margin-bottom: 9px;
   & h1 {
     font-weight: ${({ theme }) => theme.fontWeight.medium};
     font-size: 16px;

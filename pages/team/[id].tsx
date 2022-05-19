@@ -16,14 +16,15 @@ import { useRouter } from 'next/router';
 import teamsApi from 'apis/teams.api';
 import { GetStaticPropsContext } from 'next';
 
-import Message from 'components/Team/Message';
-import ApplyTeam from 'components/Team/ApplyTeam';
+import Message from 'components/Team/Profile/MessageButton';
+import ApplyTeam from 'components/Team/Profile/ApplyTeam';
 import useForm from 'hooks/useForm';
 import { TeamEditForm } from 'types/team';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
-import QuitTeam from 'components/Team/QuitTeam';
+import QuitTeam from 'components/Team/Manangement/QuitTeam';
+import { teamEditForm } from 'utils/teamEditForm';
 
 //props로 id 넘겨주기
 
@@ -40,6 +41,7 @@ const TeamProfile = () => {
   } = useQuery(['team-profile', id], () => teamsApi.checkTeamProfile(id), {
     onSuccess: (data) => {
       console.log('profile', data);
+      setValues(teamEditForm(data));
     },
   });
   const {
@@ -54,10 +56,10 @@ const TeamProfile = () => {
   });
 
   const { mutate: teamInfoMutate } = useMutation(
-    () => teamsApi.editTeamProfile('1', values, { isRequiredLogin: true }),
+    () => teamsApi.editTeamProfile(id, values, { isRequiredLogin: true }),
     {
       onSuccess: ({ data }) => {
-        queryClient.setQueryData(['team-profile', '1'], data);
+        queryClient.setQueryData(['team-profile', id], data);
       },
     }
   );

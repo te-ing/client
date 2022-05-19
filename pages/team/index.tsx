@@ -4,23 +4,36 @@ import Layout from 'components/Layout';
 import Image from 'next/image';
 import { useQuery } from 'react-query';
 import usersApi from 'apis/users.api';
+import Header from 'components/header';
 import { useRecoilState } from 'recoil';
 import { socialLoginState } from 'recoil/auth';
 import { team_add_icon } from 'constants/imgUrl';
-import TeamCreate from 'components/Team/TeamCreate';
+import TeamCard from 'components/Team/Manangement/TeamCard';
+import TeamCreateModal from 'components/Team/Manangement/TeamCreateModal';
 
 const TeamManagement = () => {
-  const [loginState] = useRecoilState(socialLoginState);
+  //const [loginState] = useRecoilState(socialLoginState);
   const [teamCreateModal, setTeamCreateModal] = useState<boolean>(false);
-  const { isLoading, isError, error, data } = useQuery(['team-list'], () =>
-    usersApi.getTeamList({ isRequiredLogin: true })
+  const { isLoading, isError, error, data } = useQuery(
+    ['team-list'],
+    () => usersApi.getTeamList({ isRequiredLogin: true }),
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+    }
   );
-
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
+  if (isError) {
+    return <h1>{error}</h1>;
+  }
   return (
     <ManageMent>
-      {teamCreateModal && <TeamCreate onOffHandler={setTeamCreateModal}></TeamCreate>}
-
-      <Layout>
+      {teamCreateModal && <TeamCreateModal onOffHandler={setTeamCreateModal}></TeamCreateModal>}
+      <Header />
+      <Wrapper>
         <TeamKind>
           <div>
             <h1>개설한 팀</h1>
@@ -31,10 +44,27 @@ const TeamManagement = () => {
             <span>팀 생성하기</span>
           </TeamAddButton>
         </TeamKind>
+        <TeamListContainer>
+          {data
+            .filter((team) => team.leader === JSON.parse(sessionStorage.getItem('id')))
+            .map((team) => (
+              <TeamCard key={team.id} teamInfo={team} isLeader={true} />
+            ))}
+        </TeamListContainer>
+
         <TeamKind>
-          <h1>가입한 팀</h1>
+          <div>
+            <h1>가입한 팀</h1>
+          </div>
         </TeamKind>
-      </Layout>
+        <TeamListContainer>
+          {data
+            .filter((team) => team.leader !== JSON.parse(sessionStorage.getItem('id')))
+            .map((team) => (
+              <TeamCard key={team.id} teamInfo={team} isLeader={false} />
+            ))}
+        </TeamListContainer>
+      </Wrapper>
     </ManageMent>
   );
 };
@@ -43,12 +73,18 @@ export default TeamManagement;
 
 const ManageMent = styled.div`
   background-color: ${({ theme }) => theme.color.gray_200};
-  height: 100vh;
+  min-height: 100%;
+`;
+const Wrapper = styled.div`
+  max-width: 1092px;
+  margin: 0 auto;
 `;
 
 const TeamKind = styled.div`
   margin-top: 80px;
   position: relative;
+  text-align: right;
+  margin-bottom: 40px;
   & div {
     display: flex;
     justify-content: space-between;
@@ -69,9 +105,7 @@ const TeamKind = styled.div`
   }
 `;
 
-export const TeamAddButton = styled.button`
-  position: absolute;
-  right: 0px;
+const TeamAddButton = styled.button`
   height: 40px;
   border-radius: 30px;
   display: inline-flex;
@@ -90,4 +124,12 @@ export const TeamAddButton = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.color.gray_800};
   }
+`;
+
+const TeamListContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(534px, 1fr));
+
+  row-gap: 24px;
+  column-gap: 24px;
 `;
