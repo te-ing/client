@@ -5,13 +5,14 @@ import Image from 'next/image';
 import { default_profile } from 'constants/imgUrl';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import { numberWithCommas } from 'utils/numberWithCommas';
+import { MemberTypes } from 'types/team';
 interface Props {
-  memberId: number;
+  memberInfo: MemberTypes;
 }
 
-const MemberCard = ({ memberId }: Props) => {
+const MemberCard = ({ memberInfo }: Props) => {
   return (
-    <Link href="/123">
+    <Link href={`/user/${memberInfo.id}`}>
       <CardContainer>
         <Image src={default_profile} width={56} height={56}></Image>
         <span>멤버명</span>
@@ -28,7 +29,7 @@ const MemberCard = ({ memberId }: Props) => {
           <span>팔로잉</span>
           <span>{numberWithCommas(35150)}</span>
           <span>작업물</span>
-          <span>{numberWithCommas(62)}</span>
+          <span>{numberWithCommas(memberInfo.postCount)}</span>
         </FollowInfo>
       </CardContainer>
     </Link>

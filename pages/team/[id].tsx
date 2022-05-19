@@ -26,6 +26,7 @@ import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import QuitTeam from 'components/Team/Manangement/QuitTeam';
 import { teamEditForm } from 'utils/teamEditForm';
 import TeamPostList from 'components/Team/Profile/TeamPostList';
+import MemberList from 'components/Team/Profile/MemberList';
 
 //props로 id 넘겨주기
 
@@ -50,7 +51,7 @@ const TeamProfile = () => {
     isError: memberisError,
     error: memberError,
     data: membersData,
-  } = useQuery(['team-members', id], () => teamsApi.checkTeamMembers(id), {
+  } = useQuery(['team-members', id], () => teamsApi.getTeamMembers(id), {
     onSuccess: (data) => {
       console.log('memeber', data);
     },
@@ -99,6 +100,12 @@ const TeamProfile = () => {
 
   useEffect(() => {
     setUserId(parseInt(sessionStorage.getItem('id')));
+    return () => {
+      teamTabMenuArr.forEach((tab) => {
+        if (tab.id === 'memberCount') tab.isActive = false;
+        else tab.isActive = true;
+      });
+    };
   }, []);
 
   if (profileIsLoading || memberisLoading) {
@@ -180,7 +187,7 @@ const TeamProfile = () => {
       {currentTab === 'postCount' && (
         <TeamPostList teamId={id} isLeader={profileData.leader === userId ? true : false} editMode={editMode} />
       )}
-      {/* {currentTab === 'memberCount' && <ItemList itemList={Items[currentTab]} />} */}
+      {currentTab === 'memberCount' && <MemberList memberList={membersData} />}
     </Layout>
   );
 };

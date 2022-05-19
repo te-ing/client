@@ -12,7 +12,7 @@ class TeamsAPI extends BaseAPI {
   checkTeamProfile(params: unknown) {
     return this.get<TeamTypes>(`/${params}`);
   }
-  checkTeamMembers(params: unknown) {
+  getTeamMembers(params: unknown) {
     return this.get<MemberTypes[]>(`/${params}/members`);
   }
   getTeamPosts(params: unknown) {
