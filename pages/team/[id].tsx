@@ -25,6 +25,7 @@ import UploadProduct from 'components/Profile/UploadProduct';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import QuitTeam from 'components/Team/Manangement/QuitTeam';
 import { teamEditForm } from 'utils/teamEditForm';
+import TeamPostList from 'components/Team/Profile/TeamPostList';
 
 //props로 id 넘겨주기
 
@@ -101,7 +102,11 @@ const TeamProfile = () => {
   }, []);
 
   if (profileIsLoading || memberisLoading) {
-    return <h1>Loading</h1>;
+    return (
+      <Layout>
+        <h1>Loading</h1>
+      </Layout>
+    );
   }
 
   if (profileError || memberError) {
@@ -172,8 +177,10 @@ const TeamProfile = () => {
           </TabButton>
         ))}
       </div>
-      {/* {currentTab === 'postCount' && <ItemList editMode={editMode} itemList={Items[currentTab]} />}
-      {currentTab === 'memberCount' && <ItemList itemList={Items[currentTab]} />} */}
+      {currentTab === 'postCount' && (
+        <TeamPostList teamId={id} isLeader={profileData.leader === userId ? true : false} editMode={editMode} />
+      )}
+      {/* {currentTab === 'memberCount' && <ItemList itemList={Items[currentTab]} />} */}
     </Layout>
   );
 };
