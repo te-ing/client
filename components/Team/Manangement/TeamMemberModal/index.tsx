@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { close_icon } from 'constants/imgUrl';
 import Image from 'next/image';
-import ManagedMemberCard from '../ManagedMemberCard.tsx';
+import ManagedMemberCard from '../ManagedMemberCard';
 import { useMutation, useQueryClient } from 'react-query';
 import teamsApi from 'apis/teams.api';
 import ExportMemberButton from '../ExportMemberButton';
@@ -75,7 +75,7 @@ const ModalBox = styled.div`
   align-items: center;
 
   & > h1 {
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
     font-size: 24px;
     line-height: 1.458333;
     margin-bottom: 12px;

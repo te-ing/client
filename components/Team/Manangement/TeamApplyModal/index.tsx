@@ -2,9 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { close_icon } from 'constants/imgUrl';
 import Image from 'next/image';
-import ManagedMemberCard from '../ManagedMemberCard.tsx';
-import ExportMemberButton from '../ExportMemberButton';
-import MessageButton from '../MessageButton';
+import ManagedMemberCard from '../ManagedMemberCard';
+import AcceptApplyButton from '../AcceptApplyButton';
+import RejectApplyButton from '../RejectApplyButton';
 interface Props {
   teamId: string;
   onOffHandler: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,10 +24,10 @@ const TeamApplyModal = ({ teamId, onOffHandler }: Props) => {
         </p>
         <ListContainer>
           <div>
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
+            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
+            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
+            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
+            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
           </div>
         </ListContainer>
       </ModalBox>
@@ -63,7 +63,7 @@ const ModalBox = styled.div`
   align-items: center;
 
   & > h1 {
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-weight: ${({ theme }) => theme.fontWeight.bold};
     font-size: 24px;
     line-height: 1.458333;
     margin-bottom: 12px;
