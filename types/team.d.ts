@@ -1,5 +1,5 @@
 export interface TeamTypes {
-  id: number;
+  id: string;
   title: string;
   description: string;
   leader: number;
@@ -8,4 +8,18 @@ export interface TeamTypes {
   postCount: number;
   memberCount: number;
   teamFollowCount: number;
+}
+
+export interface TeamEditForm {
+  title: string;
+  description: string;
+  team_profile_image: string;
+  background_image: string;
+}
+
+export interface MemberTypes {
+  id: number;
+  memberType: string;
+  nickname: string;
+  postCount: number;
 }

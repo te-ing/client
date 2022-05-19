@@ -2,20 +2,26 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import Image from 'next/image';
 import { scrap_icon, edit_icon } from 'constants/imgUrl';
+import { PostType } from 'types/post';
 
 interface Props {
-  item: string; //작품 정보에 대한 타입을 정의해줘야함
+  item: PostType;
   editMode?: boolean;
 }
 const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
+  // Link로 작품 클릭하면 작품 란으로 이동
   return (
     <ItemCard>
+      {item.images.length > 0 && (
+        <Image src="/images/img-shot-2.jpg" layout="responsive" width={100} height={100} quality="100" />
+      )}
+      {/* {item.images.length > 0 && <Image src={item.images[0].image} layout="responsive" width={'1x'} height={'1x'} />} */}
       <ImageWrapper>
         <Image src={editMode ? edit_icon : scrap_icon} width={24} height={24} />
       </ImageWrapper>
-      {item.length > 0 && (
+      {item.title.length > 0 && (
         <ItemInfo>
-          <p>{item}</p>
+          <p>{item.title}</p>
         </ItemInfo>
       )}
     </ItemCard>
