@@ -9,6 +9,12 @@ export const Wrapper = styled.div`
   overflow: scroll;
 `;
 
+export const ImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const RegisterSubInfo = styled.p`
   margin-bottom: 24px;
   text-align: center;
