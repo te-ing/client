@@ -9,7 +9,7 @@ import { userInfoState } from 'recoil/auth';
 import usersApi from 'apis/users.api';
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [tabNum, setTabNum] = useState(1);
   const [userInfo, setUserInfo] = useRecoilState<User>(userInfoState);
   const { setModalVisible, isShowing } = useModal();
@@ -30,10 +30,7 @@ const Header = () => {
 
   useEffect(() => {
     if (userInfo.id === 0) {
-      setIsLoggedIn(true);
       getUserInfo();
-    } else if (typeof userInfo === 'number') {
-      setIsLoggedIn(true);
     }
   }, []);
 
