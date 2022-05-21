@@ -20,13 +20,13 @@ import UploadProduct from 'components/Profile/UploadProduct';
 import { UploadButton } from 'components/common/Atomic/Tabs/Button';
 import useForm from 'hooks/useForm';
 import Router from 'next/router';
-import { userInfo } from 'recoil/auth';
 import { useRecoilState } from 'recoil';
 import Layout from 'components/Layout';
+import { userInfoState } from 'recoil/auth';
 
 const Profile = () => {
   const queryClient = useQueryClient();
-  const [, setUserInfo] = useRecoilState(userInfo);
+  const [, setUserInfo] = useRecoilState(userInfoState);
 
   const { isLoading, isError, error, data } = useQuery(
     ['user-profile'],
