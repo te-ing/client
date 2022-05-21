@@ -20,6 +20,7 @@ export const GlobalStyle = createGlobalStyle`
         font-display: fallback;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        height: 100%;
     }
     button,span,input{
         font-family: 'Noto Sans KR',sans-serif;   
@@ -34,5 +35,11 @@ export const GlobalStyle = createGlobalStyle`
             fill: #f2f3f4;
         }
     }
-  
+    #body{
+        height: 100%;
+    }
+    
+    #__next{
+        height: 100%;
+    }
 `;

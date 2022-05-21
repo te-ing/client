@@ -1,4 +1,4 @@
-export type Category = { id: number; name: string };
+type CategoryType = { id: number; name: sring };
 
 export interface User {
   id: number;
@@ -7,7 +7,7 @@ export interface User {
   description: string;
   profileImage: string;
   backgroundImage: string;
-  categories: Category[];
+  categories: CategoryType[];
   postCount: number;
   scrapCount: number;
   followerCount: number;

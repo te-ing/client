@@ -52,3 +52,6 @@ export const FollowButton = styled(DefaultButton)`
 export const MessageButton = styled(DefaultButton)`
   padding: 10px 16px;
 `;
+export const QuitButton = styled(DefaultButton)`
+  padding: 10px 16px;
+`;

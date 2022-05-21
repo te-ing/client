@@ -64,7 +64,7 @@ const UserProfile: React.FC = () => {
     return <h1>{error}</h1>;
   }
   return (
-    <>
+    <Layout>
       <Banner bannerImg={data?.backgroundImage} />
       <InfoWrapper>
         <ProfileImg>
@@ -96,7 +96,7 @@ const UserProfile: React.FC = () => {
           </InfoDescription>
         </InfoSection>
         <InfoAside>
-          <Following />
+          <Following userId={id} />
           <Message />
         </InfoAside>
       </InfoWrapper>
@@ -104,13 +104,13 @@ const UserProfile: React.FC = () => {
         {userTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
-            <span>{Items[tab.id].length}</span>
+            <span>{data[tab.id]}</span>
           </TabButton>
         ))}
       </div>
-      {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
-      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </>
+      {/* {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
+      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />} */}
+    </Layout>
   );
 };
 

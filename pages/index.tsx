@@ -3,34 +3,31 @@ import styled from 'styled-components';
 import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
-import SetUserProfile from 'components/initialRegister/SetUserProfile';
 import Layout from 'components/Layout';
 
 const Index = () => {
   return (
-    <>
-      <Layout>
-        <MainHeader>
-          <SearchBox>
-            <SearchInput placeholder="검색어를 입력해주세요." />
-            <SearchIcon>
-              <Image src={'/images/search.svg'} width="24" height="24" />
-            </SearchIcon>
-          </SearchBox>
-          <FlexBox>
-            <FilterBtn>전체보기</FilterBtn>
-            <FilterBtn>카테고리</FilterBtn>
-            <FilterBtn>카테고리</FilterBtn>
-            <FilterBtn>카테고리</FilterBtn>
-          </FlexBox>
-        </MainHeader>
-        <MainContent>
-          {Array.from({ length: 12 }, () => (
-            <MainCard />
-          ))}
-        </MainContent>
-      </Layout>
-    </>
+    <Layout>
+      <MainHeader>
+        <SearchBox>
+          <SearchInput placeholder="검색어를 입력해주세요." />
+          <SearchIcon>
+            <Image src={'/images/search.svg'} width="24" height="24" />
+          </SearchIcon>
+        </SearchBox>
+        <FlexBox>
+          <FilterBtn>전체보기</FilterBtn>
+          <FilterBtn>카테고리</FilterBtn>
+          <FilterBtn>카테고리</FilterBtn>
+          <FilterBtn>카테고리</FilterBtn>
+        </FlexBox>
+      </MainHeader>
+      <MainContent>
+        {Array.from({ length: 12 }, () => (
+          <MainCard />
+        ))}
+      </MainContent>
+    </Layout>
   );
 };
 
