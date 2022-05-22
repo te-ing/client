@@ -6,30 +6,38 @@ import { ImgWrapper } from 'pages/profile';
 import { default_profile } from 'constants/imgUrl';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import { numberWithCommas } from 'utils/numberWithCommas';
+import { MemberTypes } from 'types/team';
 
 interface Props {
+  memberInfo: MemberTypes;
   leftButton: JSX.Element;
   rightButton: JSX.Element;
 }
 
-const ManagedMemberCard = ({ leftButton, rightButton }: Props) => {
+const ManagedMemberCard = ({ memberInfo, leftButton, rightButton }: Props) => {
+  console.log(memberInfo);
   return (
     <CardContainer>
       <div>
-        <ImgWrapper alt="icon-profile" src={default_profile} width={58} height={58} />
+        <ImgWrapper
+          alt="icon-profile"
+          src={memberInfo.image.length > 0 ? memberInfo.image : default_profile}
+          width={58}
+          height={58}
+        />
 
         <InfoSection>
-          <h1>멤버명</h1>
+          <h1>{memberInfo.nickname}</h1>
           <div>
             <Keyword>일러스트레이션</Keyword>
           </div>
           <CountContainer>
             <span>팔로워</span>
-            <span>{numberWithCommas(22222)}</span>
+            <span>{numberWithCommas(memberInfo.followerCount)}</span>
             <span>팔로잉</span>
-            <span>{numberWithCommas(2222)}</span>
+            <span>{numberWithCommas(memberInfo.followingCount)}</span>
             <span>작업물</span>
-            <span>{numberWithCommas(2222)}</span>
+            <span>{numberWithCommas(memberInfo.postCount)}</span>
           </CountContainer>
         </InfoSection>
       </div>
