@@ -1,21 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import * as S from './Header.style';
 import Image from 'next/image';
 import Login from 'components/Login';
 import useModal from 'hooks/useModal';
+import { useRecoilState } from 'recoil';
+import { User } from 'types/user';
+import { userInfoState } from 'recoil/auth';
+import usersApi from 'apis/users.api';
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [tabNum, setTabNum] = useState(1);
+  const [userInfo, setUserInfo] = useRecoilState<User>(userInfoState);
   const { setModalVisible, isShowing } = useModal();
 
   const handleLogin = () => {
     setModalVisible();
   };
 
+  const getUserInfo = useCallback(async () => {
+    const userIdByStorage = Number(sessionStorage.getItem('id'));
+    if (userIdByStorage === 0) {
+      setIsLoggedIn(false);
+      return;
+    }
+    const response = await usersApi.getUserInfo(userIdByStorage);
+    setUserInfo(response);
+  }, []);
+
   useEffect(() => {
-    if (sessionStorage.getItem('jwtToken')) {
-      setIsLoggedIn(true);
+    if (userInfo.id === 0) {
+      getUserInfo();
     }
   }, []);
 
