@@ -19,6 +19,10 @@ class UsersAPI extends BaseAPI {
     return this.get<User>(`/${params}`);
   }
 
+  getUserInfo(params: User['id']) {
+    return this.get<User>(`${params}`);
+  }
+
   registerUser(body: UserRegisterInfoType) {
     return this.post(`/id`, body);
   }
@@ -31,11 +35,11 @@ class UsersAPI extends BaseAPI {
     return this.post(`/${params}/follow`, {}, config);
   }
 
-  kakaoOauth(body, config?: CustomAxiosRequestConfig) {
+  kakaoOauth(body: PostOauthBody, config?: CustomAxiosRequestConfig) {
     return this.post<PostOauthBody, PostOauthResponse>('kakao', body, { ...config });
   }
 
-  googleOauth(body, config?: CustomAxiosRequestConfig) {
+  googleOauth(body: PostOauthBody, config?: CustomAxiosRequestConfig) {
     return this.post<PostOauthBody, PostOauthResponse>('google', body, { ...config });
   }
 }

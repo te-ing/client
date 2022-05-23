@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
-import SetUserProfile from 'components/initialRegister/SetUserProfile';
 import Layout from 'components/Layout';
 
 const Index = () => {

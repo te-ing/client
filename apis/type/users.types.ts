@@ -1,3 +1,5 @@
+import { User } from 'types/user';
+
 export interface OauthData {
   message: string;
   accessToken: string;

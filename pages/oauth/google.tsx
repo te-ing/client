@@ -4,9 +4,8 @@ import Layout from 'components/Layout';
 import useModal from 'hooks/useModal';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { socialLoginState } from 'recoil/auth';
-import styled from 'styled-components';
 import SignUpModal from './_components/SignUpModal';
 
 const GoogleLogin = () => {
@@ -14,7 +13,7 @@ const GoogleLogin = () => {
   const GOOGLE_CLIENT_SECRET = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
   const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
   const { isShowing, setModalVisible } = useModal();
-  const [, setSocialLoginState] = useRecoilState(socialLoginState);
+  const setSocialLoginState = useSetRecoilState(socialLoginState);
 
   const route = useRouter();
 
