@@ -5,12 +5,24 @@ import Image from 'next/image';
 import ManagedMemberCard from '../ManagedMemberCard';
 import AcceptApplyButton from '../AcceptApplyButton';
 import RejectApplyButton from '../RejectApplyButton';
+import teamsApi from 'apis/teams.api';
+import { useQuery } from 'react-query';
 interface Props {
   teamId: string;
   onOffHandler: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const TeamApplyModal = ({ teamId, onOffHandler }: Props) => {
+  const { isLoading, isError, error, data } = useQuery(['team-member', teamId], () =>
+    teamsApi.getPendedMembers(teamId)
+  );
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
+
+  if (isError) {
+    return <h1>{error}</h1>;
+  }
   return (
     <Modal>
       <ModalBox>
@@ -24,10 +36,14 @@ const TeamApplyModal = ({ teamId, onOffHandler }: Props) => {
         </p>
         <ListContainer>
           <div>
-            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
-            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
-            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
-            <ManagedMemberCard leftButton={<RejectApplyButton />} rightButton={<AcceptApplyButton />} />
+            {data.map((member) => (
+              <ManagedMemberCard
+                key={member.id}
+                memberInfo={member}
+                leftButton={<RejectApplyButton />}
+                rightButton={<AcceptApplyButton />}
+              />
+            ))}
           </div>
         </ListContainer>
       </ModalBox>

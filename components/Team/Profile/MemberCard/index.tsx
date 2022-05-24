@@ -14,8 +14,8 @@ const MemberCard = ({ memberInfo }: Props) => {
   return (
     <Link href={`/user/${memberInfo.id}`}>
       <CardContainer>
-        <Image src={default_profile} width={56} height={56}></Image>
-        <span>멤버명</span>
+        <Image src={memberInfo.image.length > 0 ? memberInfo.image : default_profile} width={56} height={56}></Image>
+        <span>{memberInfo.nickname}</span>
         <KeywordsConatiner>
           <Keyword>일러스트레이션</Keyword>
           <Keyword>일러스트레이션</Keyword>
@@ -25,9 +25,9 @@ const MemberCard = ({ memberInfo }: Props) => {
         </KeywordsConatiner>
         <FollowInfo>
           <span>팔로워</span>
-          <span>{numberWithCommas(10214)}</span>
+          <span>{numberWithCommas(memberInfo.followerCount)}</span>
           <span>팔로잉</span>
-          <span>{numberWithCommas(35150)}</span>
+          <span>{numberWithCommas(memberInfo.followingCount)}</span>
           <span>작업물</span>
           <span>{numberWithCommas(memberInfo.postCount)}</span>
         </FollowInfo>

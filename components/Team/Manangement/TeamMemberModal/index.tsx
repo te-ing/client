@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { close_icon } from 'constants/imgUrl';
 import Image from 'next/image';
 import ManagedMemberCard from '../ManagedMemberCard';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import teamsApi from 'apis/teams.api';
 import ExportMemberButton from '../ExportMemberButton';
 import MessageButton from '../MessageButton';
@@ -14,6 +14,8 @@ interface Props {
 
 const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
   const queryClient = useQueryClient();
+
+  const { isLoading, isError, error, data } = useQuery(['team-member', teamId], () => teamsApi.getTeamMembers(teamId));
   const { mutate: deleteTeam } = useMutation(() => teamsApi.deleteTeam(teamId, { isRequiredLogin: true }), {
     onSuccess: () => {
       onOffHandler(false);
@@ -24,7 +26,13 @@ const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
   const deleteTeamHandler = () => {
     deleteTeam();
   };
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
 
+  if (isError) {
+    return <h1>{error}</h1>;
+  }
   return (
     <Modal>
       <ModalBox>
@@ -35,10 +43,14 @@ const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
         <p>멤버들에게 메시지를 보내거나 팀장으로서 관리해보세요.</p>
         <ListContainer>
           <div>
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
-            <ManagedMemberCard leftButton={<ExportMemberButton />} rightButton={<MessageButton />} />
+            {data.map((member) => (
+              <ManagedMemberCard
+                key={member.id}
+                memberInfo={member}
+                leftButton={<ExportMemberButton />}
+                rightButton={<MessageButton />}
+              />
+            ))}
           </div>
           <button onClick={deleteTeamHandler}>팀 삭제</button>
         </ListContainer>

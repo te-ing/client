@@ -58,7 +58,9 @@ const TeamCard = ({ teamInfo, isLeader }: Props) => {
               <span>관리하기</span>
             </Button>
             <Button bgColor onClick={() => setApplyModal(true)}>
-              <span>가입요청</span>
+              <span>
+                가입요청<span>{teamInfo.checkApplied.filter((member) => member.memberType === 'pended').length}</span>
+              </span>
             </Button>
           </ManagementSection>
         )}
@@ -162,5 +164,9 @@ const Button = styled.button<{ bgColor?: boolean }>`
     font-weight: ${({ theme }) => theme.fontWeight.medium};
     line-height: 1.448125;
     margin-left: 4px;
+    & > span {
+      color: ${({ theme }) => theme.color.gray_700};
+      margin-left: 4px;
+    }
   }
 `;
