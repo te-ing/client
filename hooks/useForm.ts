@@ -7,6 +7,7 @@ const useForm = <T>(
   const handler = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
+      console.log(name, value);
       setValues({ ...values, [name]: value });
     },
     [values, setValues]

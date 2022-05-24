@@ -1,40 +1,50 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useRecoilState } from 'recoil';
 import Image from 'next/image';
+import Router from 'next/router';
 import styled from 'styled-components';
 import Banner from 'components/Profile/Banner';
+import Layout from 'components/Layout';
 import AddImage from 'components/Profile/AddImage';
 import ItemList from 'components/Profile/ItemList';
-import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
-import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
+import ProfileEdit from 'components/Profile/ProfileEdit';
+import UploadProduct from 'components/Profile/UploadProduct';
+import { ProfileLabel, FileInput } from 'components/common/Atomic/ImageInput';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { camera_icon, default_profile } from 'constants/imgUrl';
 import { userTabMenuArr } from 'constants/tabMenu';
-import usersApi from 'apis/users.api';
+import { ProfileIcon, ProfileWrapper, CameraIcon, CameraIconWrapper } from 'components/common/Atomic/Profile';
+import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
+import { UploadButton } from 'components/common/Atomic/Tabs/Button';
 import { UserEditForm } from 'types/user';
 import { userEditForm } from 'utils/userEditForm';
 import { numberWithCommas } from 'utils/numberWithCommas';
-import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
-import ProfileEdit from 'components/Profile/ProfileEdit';
-import UploadProduct from 'components/Profile/UploadProduct';
-import { UploadButton } from 'components/common/Atomic/Tabs/Button';
-import useForm from 'hooks/useForm';
-import Router from 'next/router';
-import { useRecoilState } from 'recoil';
-import Layout from 'components/Layout';
+import { camera_icon, default_profile } from 'constants/imgUrl';
 import { userInfoState } from 'recoil/auth';
+import useForm from 'hooks/useForm';
+import usersApi from 'apis/users.api';
+import { useUploadImage } from 'hooks/useUploadImage';
 
 const Profile = () => {
   const queryClient = useQueryClient();
   const [, setUserInfo] = useRecoilState(userInfoState);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [currentTab, setCurrentTab] = useState('postCount');
+  const [values, setValues, handler] = useForm<UserEditForm | null>(null);
+  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
 
   const { isLoading, isError, error, data } = useQuery(
     ['user-profile'],
     () => usersApi.checkUsers(sessionStorage.getItem('id')),
     {
       onSuccess: (data) => {
-        setValues(userEditForm(data));
-        setUserInfo(data);
+        if (!editMode) {
+          setValues(userEditForm(data));
+          setUserInfo(data);
+          setBannerImg(data.backgroundImage);
+          setProfileImg(data.profileImage);
+        }
       },
       onError: () => {
         Router.push('/');
@@ -46,16 +56,10 @@ const Profile = () => {
     () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
     {
       onSuccess: ({ data }) => {
-        console.log(data);
         queryClient.setQueryData('user-profile', data);
       },
     }
   );
-
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [currentTab, setCurrentTab] = useState('postCount');
-  const [values, setValues, handler] = useForm<UserEditForm | null>(null);
-  //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
 
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
@@ -86,6 +90,11 @@ const Profile = () => {
       Router.push('/');
     }
   }, []);
+
+  useEffect(() => {
+    setValues({ ...values, profileImage: profileImg });
+  }, [profileImg]);
+
   if (isLoading) {
     return <h1>Loading</h1>;
   }
@@ -102,23 +111,28 @@ const Profile = () => {
       <InfoWrapper>
         <ProfileImg>
           {editMode ? (
-            <ImageUploadWrapper name="editProfile">
-              <ProfileWrapper>
-                <ProfileIcon
-                  alt="icon-profile"
-                  src={!data?.profileImage ? default_profile : data?.profileImage}
-                  width={116}
-                  height={116}
-                />
-                <CameraIconWrapper direction="left">
-                  <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
-                </CameraIconWrapper>
-              </ProfileWrapper>
-            </ImageUploadWrapper>
+            <>
+              <ProfileLabel htmlFor="file-input">
+                <ProfileWrapper>
+                  <ProfileIcon
+                    alt="icon-profile"
+                    src={profileImg.length > 0 ? profileImg : default_profile}
+                    // src={!data?.profileImage ? default_profile : data?.profileImage}
+                    width={116}
+                    height={116}
+                  />
+                  <CameraIconWrapper direction="left">
+                    <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
+                  </CameraIconWrapper>
+                </ProfileWrapper>
+              </ProfileLabel>
+              <FileInput id="file-input" type="file" name="profileImage" onChange={profileImgUpload} />
+            </>
           ) : (
             <ProfileWrapper>
               <ImgWrapper
                 alt="icon-profile"
+                // src="https://dreamin-image.s3.ap-northeast-2.amazonaws.com/1.PNG"
                 src={!data?.profileImage ? default_profile : data?.profileImage}
                 width={116}
                 height={116}

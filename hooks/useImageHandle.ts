@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AWS from 'aws-sdk';
 
 const useImageHandle = (name: string) => {
-  const [isUpload, setIsUpload] = useState(false);
+  // const [isUpload, setIsUpload] = useState(false);
 
   const awsObj = AWS.config.update({
     accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
@@ -35,12 +35,12 @@ const useImageHandle = (name: string) => {
         if (err) console.log(err);
       });
 
-    setIsUpload(true);
+    // setIsUpload(true);
     // const uploadedUserProfileInfo = { ...userInfo, userProfile: readedFile };
     // setUserInfo(uploadedUserProfileInfo);
   };
 
-  return { storeImage };
+  return storeImage;
 };
 
 export default useImageHandle;

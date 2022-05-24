@@ -17,7 +17,7 @@ const Register = () => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = (e) => {
-      setImgFile(e.target.result);
+      // setImgFile(e.target.result);
     };
   };
 
@@ -34,7 +34,7 @@ const Register = () => {
       ) : (
         <>
           <S.RegisterSubInfo>컨텐츠를 등록해주세요!</S.RegisterSubInfo>
-          <S.RegisterButtonWrapper>
+          {/* <S.RegisterButtonWrapper>
             {contents.map((content) => {
               return (
                 <ImageUploadWrapper name="works" key={content}>
@@ -64,7 +64,7 @@ const Register = () => {
                 </ImageUploadWrapper>
               );
             })}
-          </S.RegisterButtonWrapper>
+          </S.RegisterButtonWrapper> */}
         </>
       )}
       <S.UploadButton>업로드 하기</S.UploadButton>
