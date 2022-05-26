@@ -1,5 +1,6 @@
 import React, { SetStateAction, useEffect, useState } from 'react';
 import AWS from 'aws-sdk';
+import shortId from 'shortid';
 
 export const useUploadImage = (): [
   string,
@@ -16,7 +17,7 @@ export const useUploadImage = (): [
 
   const storeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile = (e.target as HTMLInputElement).files[0];
-    const currentFileName = currentFile.name.replaceAll(' ', '');
+    const currentFileName = currentFile.name.replaceAll(' ', '') + shortId.generate();
 
     AWS.config.update({
       region: 'ap-northeast-2',
@@ -36,7 +37,7 @@ export const useUploadImage = (): [
     const promise = upload.promise();
 
     promise.then((data) => {
-      console.log('dsafas', data);
+      console.log('S3 이미지', data);
       setImgUrl(data.Location);
     });
   };

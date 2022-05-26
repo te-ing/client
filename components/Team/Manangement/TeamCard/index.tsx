@@ -103,6 +103,7 @@ const TeamInfo = styled.div`
   }
 
   & > p {
+    line-height: 1.65;
     width: 342px;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -27,6 +27,11 @@ import QuitTeam from 'components/Team/Manangement/QuitTeam';
 import { teamEditForm } from 'utils/teamEditForm';
 import TeamPostList from 'components/Team/Profile/TeamPostList';
 import MemberList from 'components/Team/Profile/MemberList';
+import { FileInput, ProfileLabel } from 'components/common/Atomic/ImageInput';
+import { useUploadImage } from 'hooks/useUploadImage';
+import AddImage from 'components/Profile/AddImage';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from 'recoil/auth';
 
 //props로 id 넘겨주기
 
@@ -34,6 +39,13 @@ const TeamProfile = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = router.query;
+  const [editMode, setEditMode] = useState(false);
+  const [currentTab, setCurrentTab] = useState('postCount');
+  const [values, setValues, handler] = useForm<TeamEditForm>();
+  const [userState] = useRecoilState(userInfoState);
+
+  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
 
   const {
     isLoading: profileIsLoading,
@@ -42,8 +54,11 @@ const TeamProfile = () => {
     data: profileData,
   } = useQuery(['team-profile', id], () => teamsApi.checkTeamProfile(id), {
     onSuccess: (data) => {
-      console.log('profile', data);
-      setValues(teamEditForm(data));
+      if (!editMode) {
+        setValues(teamEditForm(data));
+        setBannerImg(data.backgroundImage);
+        setProfileImg(data.teamProfileImage);
+      }
     },
   });
   const {
@@ -65,10 +80,6 @@ const TeamProfile = () => {
       },
     }
   );
-  const [editMode, setEditMode] = useState(false);
-  const [currentTab, setCurrentTab] = useState('postCount');
-  const [values, setValues, handler] = useForm<TeamEditForm>();
-  const [userId, setUserId] = useState<number>();
   // const [values, setValues, handler] = useForm<TeamEditForm>();
 
   //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
@@ -99,7 +110,6 @@ const TeamProfile = () => {
   );
 
   useEffect(() => {
-    setUserId(parseInt(sessionStorage.getItem('id')));
     return () => {
       teamTabMenuArr.forEach((tab) => {
         if (tab.id === 'memberCount') tab.isActive = false;
@@ -107,6 +117,14 @@ const TeamProfile = () => {
       });
     };
   }, []);
+
+  useEffect(() => {
+    setValues({ ...values, team_profile_image: profileImg });
+  }, [profileImg]);
+
+  useEffect(() => {
+    setValues({ ...values, background_image: bannerImg });
+  }, [bannerImg]);
 
   if (profileIsLoading || memberisLoading) {
     return (
@@ -122,23 +140,39 @@ const TeamProfile = () => {
 
   return (
     <Layout>
-      <Banner bannerImg={profileData?.backgroundImage} />
+      {editMode ? (
+        <>
+          <AddImage
+            bannerImg={bannerImg}
+            bannerImgUpload={bannerImgUpload}
+            editMode={editMode}
+            text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
+          />
+          <button onClick={() => setBannerImg('')}>초기화</button>
+        </>
+      ) : (
+        <Banner bannerImg={profileData?.backgroundImage} />
+      )}
+
       <InfoWrapper>
         <div>
           {editMode ? (
-            <ImageUploadWrapper name="editProfile">
-              <ProfileWrapper>
-                <ImgWrapper
-                  alt="icon-profile"
-                  src={profileData?.teamProfileImage ? profileData?.teamProfileImage : team_profile_icon}
-                  width={120}
-                  height={120}
-                />
-                <CameraIconWrapper>
-                  <Image alt="icon-camera" src={camera_icon} width={24} height={24} />
-                </CameraIconWrapper>
-              </ProfileWrapper>
-            </ImageUploadWrapper>
+            <>
+              <ProfileLabel htmlFor="file-input">
+                <ProfileWrapper>
+                  <ImgWrapper
+                    alt="icon-profile"
+                    src={profileImg.length ? profileImg : team_profile_icon}
+                    width={120}
+                    height={120}
+                  />
+                  <CameraIconWrapper>
+                    <Image alt="icon-camera" src={camera_icon} width={24} height={24} />
+                  </CameraIconWrapper>
+                </ProfileWrapper>
+                <FileInput id="file-input" type="file" name="team_profile_image" onChange={profileImgUpload} />
+              </ProfileLabel>
+            </>
           ) : (
             <ProfileWrapper>
               <ImgWrapper
@@ -161,12 +195,12 @@ const TeamProfile = () => {
           </InfoDescription>
         </InfoSection>
         <InfoAside>
-          {profileData.leader === userId ? (
+          {profileData.leader === userState.id ? (
             <>
               <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
               {!editMode && <UploadProduct />}
             </>
-          ) : membersData.map((member) => member.id).includes(userId) ? (
+          ) : membersData.map((member) => member.user).includes(userState.id) ? (
             <QuitTeam />
           ) : (
             <>
@@ -185,7 +219,7 @@ const TeamProfile = () => {
         ))}
       </div>
       {currentTab === 'postCount' && (
-        <TeamPostList teamId={id} isLeader={profileData.leader === userId ? true : false} editMode={editMode} />
+        <TeamPostList teamId={id} isLeader={profileData.leader === userState.id ? true : false} editMode={editMode} />
       )}
       {currentTab === 'memberCount' && <MemberList memberList={membersData} />}
     </Layout>

@@ -95,6 +95,10 @@ const Profile = () => {
     setValues({ ...values, profileImage: profileImg });
   }, [profileImg]);
 
+  useEffect(() => {
+    setValues({ ...values, backgroundImage: bannerImg });
+  }, [bannerImg]);
+
   if (isLoading) {
     return <h1>Loading</h1>;
   }
@@ -103,11 +107,22 @@ const Profile = () => {
   }
   return (
     <Layout>
-      <Banner bannerImg={data?.backgroundImage}>
-        {(!data?.backgroundImage || editMode) && (
-          <AddImage editMode={editMode} text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'} />
-        )}
-      </Banner>
+      {/* editMode || !data?.backgroundImage */}
+      {editMode ? (
+        <>
+          <AddImage
+            bannerImg={bannerImg}
+            bannerImgUpload={bannerImgUpload}
+            editMode={editMode}
+            text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
+          />
+          <button onClick={() => setBannerImg('')}>초기화</button>
+        </>
+      ) : (
+        <>
+          <Banner bannerImg={data?.backgroundImage} />
+        </>
+      )}
       <InfoWrapper>
         <ProfileImg>
           {editMode ? (
@@ -117,7 +132,6 @@ const Profile = () => {
                   <ProfileIcon
                     alt="icon-profile"
                     src={profileImg.length > 0 ? profileImg : default_profile}
-                    // src={!data?.profileImage ? default_profile : data?.profileImage}
                     width={116}
                     height={116}
                   />
@@ -132,7 +146,6 @@ const Profile = () => {
             <ProfileWrapper>
               <ImgWrapper
                 alt="icon-profile"
-                // src="https://dreamin-image.s3.ap-northeast-2.amazonaws.com/1.PNG"
                 src={!data?.profileImage ? default_profile : data?.profileImage}
                 width={116}
                 height={116}
@@ -164,7 +177,6 @@ const Profile = () => {
         <InfoAside>
           <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
           {!editMode && <UploadProduct />}
-          <UploadButton />
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
