@@ -7,6 +7,8 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import teamsApi from 'apis/teams.api';
 import ExportMemberButton from '../ExportMemberButton';
 import MessageButton from '../MessageButton';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from 'recoil/auth';
 interface Props {
   teamId: string;
   onOffHandler: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,7 +16,7 @@ interface Props {
 
 const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
   const queryClient = useQueryClient();
-
+  const [userState] = useRecoilState(userInfoState);
   const { isLoading, isError, error, data } = useQuery(['team-member', teamId], () => teamsApi.getTeamMembers(teamId));
   const { mutate: deleteTeam } = useMutation(() => teamsApi.deleteTeam(teamId, { isRequiredLogin: true }), {
     onSuccess: () => {
@@ -43,14 +45,16 @@ const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
         <p>멤버들에게 메시지를 보내거나 팀장으로서 관리해보세요.</p>
         <ListContainer>
           <div>
-            {data.map((member) => (
-              <ManagedMemberCard
-                key={member.id}
-                memberInfo={member}
-                leftButton={<ExportMemberButton />}
-                rightButton={<MessageButton />}
-              />
-            ))}
+            {data
+              .filter((member) => member.user !== userState.id)
+              .map((member) => (
+                <ManagedMemberCard
+                  key={member.user}
+                  memberInfo={member}
+                  leftButton={<ExportMemberButton />}
+                  rightButton={<MessageButton />}
+                />
+              ))}
           </div>
           <button onClick={deleteTeamHandler}>팀 삭제</button>
         </ListContainer>

@@ -21,7 +21,7 @@ export interface TeamEditForm {
 }
 
 export interface MemberTypes {
-  id: number;
+  user: number;
   nickname: string;
   postCount: number;
   image: string;

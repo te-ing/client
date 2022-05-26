@@ -6,13 +6,13 @@ import { useQuery } from 'react-query';
 import usersApi from 'apis/users.api';
 import Header from 'components/header';
 import { useRecoilState } from 'recoil';
-import { socialLoginState } from 'recoil/auth';
+import { userInfoState } from 'recoil/auth';
 import { team_add_icon } from 'constants/imgUrl';
 import TeamCard from 'components/Team/Manangement/TeamCard';
 import TeamCreateModal from 'components/Team/Manangement/TeamCreateModal';
 
 const TeamManagement = () => {
-  //const [loginState] = useRecoilState(socialLoginState);
+  const [userState] = useRecoilState(userInfoState);
   const [teamCreateModal, setTeamCreateModal] = useState<boolean>(false);
   const { isLoading, isError, error, data } = useQuery(
     ['team-list'],
@@ -37,7 +37,7 @@ const TeamManagement = () => {
         <TeamKind>
           <div>
             <h1>개설한 팀</h1>
-            <span>123님만의 새로운 팀을 만들어 보세요!</span>
+            <span>{userState.nickname}님만의 새로운 팀을 만들어 보세요!</span>
           </div>
           <TeamAddButton onClick={() => setTeamCreateModal(true)}>
             <Image src={team_add_icon} width={24} height={24} />

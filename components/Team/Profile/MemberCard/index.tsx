@@ -12,7 +12,7 @@ interface Props {
 
 const MemberCard = ({ memberInfo }: Props) => {
   return (
-    <Link href={`/user/${memberInfo.id}`}>
+    <Link href={`/user/${memberInfo.user}`}>
       <CardContainer>
         <Image src={memberInfo.image.length > 0 ? memberInfo.image : default_profile} width={56} height={56}></Image>
         <span>{memberInfo.nickname}</span>
