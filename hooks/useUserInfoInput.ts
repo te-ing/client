@@ -8,20 +8,24 @@ import { useQuery } from 'react-query';
 import UsersAPI from 'apis/users.api';
 
 import * as R from 'constants/regExp';
-import { handleEncode } from 'utils/handleEncode';
+
+interface checkUserNameResult {
+  message?: string;
+}
 
 const useUserInfoInput = () => {
   const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
   const { email, nickname } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
 
   const [isEmailCorrect, setEmailCorrect] = useState(false);
+  const [isNicknameUnique, setNicknameUnique] = useState(true);
 
   const { status } = useQuery(
     ['checkUser', nickname],
-    () => {
-      const encodedNickname = handleEncode(nickname);
-      const params = { nickname: encodedNickname };
-      UsersAPI.checkUserName(params);
+    async () => {
+      const params = { nickname: nickname };
+      const result: checkUserNameResult = await UsersAPI.checkUserName(params);
+      result.message === 'check nickname fail' ? setNicknameUnique(false) : setNicknameUnique(true);
     },
     {
       enabled: nickname.length !== 0,
@@ -42,7 +46,7 @@ const useUserInfoInput = () => {
     else setEmailCorrect(false);
   }, [email]);
 
-  return { email, nickname, isEmailCorrect, status, handleUserInfo };
+  return { email, nickname, isEmailCorrect, status, handleUserInfo, isNicknameUnique };
 };
 
 export default useUserInfoInput;

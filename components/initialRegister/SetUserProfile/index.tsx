@@ -19,7 +19,7 @@ const SetUserProfile: React.FC = () => {
   const { isNext, navigateToNext, isSkip, skip } = useModal();
   const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
 
-  const { email, nickname, isEmailCorrect, status, handleUserInfo } = useUserInfoInput();
+  const { email, nickname, isEmailCorrect, status, handleUserInfo, isNicknameUnique } = useUserInfoInput();
 
   if (isNext) return <SetUserInterest />;
   else if (isSkip) return <CompleteRegister />;
@@ -57,7 +57,7 @@ const SetUserProfile: React.FC = () => {
             <S.Alert>
               {nickname?.length === 0
                 ? ''
-                : status === 'success'
+                : isNicknameUnique
                 ? '사용 가능한 닉네임 입니다.'
                 : '중복되는 닉네임 입니다.'}
             </S.Alert>
