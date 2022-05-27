@@ -20,4 +20,10 @@ export const StyledButton = styled.button<ButtonPropsType>`
   &:hover {
     background-color: #bdf486;
   }
+
+  &:disabled {
+    color: #b0b0b0;
+    background-color: #eeeeee;
+    cursor: default;
+  }
 `;
