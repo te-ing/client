@@ -114,8 +114,15 @@ const SetUserInterest: React.FC = () => {
     storeTagInfo(mainCategoryID, subCategoryID);
   };
 
+  const userInfoCategories = userInfo.mainCategory.map((category) => category.subCategory.join(','));
+  const userData = {
+    email: userInfo.email,
+    nickname: userInfo.nickname,
+    categories: userInfoCategories.join(','),
+  };
+
   if (isNext) return <CompleteRegister />;
-  console.log(userInfo.mainCategory);
+
   return (
     <S.Wrapper>
       <S.InfoHeader>
@@ -146,7 +153,7 @@ const SetUserInterest: React.FC = () => {
           );
         })}
       </S.CategoriesWrapper>
-      <Button sort="setUserInteres" name="관심분야 설정 완료" navigateToNext={navigateToNext} />
+      <Button sort="setUserInteres" name="관심분야 설정 완료" navigateToNext={navigateToNext} userData={userData} />
     </S.Wrapper>
   );
 };

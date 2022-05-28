@@ -20,6 +20,10 @@ const SetUserProfile: React.FC = () => {
   const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
 
   const { email, nickname, isEmailCorrect, status, handleUserInfo, isNicknameUnique } = useUserInfoInput();
+  const userdata = {
+    email: email,
+    nickname: nickname,
+  };
 
   if (isNext) return <SetUserInterest />;
   else if (isSkip) return <CompleteRegister />;
@@ -63,7 +67,13 @@ const SetUserProfile: React.FC = () => {
             </S.Alert>
           </S.UserInfoInputInner>
         </S.UserInfoInputWrapper>
-        <Button sort="setUserProfile" name="관심분야 설정하러가기" navigateToNext={navigateToNext} />
+        <Button
+          sort="setUserProfile"
+          name="관심분야 설정하러가기"
+          userData={userdata}
+          navigateToNext={navigateToNext}
+          disabled={status === 'success' && isEmailCorrect && isNicknameUnique ? false : true}
+        />
         <S.SkipButton onClick={skip}>다음에 하기</S.SkipButton>
       </S.Wrapper>
     );

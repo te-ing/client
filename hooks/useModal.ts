@@ -3,6 +3,7 @@ import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { userRegisterInfoState } from 'recoil/auth';
 import { useQuery } from 'react-query';
 import UsersAPI from 'apis/users.api';
+import { useRouter } from 'next/router';
 
 const useModal = () => {
   const [isShowing, setIsShowing] = useState(false);
@@ -11,6 +12,7 @@ const useModal = () => {
   const [isComplete, setComplete] = useState(false);
   const userInfo = useRecoilValue(userRegisterInfoState);
   const resetUserInfo = useResetRecoilState(userRegisterInfoState);
+  const route = useRouter();
 
   const { data } = useQuery(
     ['registerUser', userInfo],
@@ -25,8 +27,8 @@ const useModal = () => {
   const navigateToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const currentModalButton = (e.target as HTMLButtonElement).name;
     if (currentModalButton === '프로필 설정하기') {
-      setComplete(!isComplete);
       setModalVisible();
+      route.push('/');
     } else setIsNext(true);
   };
 
