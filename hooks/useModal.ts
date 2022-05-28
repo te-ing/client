@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { userRegisterInfoState } from 'recoil/auth';
 import { useQuery } from 'react-query';
 import UsersAPI from 'apis/users.api';
@@ -9,9 +9,7 @@ const useModal = () => {
   const [isShowing, setIsShowing] = useState(false);
   const [isNext, setIsNext] = useState(false);
   const [isSkip, setIsSkip] = useState(false);
-  const [isComplete, setComplete] = useState(false);
   const userInfo = useRecoilValue(userRegisterInfoState);
-  const resetUserInfo = useResetRecoilState(userRegisterInfoState);
   const route = useRouter();
 
   const { data } = useQuery(
@@ -20,7 +18,7 @@ const useModal = () => {
       UsersAPI.registerUser(userInfo);
     },
     {
-      enabled: isComplete,
+      enabled: false,
     }
   );
 
@@ -34,13 +32,8 @@ const useModal = () => {
 
   const skip = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => setIsSkip(true);
 
-  const initializeForm = () => {
-    resetUserInfo();
-  };
-
   const setModalVisible = () => {
     setIsShowing(!isShowing);
-    initializeForm();
   };
 
   return { isShowing, setModalVisible, isNext, navigateToNext, isSkip, skip };

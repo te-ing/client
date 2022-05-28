@@ -7,16 +7,20 @@ export interface ButtonPropsType {
   sort: string;
   name?: string;
   navigateToNext?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-  consoleTest?: (userData: UserEditForm) => void;
   userData?: UserEditForm;
   disabled?: boolean;
 }
 
 const Button: React.FC<ButtonPropsType> = ({ sort, name, navigateToNext, userData, disabled = false }) => {
-  console.log(userData);
   const editUserData = async (userData: UserEditForm) => {
     if (!userData) return;
-    const params = sessionStorage.getItem('id');
+    const userId = sessionStorage.getItem('id');
+    if (!userData?.email) {
+      const userInfoData = await usersApi.getUserInfo(Number(userId));
+      userData.email = userInfoData.email;
+      userData.nickname = userInfoData.nickname;
+    }
+
     const body = {
       headers: {
         Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
@@ -29,7 +33,7 @@ const Button: React.FC<ButtonPropsType> = ({ sort, name, navigateToNext, userDat
       categories: userData?.categories,
     };
     const config = { isRequiredLogin: true };
-    const result = await usersApi.editUser(params, body, config);
+    const result = await usersApi.editUser(userId, body, config);
     return result;
   };
 

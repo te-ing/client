@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './SetUserInterest.style';
 
 import CompleteRegister from '../CompleteRegister';
-
-import { useRecoilState } from 'recoil';
-import { userRegisterInfoState } from 'recoil/auth';
-import type { UserRegisterInfoType } from 'recoil/auth';
 
 import Button from '../Button';
 
@@ -29,96 +25,18 @@ export interface StyledTagType {
 }
 
 const SetUserInterest: React.FC = () => {
-  const [userInfo, setUserInfo] = useRecoilState<UserRegisterInfoType>(userRegisterInfoState);
-
+  const [userInterests, setUserInterests] = useState([]);
   const { navigateToNext, isNext } = useModal();
-
-  const checkActiveButton = (currentTag: string): boolean => {
-    let isActive = false;
-
-    const [mainCategoryID, subCategoryID] = currentTag.split('-');
-    const { mainCategory } = userInfo;
-
-    mainCategory.forEach(({ mainCategory, subCategory }) => {
-      if (mainCategory === Number(mainCategoryID) && subCategory.includes(Number(subCategoryID))) isActive = true;
-    });
-
-    return isActive;
-  };
-
-  const storeTagInfo = (mainCategoryID: string, subCategoryID: string) => {
-    const { mainCategory } = userInfo;
-    let isCategoryExisted = false;
-    let currentCategoryIndex;
-
-    mainCategory.forEach(({ mainCategory }, index) => {
-      if (mainCategory === Number(mainCategoryID)) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        isCategoryExisted = true;
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        currentCategoryIndex = index;
-        return;
-      }
-    });
-
-    if (isCategoryExisted) {
-      const { subCategory } = mainCategory[currentCategoryIndex];
-      let updateSubCategory = [];
-
-      if (subCategory.includes(Number(subCategoryID))) {
-        updateSubCategory = subCategory.filter((id) => id !== Number(subCategoryID));
-
-        if (updateSubCategory.length === 0) {
-          setUserInfo({
-            ...userInfo,
-            mainCategory: mainCategory.filter((categoryInfo) => categoryInfo.mainCategory !== Number(mainCategoryID)),
-          });
-          return;
-        } else {
-          setUserInfo({
-            ...userInfo,
-            mainCategory: mainCategory.map((categoryInfo) => {
-              if (categoryInfo.mainCategory === Number(mainCategoryID))
-                return { ...categoryInfo, subCategory: updateSubCategory };
-              else return categoryInfo;
-            }),
-          });
-        }
-      } else {
-        setUserInfo({
-          ...userInfo,
-          mainCategory: mainCategory.map((categoryInfo) => {
-            if (categoryInfo.mainCategory === Number(mainCategoryID))
-              return { ...categoryInfo, subCategory: categoryInfo.subCategory.concat(Number(subCategoryID)) };
-            else return categoryInfo;
-          }),
-        });
-      }
-    } else {
-      const initialCategory = {
-        mainCategory: Number(mainCategoryID),
-        subCategory: [Number(subCategoryID)],
-      };
-
-      setUserInfo({ ...userInfo, mainCategory: [...mainCategory, initialCategory] });
-    }
-  };
 
   const handleClickedTag = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const currentTag = e.target as HTMLButtonElement;
-
     if (currentTag.nodeName !== 'BUTTON') return;
-
-    const [mainCategoryID, subCategoryID] = currentTag.id.split('-');
-
-    storeTagInfo(mainCategoryID, subCategoryID);
-  };
-
-  const userInfoCategories = userInfo.mainCategory.map((category) => category.subCategory.join(','));
-  const userData = {
-    email: userInfo.email,
-    nickname: userInfo.nickname,
-    categories: userInfoCategories.join(','),
+    const targetId = currentTag.id.split('-')[1];
+    if (userInterests.includes(targetId)) {
+      setUserInterests(userInterests.filter((id) => id !== targetId));
+    } else {
+      setUserInterests([...userInterests, targetId]);
+    }
   };
 
   if (isNext) return <CompleteRegister />;
@@ -139,11 +57,7 @@ const SetUserInterest: React.FC = () => {
               <S.SubCategoryList onClick={handleClickedTag}>
                 {categoryInfo.subCategory.map(({ id, name }: UserSubCategoryInfoType) => {
                   return (
-                    <S.Tag
-                      key={id}
-                      id={`${categoryInfo.id}-${id}`}
-                      isActive={checkActiveButton(`${categoryInfo.id}-${id}`)}
-                    >
+                    <S.Tag key={id} id={`${categoryInfo.id}-${id}`} isActive={userInterests.includes(String(id))}>
                       {name}
                     </S.Tag>
                   );
@@ -153,7 +67,12 @@ const SetUserInterest: React.FC = () => {
           );
         })}
       </S.CategoriesWrapper>
-      <Button sort="setUserInteres" name="관심분야 설정 완료" navigateToNext={navigateToNext} userData={userData} />
+      <Button
+        sort="setUserInteres"
+        name="관심분야 설정 완료"
+        navigateToNext={navigateToNext}
+        userData={{ categories: userInterests.join(',') }}
+      />
     </S.Wrapper>
   );
 };
