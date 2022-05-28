@@ -15,8 +15,8 @@ export interface User {
 }
 
 export interface UserEditForm {
-  email: string;
-  nickname: string;
+  email?: string;
+  nickname?: string;
   description?: string;
   profileImage?: string;
   backgroundImage?: string;
