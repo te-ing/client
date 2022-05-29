@@ -1,4 +1,5 @@
-import { atom } from 'recoil';
+import usersApi from 'apis/users.api';
+import { atom, selector, selectorFamily } from 'recoil';
 import { User } from 'types/user';
 
 export interface UserCategoryType {
@@ -22,9 +23,31 @@ export interface socialLoginState {
   socialType: string;
 }
 
-export const userInfo = atom<User | null>({
+export const userInfoState = atom<User>({
   key: 'userInfo',
-  default: null,
+  default: {
+    id: 0,
+    email: '',
+    nickname: '',
+    description: '',
+    profileImage: '',
+    backgroundImage: '',
+    categories: [],
+    postCount: 0,
+    scrapCount: 0,
+    followerCount: 0,
+    followingCount: 0,
+  },
+});
+
+export const getUserInfoState = selectorFamily({
+  key: 'userInfo/get',
+  get: (userId: User['id']) => async () => {
+    if (!userId) return '';
+
+    const response = await usersApi.getUserInfo(userId);
+    return response;
+  },
 });
 
 export const userRegisterInfoState = atom<UserRegisterInfoType>({

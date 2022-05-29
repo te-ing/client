@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import { useQuery, QueryClient, dehydrate } from 'react-query';
+import { useCallback, useEffect, useState } from 'react';
+import { useQuery, QueryClient, dehydrate, useMutation, useQueryClient } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 import ItemList from 'components/Profile/ItemList';
@@ -8,43 +8,66 @@ import { userTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { ProfileWrapper } from 'components/common/Atomic/Profile';
-import { default_profile } from 'constants/imgUrl';
+import { CameraIcon, CameraIconWrapper, ProfileIcon, ProfileWrapper } from 'components/common/Atomic/Profile';
+import { camera_icon, default_profile } from 'constants/imgUrl';
 import { numberWithCommas } from 'utils/numberWithCommas';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
 import Following from 'components/User/Following';
 import Message from 'components/User/Message';
 import styled from 'styled-components';
 import { GetStaticPropsContext } from 'next';
+import { useUploadImage } from 'hooks/useUploadImage';
+import useForm from 'hooks/useForm';
+import { UserEditForm } from 'types/user';
+import { userEditForm } from 'utils/userEditForm';
+import AddImage from 'components/Profile/AddImage';
+import { FileInput, ProfileLabel } from 'components/common/Atomic/ImageInput';
+import { useRecoilState } from 'recoil';
+import { userInfoState } from 'recoil/auth';
+import ProfileEdit from 'components/Profile/ProfileEdit';
+import UploadProduct from 'components/Profile/UploadProduct';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
+  const queryClient = useQueryClient();
+  const [userState] = useRecoilState(userInfoState);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [currentTab, setCurrentTab] = useState('postCount');
+  const [values, setValues, handler] = useForm<UserEditForm | null>(null);
+  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
 
   const { isLoading, isError, error, data } = useQuery(['user-profile', id], () => usersApi.checkUsers(id), {
+    onSuccess: (data) => {
+      if (!editMode) {
+        setValues(userEditForm(data));
+        setBannerImg(data.backgroundImage);
+        setProfileImg(data.profileImage);
+      }
+    },
     onError: (error) => {
       console.log(error);
     },
   }); // useQuery로 유저정보 받아옴.
 
-  const [currentTab, setCurrentTab] = useState('post');
-
-  //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
-  const Items = {
-    post: ['작업물1'], //['아이템1', '아이템2'],
-    scrap: [
-      '',
-      '스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.스크랩1 제목입니다.',
-      '스크랩2',
-      '스크랩3',
-      '스크랩4',
-      '스크랩5',
-      '스크랩6',
-      '스크랩7',
-      '스크랩8',
-      '스크랩9',
-    ],
-  };
+  const { mutate: userInfoMutate } = useMutation(
+    () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
+    {
+      onSuccess: ({ data }) => {
+        queryClient.setQueryData('user-profile', data);
+      },
+    }
+  );
+  const editModeOnOff = useCallback(
+    (flag: boolean) => () => {
+      setEditMode(flag);
+      if (!flag) {
+        userInfoMutate();
+      }
+    },
+    [editMode]
+  );
 
   const selectTab = useCallback(
     (id: string) => () => {
@@ -59,22 +82,73 @@ const UserProfile: React.FC = () => {
     },
     [currentTab]
   );
+  // useEffect(() => {
+  //   return () => {
+  //     teamTabMenuArr.forEach((tab) => {
+  //       if (tab.id === 'memberCount') tab.isActive = false;
+  //       else tab.isActive = true;
+  //     });
+  //   };
+  // }, []);
+
+  useEffect(() => {
+    setValues({ ...values, profileImage: profileImg });
+  }, [profileImg]);
+
+  useEffect(() => {
+    setValues({ ...values, backgroundImage: bannerImg });
+  }, [bannerImg]);
 
   if (isError) {
     return <h1>{error}</h1>;
   }
   return (
-    <>
-      <Banner bannerImg={data?.backgroundImage} />
+    <Layout>
+      {editMode ? (
+        <>
+          <AddImage
+            bannerImg={bannerImg}
+            bannerImgUpload={bannerImgUpload}
+            editMode={editMode}
+            text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
+          />
+          <button onClick={() => setBannerImg('')}>초기화</button>
+        </>
+      ) : (
+        <>
+          <Banner bannerImg={data?.backgroundImage} />
+        </>
+      )}
       <InfoWrapper>
         <ProfileImg>
           <ProfileWrapper>
-            <ImgWrapper
-              alt="icon-profile"
-              src={!data?.profileImage ? default_profile : data?.profileImage}
-              width={116}
-              height={116}
-            />
+            {editMode ? (
+              <>
+                <ProfileLabel htmlFor="file-input">
+                  <ProfileWrapper>
+                    <ProfileIcon
+                      alt="icon-profile"
+                      src={profileImg.length > 0 ? profileImg : default_profile}
+                      width={116}
+                      height={116}
+                    />
+                    <CameraIconWrapper direction="left">
+                      <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
+                    </CameraIconWrapper>
+                  </ProfileWrapper>
+                </ProfileLabel>
+                <FileInput id="file-input" type="file" name="profileImage" onChange={profileImgUpload} />
+              </>
+            ) : (
+              <ProfileWrapper>
+                <ImgWrapper
+                  alt="icon-profile"
+                  src={!data?.profileImage ? default_profile : data?.profileImage}
+                  width={116}
+                  height={116}
+                />
+              </ProfileWrapper>
+            )}
           </ProfileWrapper>
         </ProfileImg>
         <InfoSection>
@@ -91,26 +165,38 @@ const UserProfile: React.FC = () => {
               <span>팔로잉</span>
               <span>{numberWithCommas(Number(data?.followingCount))}</span>
             </FollowInfo>
-
-            <p>{data?.description}</p>
+            {editMode ? (
+              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
+            ) : (
+              <p>{data?.description}</p>
+            )}
           </InfoDescription>
         </InfoSection>
         <InfoAside>
-          <Following />
-          <Message />
+          {data.id === userState.id ? (
+            <>
+              <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
+              {!editMode && <UploadProduct />}
+            </>
+          ) : (
+            <>
+              <Following userId={id} />
+              <Message />
+            </>
+          )}
         </InfoAside>
       </InfoWrapper>
       <div style={{ marginBottom: '40px' }}>
         {userTabMenuArr.map((tab, i) => (
           <TabButton active={tab.isActive} key={i} onClick={selectTab(tab.id)}>
             {tab.name}
-            <span>{Items[tab.id].length}</span>
+            <span>{data[tab.id]}</span>
           </TabButton>
         ))}
       </div>
-      {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
-      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />}
-    </>
+      {/* {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
+      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />} */}
+    </Layout>
   );
 };
 

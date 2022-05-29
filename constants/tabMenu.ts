@@ -1,9 +1,9 @@
 export const userTabMenuArr = [
-  { id: 'post', name: '작업물', isActive: true },
-  { id: 'scrap', name: '스크랩', isActive: false },
+  { id: 'postCount', name: '작업물', isActive: true },
+  { id: 'scrapCount', name: '스크랩', isActive: false },
 ];
 
 export const teamTabMenuArr = [
-  { id: 'post', name: '작업물', isActive: true },
-  { id: 'member', name: '멤버', isActive: false },
+  { id: 'postCount', name: '작업물', isActive: true },
+  { id: 'memberCount', name: '멤버', isActive: false },
 ];

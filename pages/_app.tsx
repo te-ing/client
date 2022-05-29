@@ -15,11 +15,16 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
 
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>DreamIn</title>
+      </Head>
+      <GlobalStyle />
       <RecoilRoot>
         <QueryClientProvider client={queryClient.current}>
           <Hydrate state={pageProps.dehydratedState}>
             <ThemeProvider theme={theme}>
-              <GlobalStyle />
+              {/* <GlobalStyle /> */}
               <Component {...pageProps} />
             </ThemeProvider>
           </Hydrate>

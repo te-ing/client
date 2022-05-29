@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import * as S from './styles';
 import AddItemCard from 'components/common/AddItemCard';
 import Thumbnail from 'components/common/Thumbnail';
+import { PostType } from 'types/post';
 interface Props {
-  itemList: string[]; //데이터 형식에따라 타입 변환할 것
+  dataList: PostType[]; //데이터 형식에따라 타입 변환할 것
+  isLeader: boolean;
   editMode?: boolean;
 }
-const ItemList: React.FC<Props> = ({ itemList, editMode }) => {
+const ItemList: React.FC<Props> = ({ dataList, isLeader, editMode }) => {
   return (
     <S.ItemListWrapper>
-      {itemList.length ? (
-        itemList.map((item, i) => <Thumbnail key={i} item={item} editMode={editMode}></Thumbnail>)
-      ) : (
-        <AddItemCard></AddItemCard>
-      )}
+      {dataList.length > 0
+        ? dataList.map((item) => <Thumbnail key={item.id} item={item} editMode={editMode} />)
+        : isLeader && <AddItemCard></AddItemCard>}
     </S.ItemListWrapper>
   );
 };

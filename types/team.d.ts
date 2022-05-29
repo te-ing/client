@@ -1,5 +1,7 @@
+type AppliedMemberType = { user: number; memberType: string };
+
 export interface TeamTypes {
-  id: number;
+  id: string;
   title: string;
   description: string;
   leader: number;
@@ -8,4 +10,22 @@ export interface TeamTypes {
   postCount: number;
   memberCount: number;
   teamFollowCount: number;
+  checkApplied: AppliedMemberType[];
+}
+
+export interface TeamEditForm {
+  title: string;
+  description: string;
+  team_profile_image: string;
+  background_image: string;
+}
+
+export interface MemberTypes {
+  user: number;
+  nickname: string;
+  postCount: number;
+  image: string;
+  memberType: string;
+  followingCount: number;
+  followerCount: number;
 }
