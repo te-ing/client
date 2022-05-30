@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './SetUserProfile.style';
 
 import SetUserInterest from '../SetUserInterest';
@@ -7,23 +7,37 @@ import CompleteRegister from '../CompleteRegister';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import Button from '../Button';
 
-import { useRecoilValue } from 'recoil';
-import { userRegisterInfoState } from 'recoil/auth';
-import type { UserRegisterInfoType } from 'recoil/auth';
-
 import useModal from 'hooks/useModal';
-import useUserInfoInput from 'hooks/useUserInfoInput';
 import Image from 'next/image';
+import usersApi from 'apis/users.api';
+
+interface checkUserNameResult {
+  message?: string;
+}
 
 const SetUserProfile: React.FC = () => {
   const { isNext, navigateToNext, isSkip, skip } = useModal();
-  const { userProfile } = useRecoilValue<UserRegisterInfoType>(userRegisterInfoState);
+  const [userImage, setUserImage] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [isNicknameUnique, setisNicknameUnique] = useState(false);
+  const userData = { nickname: nickname };
 
-  const { email, nickname, isEmailCorrect, status, handleUserInfo, isNicknameUnique } = useUserInfoInput();
-  const userdata = {
-    email: email,
-    nickname: nickname,
+  const handleNicknameInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
   };
+
+  useEffect(() => {
+    const checkNickname = async () => {
+      if (!nickname) return;
+      const result: checkUserNameResult = await usersApi.checkUserName(nickname);
+      if (result.message === 'check nickname ok' && nickname.length > 1) {
+        setisNicknameUnique(true);
+      } else {
+        setisNicknameUnique(false);
+      }
+    };
+    checkNickname();
+  }, [nickname]);
 
   if (isNext) return <SetUserInterest />;
   else if (isSkip) return <CompleteRegister />;
@@ -40,7 +54,7 @@ const SetUserProfile: React.FC = () => {
           <ImageUploadWrapper name="profile">
             <S.ProfileIcon
               alt="icon-profile"
-              src={`${userProfile ? userProfile : '/images/icon-profile.svg'}`}
+              src={`${userImage ? userImage : '/images/icon-profile.svg'}`}
               width="120px"
               height="120px"
             />
@@ -49,30 +63,25 @@ const SetUserProfile: React.FC = () => {
             <Image alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px" />
           </S.CameraIconWraper>
         </S.ProfileWrapper>
-        <S.UserInfoInputWrapper onChange={handleUserInfo}>
+        <S.UserInfoInputWrapper>
           <S.UserInfoInputInner>
             <S.InfoLabel htmlFor="email">이메일</S.InfoLabel>
             <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요." />
-            <S.Alert>{email.length !== 0 && !isEmailCorrect && '사용할 수 없는 이메일 입니다.'}</S.Alert>
           </S.UserInfoInputInner>
           <S.UserInfoInputInner>
             <S.InfoLabel htmlFor="nickname">닉네임</S.InfoLabel>
-            <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요." />
+            <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요." onChange={handleNicknameInputValue} />
             <S.Alert>
-              {nickname?.length === 0
-                ? ''
-                : isNicknameUnique
-                ? '사용 가능한 닉네임 입니다.'
-                : '중복되는 닉네임 입니다.'}
+              {nickname?.length < 2 ? '' : isNicknameUnique ? '사용 가능한 닉네임 입니다.' : '중복되는 닉네임 입니다.'}
             </S.Alert>
           </S.UserInfoInputInner>
         </S.UserInfoInputWrapper>
         <Button
           sort="setUserProfile"
           name="관심분야 설정하러가기"
-          userData={userdata}
+          userData={userData}
           navigateToNext={navigateToNext}
-          disabled={status === 'success' && isEmailCorrect && isNicknameUnique ? false : true}
+          disabled={!isNicknameUnique}
         />
         <S.SkipButton onClick={skip}>다음에 하기</S.SkipButton>
       </S.Wrapper>

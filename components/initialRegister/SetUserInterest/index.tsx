@@ -27,6 +27,9 @@ export interface StyledTagType {
 const SetUserInterest: React.FC = () => {
   const [userInterests, setUserInterests] = useState([]);
   const { navigateToNext, isNext } = useModal();
+  const userData = { categories: userInterests.join(',') };
+  let isCompleted = false;
+  if (userInterests.length) isCompleted = true;
 
   const handleClickedTag = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const currentTag = e.target as HTMLButtonElement;
@@ -71,7 +74,8 @@ const SetUserInterest: React.FC = () => {
         sort="setUserInteres"
         name="관심분야 설정 완료"
         navigateToNext={navigateToNext}
-        userData={{ categories: userInterests.join(',') }}
+        userData={userData}
+        disabled={!isCompleted}
       />
     </S.Wrapper>
   );
