@@ -10,6 +10,7 @@ import Button from '../Button';
 import useModal from 'hooks/useModal';
 import Image from 'next/image';
 import usersApi from 'apis/users.api';
+import useDebounce from 'hooks/useDebounce';
 
 interface checkUserNameResult {
   message?: string;
@@ -19,10 +20,14 @@ const SetUserProfile: React.FC = () => {
   const { isNext, navigateToNext, isSkip, skip } = useModal();
   const [userImage, setUserImage] = useState('');
   const [nickname, setNickname] = useState('');
+  const [isNicknameLoading, setIsNicknameLoading] = useState(true);
   const [isNicknameUnique, setisNicknameUnique] = useState(false);
   const userData = { nickname: nickname };
+  const debounceNickname = useDebounce({ value: nickname });
 
   const handleNicknameInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setisNicknameUnique(false);
+    setIsNicknameLoading(true);
     setNickname(e.target.value);
   };
 
@@ -30,14 +35,13 @@ const SetUserProfile: React.FC = () => {
     const checkNickname = async () => {
       if (!nickname) return;
       const result: checkUserNameResult = await usersApi.checkUserName(nickname);
-      if (result.message === 'check nickname ok' && nickname.length > 1) {
+      if (result.message === 'check nickname ok') {
         setisNicknameUnique(true);
-      } else {
-        setisNicknameUnique(false);
+        setIsNicknameLoading(false);
       }
     };
     checkNickname();
-  }, [nickname]);
+  }, [debounceNickname]);
 
   if (isNext) return <SetUserInterest />;
   else if (isSkip) return <CompleteRegister />;
@@ -72,7 +76,7 @@ const SetUserProfile: React.FC = () => {
             <S.InfoLabel htmlFor="nickname">닉네임</S.InfoLabel>
             <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요." onChange={handleNicknameInputValue} />
             <S.Alert>
-              {nickname?.length < 2 ? '' : isNicknameUnique ? '사용 가능한 닉네임 입니다.' : '중복되는 닉네임 입니다.'}
+              {isNicknameLoading ? '' : isNicknameUnique ? '사용 가능한 닉네임 입니다.' : '중복되는 닉네임 입니다.'}
             </S.Alert>
           </S.UserInfoInputInner>
         </S.UserInfoInputWrapper>
