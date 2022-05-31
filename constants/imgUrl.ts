@@ -21,3 +21,7 @@ export const close_icon = '/images/close_icon.svg';
 export const user_multiple_icon = '/images/user-multiple-icon.svg';
 
 export const setting_icon = '/images/setting-icon.svg';
+
+export const upload_image_icon = '/images/icon-upload_image.svg';
+
+export const upload_video_icon = '/images/icon-upload_video.svg';

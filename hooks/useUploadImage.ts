@@ -36,9 +36,10 @@ export const useUploadImage = (): [
 
     const promise = upload.promise();
 
-    promise.then((data) => {
+    const url = await promise.then((data) => {
       console.log('S3 이미지', data);
       setImgUrl(data.Location);
+      return data.Location;
     });
   };
 
