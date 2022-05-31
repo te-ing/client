@@ -13,3 +13,9 @@ export interface PostType {
   updatedAt: string;
   commentCount: number;
 }
+
+export interface UploadType {
+  title: string;
+  description: string;
+  images: string[];
+}
