@@ -54,8 +54,8 @@ const UserProfile: React.FC = () => {
   const { mutate: userInfoMutate } = useMutation(
     () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
     {
-      onSuccess: ({ data }) => {
-        queryClient.setQueryData('user-profile', data);
+      onSuccess: () => {
+        queryClient.invalidateQueries(['user-profile', id]);
       },
     }
   );
@@ -92,10 +92,12 @@ const UserProfile: React.FC = () => {
   // }, []);
 
   useEffect(() => {
+    console.log('profile', profileImg);
     setValues({ ...values, profileImage: profileImg });
   }, [profileImg]);
 
   useEffect(() => {
+    console.log('banner', bannerImg);
     setValues({ ...values, backgroundImage: bannerImg });
   }, [bannerImg]);
 
@@ -124,7 +126,7 @@ const UserProfile: React.FC = () => {
           <ProfileWrapper>
             {editMode ? (
               <>
-                <ProfileLabel htmlFor="file-input">
+                <ProfileLabel htmlFor="profile-input">
                   <ProfileWrapper>
                     <ProfileIcon
                       alt="icon-profile"
@@ -137,7 +139,7 @@ const UserProfile: React.FC = () => {
                     </CameraIconWrapper>
                   </ProfileWrapper>
                 </ProfileLabel>
-                <FileInput id="file-input" type="file" name="profileImage" onChange={profileImgUpload} />
+                <FileInput id="profile-input" type="file" name="profileImage" onChange={profileImgUpload} />
               </>
             ) : (
               <ProfileWrapper>
