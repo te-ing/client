@@ -25,31 +25,35 @@ const Register = ({ values, setValues, upload }: Props) => {
   }, []);
 
   const storeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentFile = (e.target as HTMLInputElement).files[0];
-    const currentFileName = currentFile.name.replaceAll(' ', '') + shortId.generate();
-    const { name } = e.target;
-    AWS.config.update({
-      region: 'ap-northeast-2',
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: process.env.NEXT_PUBLIC_TEST_COGNITO,
-      }),
-    });
+    try {
+      const currentFile = (e.target as HTMLInputElement).files[0];
+      const currentFileName = currentFile.name.replaceAll(' ', '') + shortId.generate();
+      const { name } = e.target;
+      AWS.config.update({
+        region: 'ap-northeast-2',
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: process.env.NEXT_PUBLIC_TEST_COGNITO,
+        }),
+      });
 
-    const upload = new AWS.S3.ManagedUpload({
-      params: {
-        Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
-        Key: currentFileName,
-        Body: currentFile,
-      },
-    });
+      const upload = new AWS.S3.ManagedUpload({
+        params: {
+          Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
+          Key: currentFileName,
+          Body: currentFile,
+        },
+      });
 
-    const promise = upload.promise();
+      const promise = upload.promise();
 
-    const url = await promise.then((data) => {
-      console.log('S3 이미지', data);
-      setValues({ ...values, [name]: [...values.images, data.Location] });
-      return data.Location;
-    });
+      const url = await promise.then((data) => {
+        console.log('S3 이미지', data);
+        setValues({ ...values, [name]: [...values.images, data.Location] });
+        return data.Location;
+      });
+    } catch (err) {
+      console.log('이미지 선택안함');
+    }
   };
 
   const uploadProduct = () => {

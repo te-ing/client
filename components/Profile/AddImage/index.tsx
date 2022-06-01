@@ -14,7 +14,7 @@ interface Props {
 const AddImage: React.FC<Props> = ({ editMode, bannerImg, bannerImgUpload, text }) => {
   return (
     <Banner bannerImg={bannerImg}>
-      <ProfileLabel htmlFor="file-input">
+      <ProfileLabel htmlFor="banner-input">
         <AddImageWrapper editMode={editMode}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <AddImageSvg priority width={80} height={80} />
@@ -22,7 +22,7 @@ const AddImage: React.FC<Props> = ({ editMode, bannerImg, bannerImgUpload, text 
           </div>
         </AddImageWrapper>
       </ProfileLabel>
-      <FileInput id="file-input" type="file" name="backgroundImage" onChange={bannerImgUpload} />
+      <FileInput id="banner-input" type="file" name="backgroundImage" onChange={bannerImgUpload} />
     </Banner>
   );
 };
