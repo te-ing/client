@@ -12,7 +12,7 @@ const Upload: React.FC = () => {
   const [values, setValues, handler] = useForm<UploadType>({ title: '', description: '', images: [] });
   const { mutate: uploadMutate } = useMutation(() => postsApi.uploadPost(values, { isRequiredLogin: true }), {
     onSuccess: ({ data }) => {
-      queryClient.setQueryData('user-profile', data);
+      // queryClient.invalidateQueries(['user-profile', data);
       setValues({ title: '', description: '', images: [] });
     },
   });
