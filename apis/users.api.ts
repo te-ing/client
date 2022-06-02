@@ -12,7 +12,7 @@ class UsersAPI extends BaseAPI {
     return this.get<TeamTypes[]>(`/teams`, config);
   }
   checkUserName(params: unknown) {
-    return this.get('/check_nickname', { params });
+    return this.get('/check-nickname', { params });
   }
 
   checkUsers(params: unknown) {
