@@ -1,12 +1,18 @@
 import { ProfileIcon } from 'components/common/Atomic/Profile';
+import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { PostType } from 'types/post';
 import { User } from 'types/user';
 
 const PostHeaderInfo = ({ post, user }: { post: PostType; user: User }) => {
+  const route = useRouter();
+  const navigateToUserPage = () => {
+    route.push(`/user/${user.id}`);
+  };
+
   return (
     <InfoWrapper>
-      <ProfileWrapper>
+      <ProfileWrapper onClick={navigateToUserPage}>
         <ProfileIcon
           src={`${user.profileImage ? user.profileImage : '/images/icon-profile.svg'}`}
           width={82}
@@ -15,7 +21,7 @@ const PostHeaderInfo = ({ post, user }: { post: PostType; user: User }) => {
       </ProfileWrapper>
       <PostInfoWrapper>
         <Title>{post.title}</Title>
-        <UserInfoWrapper>
+        <UserInfoWrapper onClick={navigateToUserPage}>
           <UserName>{user.nickname}</UserName>
           <Breakpoint />
           <Category>{user.categories.map((category) => category.name).join(', ')}</Category>
@@ -31,10 +37,11 @@ const InfoWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-  background-color: coral;
 `;
 
-const ProfileWrapper = styled.div``;
+const ProfileWrapper = styled.div`
+  cursor: pointer;
+`;
 
 const PostInfoWrapper = styled.div`
   display: flex;
@@ -52,7 +59,9 @@ const UserInfoWrapper = styled.div`
   display: flex;
   gap: 8px;
 `;
-const UserName = styled.p``;
+const UserName = styled.p`
+  cursor: pointer;
+`;
 
 const Breakpoint = styled.div`
   display: flex;
