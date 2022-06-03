@@ -4,6 +4,8 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { PostType } from 'types/post';
 import { User } from 'types/user';
+import PostHeaderButtons from './PostHeaderButtons.tsx';
+import PostHeaderInfo from './PostHeaderInfo';
 
 const UserPostHeader = ({ post }: { post: PostType }) => {
   const getUserInfo = async () => {
@@ -14,24 +16,8 @@ const UserPostHeader = ({ post }: { post: PostType }) => {
 
   return !isLoading ? (
     <Header>
-      <InfoWrapper>
-        <ProfileWrapper>
-          <ProfileIcon
-            src={`${data.profileImage ? data.profileImage : '/images/icon-profile.svg'}`}
-            width={82}
-            height={82}
-          />
-        </ProfileWrapper>
-        <PostInfoWrapper>
-          <Title>{post.title}</Title>
-          <UserInfoWrapper>
-            <UserName>{data.nickname}</UserName>
-            <Breakpoint />
-            <Category>{data.categories.map((category) => category.name).join(', ')}</Category>
-          </UserInfoWrapper>
-        </PostInfoWrapper>
-      </InfoWrapper>
-      <ButtonWrapper></ButtonWrapper>
+      <PostHeaderInfo post={post} user={data} />
+      <PostHeaderButtons post={post} />
     </Header>
   ) : (
     <LoadingHeader />
@@ -61,47 +47,4 @@ const LoadingHeader = styled(Header)`
     }
   }
   animation: skeleton-gradient 1.5s infinite ease-in-out;
-`;
-
-const InfoWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background-color: coral;
-`;
-
-const ProfileWrapper = styled.div``;
-
-const PostInfoWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 8px;
-`;
-
-const Title = styled.p`
-  font-weight: 500;
-  font-size: 24px;
-`;
-
-const UserInfoWrapper = styled.div`
-  display: flex;
-  gap: 8px;
-`;
-const UserName = styled.p``;
-
-const Breakpoint = styled.div`
-  display: flex;
-  align-self: center;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: #abf066;
-`;
-
-const Category = styled(UserName)``;
-
-const ButtonWrapper = styled.div`
-  width: 300px;
-  background-color: coral;
 `;
