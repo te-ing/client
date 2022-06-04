@@ -5,6 +5,7 @@ import { User, UserEditForm } from 'types/user';
 import type { CustomAxiosRequestConfig } from './type';
 import { PostOauthBody, PostOauthResponse } from './type/users.types';
 import { TeamTypes } from 'types/team';
+import { PostType } from 'types/post';
 
 class UsersAPI extends BaseAPI {
   //https://apibora.shop/api/users/
@@ -15,11 +16,12 @@ class UsersAPI extends BaseAPI {
     return this.get('/check_nickname', { params });
   }
 
-  checkUsers(params: unknown) {
-    return this.get<User>(`/${params}`);
+  checkUsers(params: unknown, config: CustomAxiosRequestConfig) {
+    console.log('config', config);
+    return this.get<User>(`/${params}`, config);
   }
 
-  getUserInfo(params: User['id']) {
+  getUserInfo(params: User['id'] | string) {
     return this.get<User>(`${params}`);
   }
 
@@ -29,6 +31,10 @@ class UsersAPI extends BaseAPI {
 
   editUser(params: unknown, body: UserEditForm, config: CustomAxiosRequestConfig) {
     return this.put(`/${params}`, body, config);
+  }
+
+  getPostList(params: string | string[]) {
+    return this.get<PostType[]>(`/${params}/posts`);
   }
 
   followingUser(params: unknown, config: CustomAxiosRequestConfig) {

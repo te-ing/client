@@ -7,9 +7,10 @@ import usersApi from 'apis/users.api';
 
 interface Props {
   userId: string | string[];
+  isFollowing: boolean;
 }
 
-const Following = ({ userId }: Props) => {
+const Following = ({ userId, isFollowing }: Props) => {
   const queryClient = useQueryClient();
   const { mutate: followMutate } = useMutation(() => usersApi.followingUser(userId, { isRequiredLogin: true }), {
     onSuccess: () => {
@@ -22,8 +23,17 @@ const Following = ({ userId }: Props) => {
   };
   return (
     <FollowButton bgColor onClick={followingHandler}>
-      <Image src={following_icon} width={24} height={24} />
-      <span>팔로우</span>
+      {!isFollowing ? (
+        <>
+          <Image src={following_icon} width={24} height={24} />
+          <span>팔로우</span>
+        </>
+      ) : (
+        <>
+          <Image src={following_icon} width={24} height={24} />
+          <span>언팔로우</span>
+        </>
+      )}
     </FollowButton>
   );
 };

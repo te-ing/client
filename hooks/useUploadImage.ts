@@ -42,7 +42,9 @@ export const useUploadImage = (): [
         setImgUrl(data.Location);
         return data.Location;
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return [imgUrl, setImgUrl, storeImage];

@@ -75,14 +75,11 @@ const TeamProfile = () => {
   const { mutate: teamInfoMutate } = useMutation(
     () => teamsApi.editTeamProfile(id, values, { isRequiredLogin: true }),
     {
-      onSuccess: ({ data }) => {
-        queryClient.setQueryData(['team-profile', id], data);
+      onSuccess: () => {
+        queryClient.invalidateQueries(['team-profile', id]);
       },
     }
   );
-  // const [values, setValues, handler] = useForm<TeamEditForm>();
-
-  //Suspense를 사용하게 된다면, useQuery를 여러개 선언하는것은 사용할 수 없으므로, useQueries를 사용해야함
 
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
@@ -204,7 +201,7 @@ const TeamProfile = () => {
             <QuitTeam />
           ) : (
             <>
-              <ApplyTeam />
+              <ApplyTeam teamId={id} />
               <Message />
             </>
           )}

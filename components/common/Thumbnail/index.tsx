@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import Image from 'next/image';
 import { scrap_icon, edit_icon } from 'constants/imgUrl';
 import { PostType } from 'types/post';
@@ -13,7 +13,7 @@ const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
   return (
     <ItemCard>
       {item.images.length > 0 && (
-        <Image src="/images/img-shot-2.jpg" layout="responsive" width={100} height={100} quality="100" />
+        <Image src={item.images[0].image} layout="responsive" width={100} height={100} quality="100" />
       )}
       {/* {item.images.length > 0 && <Image src={item.images[0].image} layout="responsive" width={'1x'} height={'1x'} />} */}
       <ImageWrapper>

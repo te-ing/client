@@ -26,6 +26,7 @@ import { useRecoilState } from 'recoil';
 import { userInfoState } from 'recoil/auth';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
+import PostList from 'components/User/PostList';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
@@ -38,18 +39,22 @@ const UserProfile: React.FC = () => {
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
 
-  const { isLoading, isError, error, data } = useQuery(['user-profile', id], () => usersApi.checkUsers(id), {
-    onSuccess: (data) => {
-      if (!editMode) {
-        setValues(userEditForm(data));
-        setBannerImg(data.backgroundImage);
-        setProfileImg(data.profileImage);
-      }
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  }); // useQuery로 유저정보 받아옴.
+  const { isLoading, isError, error, data } = useQuery(
+    ['user-profile', id],
+    () => usersApi.checkUsers(id, { isRequiredLogin: sessionStorage.getItem('jwtToken') ? true : false }),
+    {
+      onSuccess: (data) => {
+        if (!editMode) {
+          setValues(userEditForm(data));
+          setBannerImg(data.backgroundImage);
+          setProfileImg(data.profileImage);
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  ); // useQuery로 유저정보 받아옴.
 
   const { mutate: userInfoMutate } = useMutation(
     () => usersApi.editUser(sessionStorage.getItem('id'), values, { isRequiredLogin: true }),
@@ -82,14 +87,14 @@ const UserProfile: React.FC = () => {
     },
     [currentTab]
   );
-  // useEffect(() => {
-  //   return () => {
-  //     teamTabMenuArr.forEach((tab) => {
-  //       if (tab.id === 'memberCount') tab.isActive = false;
-  //       else tab.isActive = true;
-  //     });
-  //   };
-  // }, []);
+  useEffect(() => {
+    return () => {
+      userTabMenuArr.forEach((tab) => {
+        if (tab.id === 'scrapCount') tab.isActive = false;
+        else tab.isActive = true;
+      });
+    };
+  }, []);
 
   useEffect(() => {
     console.log('profile', profileImg);
@@ -182,7 +187,7 @@ const UserProfile: React.FC = () => {
             </>
           ) : (
             <>
-              <Following userId={id} />
+              <Following userId={id} isFollowing={data.isFollowed} />
               <Message />
             </>
           )}
@@ -196,8 +201,10 @@ const UserProfile: React.FC = () => {
           </TabButton>
         ))}
       </div>
-      {/* {currentTab === 'post' && <ItemList itemList={Items[currentTab]} />}
-      {currentTab === 'scrap' && <ItemList itemList={Items[currentTab]} />} */}
+      {currentTab === 'postCount' && (
+        <PostList userId={id} isLeader={userState.id === Number(id)} editMode={editMode} />
+      )}
+      {/* {currentTab === 'scrapCount' && <ItemList itemList={Items[currentTab]} />} */}
     </Layout>
   );
 };
@@ -207,7 +214,7 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
     const queryClient = new QueryClient();
     const id = context.params?.id as string;
 
-    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.checkUsers(queryKey[1]));
+    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(queryKey[1]));
 
     return {
       props: {

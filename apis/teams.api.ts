@@ -13,13 +13,19 @@ class TeamsAPI extends BaseAPI {
     return this.get<TeamTypes>(`/${params}`);
   }
   getPendedMembers(params: string) {
-    return this.get<MemberTypes[]>(`/${params}/pended_members`);
+    return this.get<MemberTypes[]>(`/${params}/pended-members`);
   }
   getTeamMembers(params: unknown) {
-    return this.get<MemberTypes[]>(`/${params}/members`);
+    return this.get<MemberTypes[]>(`/${params}/profile/members`);
+  }
+  getTeamMembersManage(params: unknown) {
+    return this.get<MemberTypes[]>(`/${params}/settings/members`);
   }
   getTeamPosts(params: unknown) {
     return this.get<PostType[]>(`/${params}/posts`);
+  }
+  applyTeam(params: string | string[], config: CustomAxiosRequestConfig) {
+    return this.post(`/${params}/apply`, {}, config);
   }
   editTeamProfile(params: unknown, body: TeamEditForm, config: CustomAxiosRequestConfig) {
     return this.put(`${params}`, body, config);
