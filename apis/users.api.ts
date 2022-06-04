@@ -40,6 +40,10 @@ class UsersAPI extends BaseAPI {
     return this.post(`/${params}/follow`, {}, config);
   }
 
+  scrapUserPosts(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`/${params}/scraps`, {}, config);
+  }
+
   kakaoOauth(body: PostOauthBody, config?: CustomAxiosRequestConfig) {
     return this.post<PostOauthBody, PostOauthResponse>('kakao', body, { ...config });
   }

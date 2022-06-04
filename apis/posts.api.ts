@@ -21,8 +21,8 @@ class PostsAPI extends BaseAPI {
     return this.get<PostType[]>(`/me`, config);
   }
 
-  postScrapPost(params: unknown, config: CustomAxiosRequestConfig) {
-    return this.post(`/${params}/scrap`, config);
+  likePost(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`/${params}/scrap`, {}, config);
   }
 }
 
