@@ -6,6 +6,7 @@ import { User } from 'types/user';
 import { isLoggedIn } from 'utils/isLoggedIn';
 import PostHeaderButtons from './PostHeaderButtons.tsx';
 import PostHeaderInfo from './PostHeaderInfo';
+import SkeletonHeader from './SkeletonHeader SkeletonHeader';
 
 const UserPostHeader = ({ post }: { post: PostType }) => {
   const getUserInfo = async () => {
@@ -15,35 +16,20 @@ const UserPostHeader = ({ post }: { post: PostType }) => {
   const { data, isLoading } = useQuery<User>('user', getUserInfo);
 
   return !isLoading ? (
-    <Header>
+    <PostHeader>
       <PostHeaderInfo post={post} user={data} />
       <PostHeaderButtons post={post} user={data} />
-    </Header>
+    </PostHeader>
   ) : (
-    <LoadingHeader />
+    <SkeletonHeader />
   );
 };
 
 export default UserPostHeader;
 
-const Header = styled.header`
+export const PostHeader = styled.header`
   display: flex;
   justify-content: space-between;
   height: 128px;
   padding: 23px;
-`;
-
-const LoadingHeader = styled(Header)`
-  @keyframes skeleton-gradient {
-    0% {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-    50% {
-      background-color: rgba(165, 165, 165, 0.3);
-    }
-    100% {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
-  }
-  animation: skeleton-gradient 1.5s infinite ease-in-out;
 `;
