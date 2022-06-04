@@ -14,3 +14,9 @@ export interface PostType {
   updatedAt: string;
   commentCount: number;
 }
+
+export interface PostEditForm {
+  title: string;
+  description: string;
+  images?: string[];
+}
