@@ -7,7 +7,7 @@ import { PostType } from 'types/post';
 export const Posts = ({ posts }: { posts: PostType[] }) => {
   return (
     <Layout>
-      {posts.slice(0, 1).map((post: PostType) => {
+      {posts.map((post: PostType) => {
         return <UserPost key={post.id} post={post}></UserPost>;
       })}
     </Layout>
