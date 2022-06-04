@@ -17,7 +17,7 @@ const UserPostHeader = ({ post }: { post: PostType }) => {
   return !isLoading ? (
     <Header>
       <PostHeaderInfo post={post} user={data} />
-      <PostHeaderButtons post={post} />
+      <PostHeaderButtons post={post} profileImage={data.profileImage} />
     </Header>
   ) : (
     <LoadingHeader />
