@@ -20,8 +20,8 @@ class UsersAPI extends BaseAPI {
     return this.get<User>(`/${params}`);
   }
 
-  getUserInfo(params: User['id']) {
-    return this.get<User>(`${params}`);
+  getUserInfo(params: User['id'], config?: CustomAxiosRequestConfig) {
+    return this.get<User>(`${params}`, config);
   }
 
   getUserPosts(params: unknown) {
