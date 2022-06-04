@@ -12,6 +12,7 @@ export interface User {
   scrapCount: number;
   followerCount: number;
   followingCount: number;
+  isFollowed: boolean;
 }
 
 export interface UserEditForm {
