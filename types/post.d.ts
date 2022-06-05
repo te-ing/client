@@ -7,6 +7,7 @@ export interface PostTypes {
 
 export interface PostType {
   id: number;
+  author: number;
   images: { image: string }[];
   title: string;
   createdAt: string;
@@ -17,5 +18,5 @@ export interface PostType {
 export interface UploadType {
   title: string;
   description: string;
-  images: string[];
+  images?: string[];
 }

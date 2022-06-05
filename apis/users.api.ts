@@ -5,6 +5,7 @@ import { User, UserEditForm } from 'types/user';
 import type { CustomAxiosRequestConfig } from './type';
 import { PostOauthBody, PostOauthResponse } from './type/users.types';
 import { TeamTypes } from 'types/team';
+import { PostType } from 'types/post';
 
 class UsersAPI extends BaseAPI {
   //https://apibora.shop/api/users/
@@ -19,8 +20,12 @@ class UsersAPI extends BaseAPI {
     return this.get<User>(`/${params}`);
   }
 
-  getUserInfo(params: User['id']) {
-    return this.get<User>(`${params}`);
+  getUserInfo(params: User['id'], config?: CustomAxiosRequestConfig) {
+    return this.get<User>(`${params}`, config);
+  }
+
+  getUserPosts(params: unknown) {
+    return this.get<PostType[]>(`${params}/posts`);
   }
 
   registerUser(body: UserRegisterInfoType) {
@@ -33,6 +38,10 @@ class UsersAPI extends BaseAPI {
 
   followingUser(params: unknown, config: CustomAxiosRequestConfig) {
     return this.post(`/${params}/follow`, {}, config);
+  }
+
+  scrapUserPosts(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`/${params}/scraps`, {}, config);
   }
 
   kakaoOauth(body: PostOauthBody, config?: CustomAxiosRequestConfig) {
