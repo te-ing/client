@@ -24,6 +24,8 @@ export interface MemberTypes {
   user: number;
   nickname: string;
   postCount: number;
+  mainCategory?: { mainCategory: string }[];
+  subCategory?: { subCategory: string }[];
   image: string;
   memberType: string;
   followingCount: number;

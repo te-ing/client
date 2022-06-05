@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { ImgWrapper } from 'pages/profile';
+import Image from 'next/image';
 
 import { default_profile } from 'constants/imgUrl';
 import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
@@ -29,7 +29,9 @@ const ManagedMemberCard = ({ memberInfo, leftButton, rightButton }: Props) => {
         <InfoSection>
           <h1>{memberInfo.nickname}</h1>
           <div>
-            <Keyword>일러스트레이션</Keyword>
+            {memberInfo.mainCategory.map((category, id) => (
+              <Keyword key={id}>{category.mainCategory}</Keyword>
+            ))}
           </div>
           <CountContainer>
             <span>팔로워</span>
@@ -41,10 +43,10 @@ const ManagedMemberCard = ({ memberInfo, leftButton, rightButton }: Props) => {
           </CountContainer>
         </InfoSection>
       </div>
-      <div>
+      <ButtonWrapper>
         {leftButton}
         {rightButton}
-      </div>
+      </ButtonWrapper>
     </CardContainer>
   );
 };
@@ -52,6 +54,7 @@ const ManagedMemberCard = ({ memberInfo, leftButton, rightButton }: Props) => {
 export default ManagedMemberCard;
 
 const CardContainer = styled.div`
+  position: relative;
   width: 364px;
   height: 194px;
   background-color: ${({ theme }) => theme.color.white};
@@ -103,4 +106,13 @@ const CountContainer = styled.div`
     margin-right: 4px;
     color: ${({ theme }) => theme.color.gray_700};
   }
+`;
+
+const ImgWrapper = styled(Image)`
+  border-radius: 50%;
+`;
+
+const ButtonWrapper = styled.div`
+  position: absolute;
+  bottom: 24px;
 `;

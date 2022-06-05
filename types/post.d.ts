@@ -13,6 +13,8 @@ export interface PostType {
   createdAt: string;
   updatedAt: string;
   commentCount: number;
+  author: number;
+  commentCount: number;
 }
 
 export interface UploadType {

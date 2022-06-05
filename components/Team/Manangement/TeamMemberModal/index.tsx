@@ -17,7 +17,9 @@ interface Props {
 const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
   const queryClient = useQueryClient();
   const [userState] = useRecoilState(userInfoState);
-  const { isLoading, isError, error, data } = useQuery(['team-member', teamId], () => teamsApi.getTeamMembers(teamId));
+  const { isLoading, isError, error, data } = useQuery(['team-member', teamId], () =>
+    teamsApi.getTeamMembersManage(teamId)
+  );
   const { mutate: deleteTeam } = useMutation(() => teamsApi.deleteTeam(teamId, { isRequiredLogin: true }), {
     onSuccess: () => {
       onOffHandler(false);

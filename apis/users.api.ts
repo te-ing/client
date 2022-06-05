@@ -16,8 +16,9 @@ class UsersAPI extends BaseAPI {
     return this.get('/check-nickname', { params });
   }
 
-  checkUsers(params: unknown) {
-    return this.get<User>(`/${params}`);
+  checkUsers(params: unknown, config: CustomAxiosRequestConfig) {
+    console.log('config', config);
+    return this.get<User>(`/${params}`, config);
   }
 
   getUserInfo(params: User['id'], config?: CustomAxiosRequestConfig) {
@@ -34,6 +35,10 @@ class UsersAPI extends BaseAPI {
 
   editUser(params: unknown, body: UserEditForm, config: CustomAxiosRequestConfig) {
     return this.put(`/${params}`, body, config);
+  }
+
+  getPostList(params: string | string[]) {
+    return this.get<PostType[]>(`/${params}/posts`);
   }
 
   followingUser(params: unknown, config: CustomAxiosRequestConfig) {
