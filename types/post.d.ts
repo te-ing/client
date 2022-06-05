@@ -15,7 +15,7 @@ export interface PostType {
   commentCount: number;
 }
 
-export interface PostEditForm {
+export interface UploadType {
   title: string;
   description: string;
   images?: string[];

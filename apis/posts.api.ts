@@ -1,15 +1,15 @@
 import BaseAPI from './base.api';
 
 import type { CustomAxiosRequestConfig } from './type';
-import { PostEditForm, PostType } from 'types/post';
+import { PostType, UploadType } from 'types/post';
 
 class PostsAPI extends BaseAPI {
   //https://apibora.shop/api/posts/
-  createPost(body: PostEditForm, config: CustomAxiosRequestConfig) {
+  uploadPost(body: UploadType, config: CustomAxiosRequestConfig) {
     return this.post(``, body, config);
   }
 
-  editPost(params: unknown, body: PostEditForm, config: CustomAxiosRequestConfig) {
+  editPost(params: unknown, body: UploadType, config: CustomAxiosRequestConfig) {
     return this.put(`/${params}`, body, config);
   }
 
