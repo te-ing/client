@@ -13,7 +13,7 @@ class UsersAPI extends BaseAPI {
     return this.get<TeamTypes[]>(`/teams`, config);
   }
   checkUserName(params: unknown) {
-    return this.get('/check_nickname', { params });
+    return this.get('/check-nickname', { params });
   }
 
   checkUsers(params: unknown, config: CustomAxiosRequestConfig) {
@@ -21,8 +21,12 @@ class UsersAPI extends BaseAPI {
     return this.get<User>(`/${params}`, config);
   }
 
-  getUserInfo(params: User['id'] | string) {
-    return this.get<User>(`${params}`);
+  getUserInfo(params: User['id'], config?: CustomAxiosRequestConfig) {
+    return this.get<User>(`${params}`, config);
+  }
+
+  getUserPosts(params: unknown) {
+    return this.get<PostType[]>(`${params}/posts`);
   }
 
   registerUser(body: UserRegisterInfoType) {
@@ -39,6 +43,10 @@ class UsersAPI extends BaseAPI {
 
   followingUser(params: unknown, config: CustomAxiosRequestConfig) {
     return this.post(`/${params}/follow`, {}, config);
+  }
+
+  scrapUserPosts(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`/${params}/scraps`, {}, config);
   }
 
   kakaoOauth(body: PostOauthBody, config?: CustomAxiosRequestConfig) {
