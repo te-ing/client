@@ -1,73 +1,99 @@
 import * as S from './Register.style';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
-import { default_profile } from 'constants/imgUrl';
-
+import { SetStateAction, useCallback, useRef, useState } from 'react';
+import { default_profile, upload_image_icon, upload_video_icon } from 'constants/imgUrl';
+import { useUploadImage } from 'hooks/useUploadImage';
+import { FileInput, ProfileLabel } from 'components/common/Atomic/ImageInput';
+import AWS from 'aws-sdk';
+import shortId from 'shortid';
+import { UploadType } from 'types/post';
+import { UseMutateFunction } from 'react-query';
 const contents = ['image', 'edit', 'video'];
 
-const Register = () => {
-  const [imgFile, setImgFile] = useState(null);
-  const inputOpenImageRef = useRef(null);
+interface Props {
+  values: UploadType;
+  setValues: React.Dispatch<SetStateAction<UploadType>>;
+  upload: UseMutateFunction<unknown, unknown, void, unknown>;
+}
 
-  const handleChangeFile = (e) => {
-    const file = e.target.files[0];
+const Register = ({ values, setValues, upload }: Props) => {
+  const imageInput = useRef(null);
 
-    // 로컬에 미리보기 렌더링
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-      // setImgFile(e.target.result);
-    };
+  const onClickImageUpload = useCallback(() => {
+    imageInput.current.click();
+  }, []);
+
+  const storeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const currentFile = (e.target as HTMLInputElement).files[0];
+      const currentFileName = currentFile.name.replaceAll(' ', '') + shortId.generate();
+      const { name } = e.target;
+      AWS.config.update({
+        region: 'ap-northeast-2',
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: process.env.NEXT_PUBLIC_TEST_COGNITO,
+        }),
+      });
+
+      const upload = new AWS.S3.ManagedUpload({
+        params: {
+          Bucket: process.env.NEXT_PUBLIC_BUCKET_NAME,
+          Key: currentFileName,
+          Body: currentFile,
+        },
+      });
+
+      const promise = upload.promise();
+
+      const url = await promise.then((data) => {
+        console.log('S3 이미지', data);
+        setValues({ ...values, [name]: [...values.images, data.Location] });
+        return data.Location;
+      });
+    } catch (err) {
+      console.log('이미지 선택안함');
+    }
   };
 
-  const handleOpenImageRef = () => {
-    inputOpenImageRef.current.click();
+  const uploadProduct = () => {
+    if (values.title.length > 0) {
+      console.log('업로드 성공');
+      upload();
+    }
   };
-
   return (
     <S.Wrapper>
-      {imgFile ? (
-        <S.ImageContainer>
-          <Image src={imgFile ? imgFile : default_profile} width="300" height="300" />
-        </S.ImageContainer>
-      ) : (
-        <>
+      <input type="file" name="images" hidden ref={imageInput} onChange={storeImage} />
+      {values.images.length === 0 && (
+        <S.RegisterWrapper>
           <S.RegisterSubInfo>컨텐츠를 등록해주세요!</S.RegisterSubInfo>
-          {/* <S.RegisterButtonWrapper>
-            {contents.map((content) => {
-              return (
-                <ImageUploadWrapper name="works" key={content}>
-                  <S.RegisterButton onClick={handleOpenImageRef}>
-                    <Image
-                      alt={content}
-                      src={
-                        content === 'image'
-                          ? '/images/icon-upload_image.svg'
-                          : content === 'edit'
-                          ? '/images/icon-upload_edit.svg'
-                          : '/images/icon-upload_video.svg'
-                      }
-                      width="20px"
-                      height="20px"
-                    />
-                    <div style={{ display: 'none' }}>
-                      <input
-                        type="file"
-                        name="imgFile"
-                        id="imgFile"
-                        onChange={(e) => handleChangeFile(e)}
-                        ref={inputOpenImageRef}
-                      />
-                    </div>
-                  </S.RegisterButton>
-                </ImageUploadWrapper>
-              );
-            })}
-          </S.RegisterButtonWrapper> */}
-        </>
+          <S.RegisterButtonWrapper>
+            <S.RegisterButton width="72px" height="72px" onClick={onClickImageUpload}>
+              <Image src={upload_image_icon} width={24} height={24} />
+            </S.RegisterButton>
+            <S.RegisterButton width="72px" height="72px">
+              <Image src={upload_video_icon} width={24} height={24} />
+            </S.RegisterButton>
+          </S.RegisterButtonWrapper>
+        </S.RegisterWrapper>
       )}
-      <S.UploadButton>업로드 하기</S.UploadButton>
+
+      {values.images.map((img, i) => (
+        <S.ImageContainer key={i} img={img}>
+          {i === values.images.length - 1 && (
+            <div>
+              <S.RegisterButton width="56px" height="56px" onClick={onClickImageUpload}>
+                <Image src={upload_image_icon} width={24} height={24} />
+              </S.RegisterButton>
+              <S.RegisterButton width="56px" height="56px">
+                <Image src={upload_video_icon} width={24} height={24} />
+              </S.RegisterButton>
+            </div>
+          )}
+        </S.ImageContainer>
+      ))}
+      <S.UploadButton onClick={uploadProduct}>업로드 하기</S.UploadButton>
     </S.Wrapper>
   );
 };

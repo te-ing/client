@@ -16,30 +16,33 @@ export const useUploadImage = (): [
   }, [imgUrl, setImgUrl]);
 
   const storeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const currentFile = (e.target as HTMLInputElement).files[0];
-    const currentFileName = currentFile.name.replaceAll(' ', '') + shortId.generate();
+    try {
+      const currentFile = (e.target as HTMLInputElement).files[0];
+      const currentFileName = currentFile.name.replaceAll(' ', '') + shortId.generate();
 
-    AWS.config.update({
-      region: 'ap-northeast-2',
-      credentials: new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: poolID,
-      }),
-    });
+      AWS.config.update({
+        region: 'ap-northeast-2',
+        credentials: new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: poolID,
+        }),
+      });
 
-    const upload = new AWS.S3.ManagedUpload({
-      params: {
-        Bucket: bucket,
-        Key: currentFileName,
-        Body: currentFile,
-      },
-    });
+      const upload = new AWS.S3.ManagedUpload({
+        params: {
+          Bucket: bucket,
+          Key: currentFileName,
+          Body: currentFile,
+        },
+      });
 
-    const promise = upload.promise();
+      const promise = upload.promise();
 
-    promise.then((data) => {
-      console.log('S3 이미지', data);
-      setImgUrl(data.Location);
-    });
+      const url = await promise.then((data) => {
+        console.log('S3 이미지', data);
+        setImgUrl(data.Location);
+        return data.Location;
+      });
+    } catch (err) {}
   };
 
   return [imgUrl, setImgUrl, storeImage];
