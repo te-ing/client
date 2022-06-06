@@ -1,15 +1,15 @@
-import usersApi from 'apis/users.api';
+import postsApi from 'apis/posts.api';
 import Layout from 'components/Layout';
-import UserPost from 'components/Posts/UserPost';
+import UserPostContent from 'components/Posts/UserPost/UserPostContent';
+import UserPostHeader from 'components/Posts/UserPost/UserPostHeader';
 import { GetStaticPropsContext } from 'next';
 import { PostType } from 'types/post';
 
-export const Posts = ({ posts }: { posts: PostType[] }) => {
+export const Post = ({ post }: { post: PostType }) => {
   return (
     <Layout>
-      {posts.map((post: PostType) => {
-        return <UserPost key={post.id} post={post}></UserPost>;
-      })}
+      <UserPostHeader post={post} />
+      <UserPostContent post={post} />
     </Layout>
   );
 };
@@ -17,10 +17,10 @@ export const Posts = ({ posts }: { posts: PostType[] }) => {
 export const getServerSideProps = async (context: GetStaticPropsContext) => {
   try {
     const id = context.params?.id as string;
-    const posts = await usersApi.getUserPosts(id);
+    const post = await postsApi.getPost(id);
     return {
       props: {
-        posts: posts,
+        post: post,
       },
     };
   } catch (err) {
@@ -29,4 +29,4 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
   }
 };
 
-export default Posts;
+export default Post;
