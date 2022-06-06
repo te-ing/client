@@ -4,7 +4,7 @@ import { PostType } from 'types/post';
 const UserPostContent = ({ post }: { post: PostType }) => {
   return (
     <ContentWrapper>
-      <PostTextWrapper>{post.title}</PostTextWrapper>
+      <PostTextWrapper>{post.description}</PostTextWrapper>
       <PostImageWrapper>
         {post.images.map(({ image }, index) => {
           return <PostImage key={index} src={image} alt={`${post.title} ${index + 1}번째 이미지`} />;
@@ -24,7 +24,7 @@ const PostTextWrapper = styled.div`
   padding: 16px;
   font-weight: 400;
   font-size: 14px;
-  line-height: 16px;
+  line-height: 21px;
 `;
 
 const PostImageWrapper = styled.div`

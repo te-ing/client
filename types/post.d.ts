@@ -8,6 +8,7 @@ export interface PostTypes {
 export interface PostType {
   id: number;
   author: number;
+  description: string;
   images: { image: string }[];
   title: string;
   createdAt: string;
