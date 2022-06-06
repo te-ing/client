@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { PostType } from 'types/post';
 import Image from 'next/image';
-import { ProfileIcon } from 'components/common/Atomic/Profile';
 import postsApi from 'apis/posts.api';
 import usersApi from 'apis/users.api';
 import Login from 'components/Login';
@@ -12,7 +11,7 @@ import { useState } from 'react';
 interface data {
   status?: number;
 }
-
+// 좋아요, 스크랩 기능 미구현 (api 부재)
 const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
   const { setModalVisible, isShowing } = useModal();
   const [isFollowed, setIsFollowed] = useState(user.isFollowed);
@@ -24,7 +23,6 @@ const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
     if (data.status === 401) setModalVisible();
     return data;
   };
-  // 06.04 기준 미구현 API
   const scrapPost = async () => {
     const data: data = await usersApi.scrapUserPosts(userId, { isRequiredLogin: true });
     if (data.status === 401) setModalVisible();
@@ -42,29 +40,22 @@ const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
     <HeaderButtonsWrapper>
       <ButtonWrapper onClick={likePost}>
         <ImageWrapper>
-          <ButtonImage alt="delete_btn" src="/images/googleLogo.svg" width="30px" height="30px" />
+          <ButtonImage alt="delete_btn" src="/images/like-border.svg" width="30px" height="30px" />
         </ImageWrapper>
         <ButtonName>좋아요</ButtonName>
       </ButtonWrapper>
 
       <ButtonWrapper onClick={scrapPost}>
         <ImageWrapper>
-          <ButtonImage alt="delete_btn" src="/images/kakaoLogo.svg" width="30px" height="30px" />
+          <ButtonImage alt="delete_btn" src="/images/scrap-border.svg" width="18px" height="18px" />
         </ImageWrapper>
         <ButtonName>스크랩</ButtonName>
       </ButtonWrapper>
 
       <ButtonWrapper onClick={followUser}>
-        <PlusImageWrapper>
-          <ProfileIcon
-            src={`${user.profileImage ? user.profileImage : '/images/icon-profile.svg'}`}
-            width={48}
-            height={48}
-          />
-          <ButtonImageWrapper isFollowing={isFollowed}>
-            <ButtonImage alt="delete_btn" src="/images/close_icon.svg" width="8px" height="8px" />
-          </ButtonImageWrapper>
-        </PlusImageWrapper>
+        <FollowImageWrapper isFollowing={isFollowed}>
+          <ButtonImage alt="delete_btn" src="/images/add.svg" width="26px" height="26px" />
+        </FollowImageWrapper>
         <ButtonName>팔로우</ButtonName>
       </ButtonWrapper>
       <Login isShowing={isShowing} setModalVisible={setModalVisible} />
@@ -88,34 +79,18 @@ const ButtonWrapper = styled.div`
   cursor: pointer;
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ isFollowing?: boolean }>`
   display: flex;
   justify-content: center;
   width: 48px;
   height: 48px;
   margin-bottom: 4px;
   border-radius: 50%;
-  background-color: white;
+  background-color: #eeeeee;
 `;
 
-const PlusImageWrapper = styled(ImageWrapper)`
-  position: relative;
-`;
-
-const ButtonImageWrapper = styled.div<{ isFollowing: boolean }>`
-  position: absolute;
-  right: -2px;
-  bottom: 4px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background-color: #abf066;
-
-  transition: all 0.2s linear;
-  transform: ${(props) => props.isFollowing && 'rotate(-45deg)'};
+const FollowImageWrapper = styled(ImageWrapper)<{ isFollowing?: boolean }>`
+  background-color: ${(props) => props.isFollowing && '#E4FACC'};
 `;
 
 const ButtonImage = styled(Image)``;
