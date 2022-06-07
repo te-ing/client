@@ -59,7 +59,9 @@ export const CameraIconWraper = styled.div`
 `;
 
 export const UserInfoInputWrapper = styled.form`
-  margin: 50.75px 108px 90px;
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 32px 0;
 `;
 
 export const UserInfoInputInner = styled.div`

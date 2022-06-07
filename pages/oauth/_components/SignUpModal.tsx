@@ -19,7 +19,7 @@ const SignUpModal: VFC<Props> = ({ isShowing }) => {
   return (
     <>
       <Modal isShowing={isShowing} hide={setModalVisible}>
-        <ModalTemplate hide={setModalVisible}>
+        <ModalTemplate hide={setModalVisible} showDelete={false}>
           <SetUserProfile />
         </ModalTemplate>
       </Modal>

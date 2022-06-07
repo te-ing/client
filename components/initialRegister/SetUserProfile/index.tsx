@@ -34,7 +34,7 @@ const SetUserProfile: React.FC = () => {
     reader.onload = (e) => {
       setImgFile(e.target.result);
     };
-    setProfileImage(`https://boraimageserver.s3.ap-northeast-2.amazonaws.com/user/${handleEncode(file.name)}`);
+    setProfileImage(`https://dreamin-image.s3.ap-northeast-2.amazonaws.com/${handleEncode(file.name)}`);
   };
 
   const handleNicknameInputValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,10 +82,6 @@ const SetUserProfile: React.FC = () => {
 
         <S.UserInfoInputWrapper>
           <S.UserInfoInputInner>
-            <S.InfoLabel htmlFor="email">이메일</S.InfoLabel>
-            <S.UserInfoInput id="email" placeholder="이메일을 입력해 주세요." />
-          </S.UserInfoInputInner>
-          <S.UserInfoInputInner>
             <S.InfoLabel htmlFor="nickname">닉네임</S.InfoLabel>
             <S.UserInfoInput id="nickname" placeholder="닉네임을 입력해 주세요." onChange={handleNicknameInputValue} />
             <S.Alert>
@@ -100,7 +96,6 @@ const SetUserProfile: React.FC = () => {
           navigateToNext={navigateToNext}
           disabled={!isNicknameUnique}
         />
-        <S.SkipButton onClick={skip}>다음에 하기</S.SkipButton>
       </S.Wrapper>
     );
 };
