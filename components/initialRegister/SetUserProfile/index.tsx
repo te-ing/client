@@ -76,7 +76,7 @@ const SetUserProfile: React.FC = () => {
             />
           </ImageUploadWrapper>
           <S.CameraIconWraper>
-            <Image alt="icon-camera" src="/images/icon-camera.svg" width="28px" height="27px" />
+            <Image alt="icon-camera" src="/images/icon-camera.svg" width="30px" height="29px" />
           </S.CameraIconWraper>
         </S.ProfileWrapper>
 

@@ -47,15 +47,15 @@ export const ProfileIcon = styled(Image)`
 
 export const CameraIconWraper = styled.div`
   position: absolute;
-  top: 2.5px;
-  left: 312.99px;
+  bottom: 4px;
+  left: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px 7px;
+  padding: 5px 4px;
   border: 3px solid #ffffff;
   border-radius: 50%;
-  background-color: #616161;
+  background-color: #424242;
 `;
 
 export const UserInfoInputWrapper = styled.form`
