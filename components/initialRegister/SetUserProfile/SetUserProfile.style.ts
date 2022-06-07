@@ -30,7 +30,6 @@ export const SubInfo = styled.p`
 export const ProfileWrapper = styled.figure`
   position: relative;
   margin-top: 61.25px;
-  cursor: pointer;
 `;
 
 export const ProfileLabel = styled.label`
