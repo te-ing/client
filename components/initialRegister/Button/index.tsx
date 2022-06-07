@@ -2,6 +2,7 @@ import React from 'react';
 import * as S from './styles';
 import { UserEditForm } from 'types/user';
 import editUserData from '../userEdit.api';
+import { useRouter } from 'next/router';
 
 export interface ButtonPropsType {
   sort: string;
@@ -12,8 +13,13 @@ export interface ButtonPropsType {
 }
 
 const Button: React.FC<ButtonPropsType> = ({ sort, name, userData, navigateToNext, disabled = false }) => {
+  const router = useRouter();
   const clickNextButton = () => {
-    editUserData(userData);
+    if (!userData) {
+      router.push(`/user/${sessionStorage.getItem('id')}`);
+    } else {
+      editUserData(userData);
+    }
   };
 
   return (

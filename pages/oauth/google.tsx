@@ -34,7 +34,7 @@ const GoogleLogin = () => {
       if (data.message === 'signup') {
         setModalVisible();
       } else {
-        route.push('/');
+        route.back();
       }
     }
   };
