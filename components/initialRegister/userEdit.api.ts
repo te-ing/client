@@ -4,9 +4,8 @@ import { UserEditForm } from 'types/user';
 export const editUserData = async (userData: UserEditForm) => {
   if (!userData) return false;
   const userId = sessionStorage.getItem('id');
-  if (!userData?.email) {
+  if (!userData?.nickname) {
     const userInfoData = await usersApi.getUserInfo(Number(userId));
-    userData.email = userInfoData.email;
     userData.nickname = userInfoData.nickname;
   }
 
@@ -14,7 +13,6 @@ export const editUserData = async (userData: UserEditForm) => {
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('jwtToken')}`,
     },
-    email: userData.email,
     nickname: userData.nickname,
     description: userData.description,
     profileImage: userData?.profileImage,
