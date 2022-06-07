@@ -38,7 +38,7 @@ const KakaoLogin = () => {
       if (data.message === 'signup') {
         setModalVisible();
       } else {
-        route.push('/');
+        route.back();
       }
     }
   };
