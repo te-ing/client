@@ -214,7 +214,7 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
     const queryClient = new QueryClient();
     const id = context.params?.id as string;
 
-    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(queryKey[1]));
+    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(queryKey[1] as any));
 
     return {
       props: {
