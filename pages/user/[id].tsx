@@ -156,7 +156,12 @@ const UserProfile: React.FC = () => {
           </ProfileWrapper>
         </ProfileImg>
         <InfoSection>
-          <h1>{data?.nickname}</h1>
+          {editMode ? (
+            <EditNickname name="nickname" type="text" placeholder="닉네임을 입력해주세요." onChange={handler} />
+          ) : (
+            <h1>{data?.nickname}</h1>
+          )}
+
           <InfoDescription>
             <div>
               {data?.categories.map((ability) => (
@@ -226,20 +231,20 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
 
 export default UserProfile;
 
-export const InfoWrapper = styled.div`
+const InfoWrapper = styled.div`
   padding: 24px;
   position: relative;
   margin-bottom: 80px;
   display: flex;
 `;
 
-export const ProfileImg = styled.div``;
+const ProfileImg = styled.div``;
 
-export const ImgWrapper = styled(Image)`
+const ImgWrapper = styled(Image)`
   border-radius: 50%;
 `;
 
-export const InfoSection = styled.div`
+const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
 
@@ -251,7 +256,7 @@ export const InfoSection = styled.div`
     margin-bottom: 16px;
   }
 `;
-export const InfoDescription = styled.div`
+const InfoDescription = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -264,7 +269,7 @@ export const InfoDescription = styled.div`
   }
 `;
 
-export const FollowInfo = styled.div`
+const FollowInfo = styled.div`
   margin-bottom: 8px;
   span {
     font-weight: 400;
@@ -280,7 +285,21 @@ export const FollowInfo = styled.div`
   }
 `;
 
-export const DescriptionArea = styled.textarea`
+const EditNickname = styled.input`
+  width: 240px;
+  height: 26px;
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.color.gray_400};
+  &::placeholder {
+    font-family: 'Noto Sans KR', sans serif;
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-size: 12px;
+    line-height: 1.416666;
+    color: ${({ theme }) => theme.color.gray_400};
+  }
+`;
+
+const DescriptionArea = styled.textarea`
   box-sizing: border-box;
   resize: none;
   padding: 8px;
@@ -305,7 +324,7 @@ export const DescriptionArea = styled.textarea`
   }
 `;
 
-export const InfoAside = styled.div`
+const InfoAside = styled.div`
   position: absolute;
   right: 24px;
 `;
