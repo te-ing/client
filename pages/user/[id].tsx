@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useQuery, QueryClient, dehydrate, useMutation, useQueryClient } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
-import ItemList from 'components/Profile/ItemList';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { userTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
@@ -97,12 +96,10 @@ const UserProfile: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('profile', profileImg);
     setValues({ ...values, profileImage: profileImg });
   }, [profileImg]);
 
   useEffect(() => {
-    console.log('banner', bannerImg);
     setValues({ ...values, backgroundImage: bannerImg });
   }, [bannerImg]);
 
@@ -123,7 +120,7 @@ const UserProfile: React.FC = () => {
         </>
       ) : (
         <>
-          <Banner bannerImg={data?.backgroundImage} />
+          <Banner bannerImg={data?.backgroundImage} isTeamPage={false} />
         </>
       )}
       <InfoWrapper>
@@ -214,7 +211,7 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
     const queryClient = new QueryClient();
     const id = context.params?.id as string;
 
-    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(queryKey[1]));
+    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(Number(queryKey[1])));
 
     return {
       props: {
