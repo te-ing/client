@@ -26,6 +26,7 @@ import { userInfoState } from 'recoil/auth';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import PostList from 'components/User/PostList';
+import { email } from 'constants/regExp';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
@@ -86,6 +87,12 @@ const UserProfile: React.FC = () => {
     },
     [currentTab]
   );
+
+  const initProfile = () => {
+    setProfileImg('');
+    setBannerImg('');
+    setValues({ nickname: '', description: '', profileImage: '', backgroundImage: '' });
+  };
   useEffect(() => {
     return () => {
       userTabMenuArr.forEach((tab) => {
@@ -116,7 +123,6 @@ const UserProfile: React.FC = () => {
             editMode={editMode}
             text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
           />
-          <button onClick={() => setBannerImg('')}>초기화</button>
         </>
       ) : (
         <>
@@ -157,7 +163,16 @@ const UserProfile: React.FC = () => {
         </ProfileImg>
         <InfoSection>
           {editMode ? (
-            <EditNickname name="nickname" type="text" placeholder="닉네임을 입력해주세요." onChange={handler} />
+            <>
+              <EditNickname
+                name="nickname"
+                type="text"
+                placeholder="닉네임을 입력해주세요."
+                onChange={handler}
+                value={values.nickname}
+              />
+              <InitButton onClick={initProfile}>프로필 초기화</InitButton>
+            </>
           ) : (
             <h1>{data?.nickname}</h1>
           )}
@@ -175,7 +190,12 @@ const UserProfile: React.FC = () => {
               <span>{numberWithCommas(Number(data?.followingCount))}</span>
             </FollowInfo>
             {editMode ? (
-              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
+              <DescriptionArea
+                name="description"
+                onChange={handler}
+                placeholder="사용자 소개를 입력해주세요."
+                value={values.description}
+              />
             ) : (
               <p>{data?.description}</p>
             )}
@@ -297,6 +317,14 @@ const EditNickname = styled.input`
     line-height: 1.416666;
     color: ${({ theme }) => theme.color.gray_400};
   }
+`;
+
+const InitButton = styled.button`
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+  color: ${({ theme }) => theme.color.gray_500};
+  margin-left: 16px;
 `;
 
 const DescriptionArea = styled.textarea`
