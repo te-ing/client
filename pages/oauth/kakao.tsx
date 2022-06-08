@@ -2,8 +2,8 @@ import usersApi from 'apis/users.api';
 import axios from 'axios';
 import Layout from 'components/Layout';
 import useModal from 'hooks/useModal';
+import { usePathStorage } from 'hooks/usePathStorage';
 
-import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { socialLoginState } from 'recoil/auth';
@@ -15,9 +15,8 @@ const KakaoLogin = () => {
   const KAKAO_CLIENT_SECRET = process.env.NEXT_PUBLIC_SECRET_KEY;
   const KAKAO_REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
   const { isShowing, setModalVisible } = useModal();
+  const [savePath, replacePath] = usePathStorage();
   const setSocialLoginState = useSetRecoilState(socialLoginState);
-
-  const route = useRouter();
 
   // 카카오 인가 코드를 받고 나서 회원가입 or 로그인 진행
   const getKakaoToken = async () => {
@@ -38,7 +37,7 @@ const KakaoLogin = () => {
       if (data.message === 'signup') {
         setModalVisible();
       } else {
-        route.back();
+        replacePath();
       }
     }
   };

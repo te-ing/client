@@ -3,6 +3,8 @@ import ModalTemplate from 'components/common/Modal/ModalTemplate';
 import { FC } from 'react';
 import styled, { DefaultTheme } from 'styled-components';
 import Image from 'next/image';
+import { usePathStorage } from 'hooks/usePathStorage';
+
 interface Props {
   isShowing: boolean;
   setModalVisible: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
@@ -14,6 +16,7 @@ const Login: FC<Props> = ({ isShowing, setModalVisible }) => {
   const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
   const kakaoAccessCodeUri = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_REST_API_KEY}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
   const GoogleAccessCodeUri = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
+  const [savePath] = usePathStorage();
 
   return (
     <>
@@ -38,13 +41,13 @@ const Login: FC<Props> = ({ isShowing, setModalVisible }) => {
             <SocialLoginButtonWrapper>
               <SocialLoginIntro>간편하게 SNS로 로그인하기</SocialLoginIntro>
 
-              <KakaoLoginButton href={kakaoAccessCodeUri}>
+              <KakaoLoginButton href={kakaoAccessCodeUri} onClick={savePath}>
                 <Image src={'/images/kakaoLogo.svg'} width="15%" height="15%" />
                 카카오로 시작하기
                 <span />
               </KakaoLoginButton>
 
-              <GoogleLoginButton href={GoogleAccessCodeUri}>
+              <GoogleLoginButton href={GoogleAccessCodeUri} onClick={savePath}>
                 <Image src={'/images/googleLogo.svg'} width="15%" height="15%" />
                 Google로 시작하기
                 <span />

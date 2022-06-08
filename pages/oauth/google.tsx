@@ -2,7 +2,7 @@ import usersApi from 'apis/users.api';
 import axios from 'axios';
 import Layout from 'components/Layout';
 import useModal from 'hooks/useModal';
-import { useRouter } from 'next/router';
+import { usePathStorage } from 'hooks/usePathStorage';
 import { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { socialLoginState } from 'recoil/auth';
@@ -13,9 +13,8 @@ const GoogleLogin = () => {
   const GOOGLE_CLIENT_SECRET = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
   const GOOGLE_REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI;
   const { isShowing, setModalVisible } = useModal();
+  const [savePath, replacePath] = usePathStorage();
   const setSocialLoginState = useSetRecoilState(socialLoginState);
-
-  const route = useRouter();
 
   const getGoogleToken = async () => {
     const googleAccessCode = await new URL(window.location.href).searchParams.get('code');
@@ -34,7 +33,7 @@ const GoogleLogin = () => {
       if (data.message === 'signup') {
         setModalVisible();
       } else {
-        route.back();
+        replacePath();
       }
     }
   };
