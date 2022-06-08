@@ -2,6 +2,7 @@ type CategoryType = { id: number; name: sring };
 
 export interface User {
   id: number;
+  email: string;
   nickname: string;
   description: string;
   profileImage: string;
