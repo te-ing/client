@@ -16,7 +16,7 @@ class UsersAPI extends BaseAPI {
     return this.get('/check-nickname', { params });
   }
 
-  checkUsers(params: unknown, config: CustomAxiosRequestConfig) {
+  checkUsers(params: unknown, config?: CustomAxiosRequestConfig) {
     console.log('config', config);
     return this.get<User>(`/${params}`, config);
   }
