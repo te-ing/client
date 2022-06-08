@@ -17,6 +17,7 @@ export interface User {
 
 export interface UserEditForm {
   nickname?: string;
+  email?: User['email'];
   description?: string;
   profileImage?: string;
   backgroundImage?: string;
