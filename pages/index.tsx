@@ -4,8 +4,17 @@ import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
 import Image from 'next/image';
 import Layout from 'components/Layout';
+import postsApi from 'apis/posts.api';
+import { PostType } from 'types/post';
+import { useQuery } from 'react-query';
 
-const Index = () => {
+const PostCards = () => {
+  const getPosts = async () => {
+    const data = await postsApi.getMainPosts();
+    return data;
+  };
+  const { data, isLoading } = useQuery<PostType[]>('post', getPosts);
+
   return (
     <Layout>
       <MainHeader>
@@ -23,9 +32,11 @@ const Index = () => {
         </FlexBox>
       </MainHeader>
       <MainContent>
-        {Array.from({ length: 12 }, () => (
-          <MainCard />
-        ))}
+        {isLoading
+          ? 'Loading..'
+          : data?.map((post) => {
+              return <MainCard post={post} key={post.id} />;
+            })}
       </MainContent>
     </Layout>
   );
@@ -74,4 +85,4 @@ const MainContent = styled(FlexBox)`
   justify-content: space-between;
 `;
 
-export default Index;
+export default PostCards;
