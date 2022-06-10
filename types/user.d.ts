@@ -2,6 +2,7 @@ type CategoryType = { id: number; name: sring };
 
 export interface User {
   id: number;
+  email: string;
   nickname: string;
   description: string;
   profileImage: string;
@@ -16,6 +17,7 @@ export interface User {
 
 export interface UserEditForm {
   nickname?: string;
+  email?: User['email'];
   description?: string;
   profileImage?: string;
   backgroundImage?: string;

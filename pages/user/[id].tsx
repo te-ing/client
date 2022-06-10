@@ -236,6 +236,7 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
     const queryClient = new QueryClient();
     const id = context.params?.id as string;
 
+
     await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(Number(queryKey[1])));
 
     return {

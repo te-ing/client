@@ -37,6 +37,7 @@ export const userInfoState = atom<User>({
     scrapCount: 0,
     followerCount: 0,
     followingCount: 0,
+    isFollowed: false,
   },
 });
 

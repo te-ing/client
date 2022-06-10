@@ -13,6 +13,10 @@ class PostsAPI extends BaseAPI {
     return this.get<PostType[]>(`/${params}`);
   }
 
+  getMainPosts() {
+    return this.get<PostType[]>(`/main`);
+  }
+
   editPost(params: unknown, body: UploadType, config: CustomAxiosRequestConfig) {
     return this.put(`/${params}`, body, config);
   }

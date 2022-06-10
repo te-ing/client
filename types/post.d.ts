@@ -13,9 +13,11 @@ export interface PostType {
   title: string;
   createdAt: string;
   updatedAt: string;
-  commentCount: number;
   author: number;
+  likeCount: number;
   commentCount: number;
+  isLike: boolean;
+  isScrap: boolean;
 }
 
 export interface UploadType {
