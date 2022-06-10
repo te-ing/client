@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Image from 'next/image';
 import { scrap_icon, edit_icon } from 'constants/imgUrl';
 import { PostType } from 'types/post';
+import Link from 'next/link';
 
 interface Props {
   item: PostType;
@@ -11,20 +12,24 @@ interface Props {
 const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
   // Link로 작품 클릭하면 작품 란으로 이동
   return (
-    <ItemCard>
-      {item.images.length > 0 && (
-        <Image src={item.images[0].image} layout="responsive" width={100} height={100} quality="100" />
-      )}
-      {/* {item.images.length > 0 && <Image src={item.images[0].image} layout="responsive" width={'1x'} height={'1x'} />} */}
-      <ImageWrapper>
-        <Image src={editMode ? edit_icon : scrap_icon} width={24} height={24} />
-      </ImageWrapper>
-      {item.title.length > 0 && (
-        <ItemInfo>
-          <p>{item.title}</p>
-        </ItemInfo>
-      )}
-    </ItemCard>
+    <Link href={`/post/${item.id}`}>
+      <ItemCard>
+        {item.images.length > 0 && (
+          <Image src={item.images[0].image} layout="responsive" width={100} height={100} quality="100" />
+        )}
+        {editMode && (
+          <ImageWrapper>
+            <Image src={editMode ? edit_icon : scrap_icon} width={24} height={24} />
+          </ImageWrapper>
+        )}
+
+        {item.title.length > 0 && (
+          <ItemInfo>
+            <p>{item.title}</p>
+          </ItemInfo>
+        )}
+      </ItemCard>
+    </Link>
   );
 };
 
