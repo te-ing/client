@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useQuery, QueryClient, dehydrate, useMutation, useQueryClient } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
-import ItemList from 'components/Profile/ItemList';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { userTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
@@ -27,6 +26,7 @@ import { userInfoState } from 'recoil/auth';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import PostList from 'components/User/PostList';
+import { email } from 'constants/regExp';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
@@ -87,6 +87,12 @@ const UserProfile: React.FC = () => {
     },
     [currentTab]
   );
+
+  const initProfile = () => {
+    setProfileImg('');
+    setBannerImg('');
+    setValues({ nickname: '', description: '', profileImage: '', backgroundImage: '' });
+  };
   useEffect(() => {
     return () => {
       userTabMenuArr.forEach((tab) => {
@@ -97,12 +103,10 @@ const UserProfile: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log('profile', profileImg);
     setValues({ ...values, profileImage: profileImg });
   }, [profileImg]);
 
   useEffect(() => {
-    console.log('banner', bannerImg);
     setValues({ ...values, backgroundImage: bannerImg });
   }, [bannerImg]);
 
@@ -119,11 +123,10 @@ const UserProfile: React.FC = () => {
             editMode={editMode}
             text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
           />
-          <button onClick={() => setBannerImg('')}>초기화</button>
         </>
       ) : (
         <>
-          <Banner bannerImg={data?.backgroundImage} />
+          <Banner bannerImg={data?.backgroundImage} isTeamPage={false} />
         </>
       )}
       <InfoWrapper>
@@ -159,7 +162,21 @@ const UserProfile: React.FC = () => {
           </ProfileWrapper>
         </ProfileImg>
         <InfoSection>
-          <h1>{data?.nickname}</h1>
+          {editMode ? (
+            <>
+              <EditNickname
+                name="nickname"
+                type="text"
+                placeholder="닉네임을 입력해주세요."
+                onChange={handler}
+                value={values.nickname}
+              />
+              <InitButton onClick={initProfile}>프로필 초기화</InitButton>
+            </>
+          ) : (
+            <h1>{data?.nickname}</h1>
+          )}
+
           <InfoDescription>
             <div>
               {data?.categories.map((ability) => (
@@ -173,7 +190,12 @@ const UserProfile: React.FC = () => {
               <span>{numberWithCommas(Number(data?.followingCount))}</span>
             </FollowInfo>
             {editMode ? (
-              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
+              <DescriptionArea
+                name="description"
+                onChange={handler}
+                placeholder="사용자 소개를 입력해주세요."
+                value={values.description}
+              />
             ) : (
               <p>{data?.description}</p>
             )}
@@ -214,7 +236,8 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
     const queryClient = new QueryClient();
     const id = context.params?.id as string;
 
-    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(queryKey[1] as any));
+
+    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(Number(queryKey[1])));
 
     return {
       props: {
@@ -229,20 +252,20 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
 
 export default UserProfile;
 
-export const InfoWrapper = styled.div`
+const InfoWrapper = styled.div`
   padding: 24px;
   position: relative;
   margin-bottom: 80px;
   display: flex;
 `;
 
-export const ProfileImg = styled.div``;
+const ProfileImg = styled.div``;
 
-export const ImgWrapper = styled(Image)`
+const ImgWrapper = styled(Image)`
   border-radius: 50%;
 `;
 
-export const InfoSection = styled.div`
+const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
 
@@ -254,7 +277,7 @@ export const InfoSection = styled.div`
     margin-bottom: 16px;
   }
 `;
-export const InfoDescription = styled.div`
+const InfoDescription = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -267,7 +290,7 @@ export const InfoDescription = styled.div`
   }
 `;
 
-export const FollowInfo = styled.div`
+const FollowInfo = styled.div`
   margin-bottom: 8px;
   span {
     font-weight: 400;
@@ -283,7 +306,29 @@ export const FollowInfo = styled.div`
   }
 `;
 
-export const DescriptionArea = styled.textarea`
+const EditNickname = styled.input`
+  width: 240px;
+  height: 26px;
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.color.gray_400};
+  &::placeholder {
+    font-family: 'Noto Sans KR', sans serif;
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-size: 12px;
+    line-height: 1.416666;
+    color: ${({ theme }) => theme.color.gray_400};
+  }
+`;
+
+const InitButton = styled.button`
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+  color: ${({ theme }) => theme.color.gray_500};
+  margin-left: 16px;
+`;
+
+const DescriptionArea = styled.textarea`
   box-sizing: border-box;
   resize: none;
   padding: 8px;
@@ -308,7 +353,7 @@ export const DescriptionArea = styled.textarea`
   }
 `;
 
-export const InfoAside = styled.div`
+const InfoAside = styled.div`
   position: absolute;
   right: 24px;
 `;

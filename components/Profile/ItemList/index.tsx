@@ -13,7 +13,7 @@ const ItemList: React.FC<Props> = ({ dataList, isLeader, editMode }) => {
     <S.ItemListWrapper>
       {dataList.length > 0
         ? dataList.map((item) => <Thumbnail key={item.id} item={item} editMode={editMode} />)
-        : isLeader && <AddItemCard></AddItemCard>}
+        : isLeader && <AddItemCard />}
     </S.ItemListWrapper>
   );
 };

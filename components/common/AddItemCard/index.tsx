@@ -1,14 +1,17 @@
+import Link from 'next/link';
 import React from 'react';
 import styled from 'styled-components';
 import { AddImageWrapper, AddImageSvg } from '../Atomic/AddItem';
 const AddItem = () => {
   return (
-    <AddItemCard>
-      <AddImageWrapper>
-        <AddImageText>게시물을 추가 해주세요.</AddImageText>
-        <AddImageSvg width={80} height={80} />
-      </AddImageWrapper>
-    </AddItemCard>
+    <Link href="/upload">
+      <AddItemCard>
+        <AddImageWrapper>
+          <AddImageText>게시물을 추가 해주세요.</AddImageText>
+          <AddImageSvg width={80} height={80} />
+        </AddImageWrapper>
+      </AddItemCard>
+    </Link>
   );
 };
 
@@ -22,6 +25,7 @@ const AddItemCard = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const AddImageText = styled.span`
