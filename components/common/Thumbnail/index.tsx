@@ -6,12 +6,14 @@ import { PostType } from 'types/post';
 import Link from 'next/link';
 import { editPostState } from 'recoil/editRecoil';
 import { useRecoilState } from 'recoil';
+import PopUp from 'components/Profile/PopUp';
 
 interface Props {
   item: PostType;
   editMode?: boolean;
+  isTeam: boolean;
 }
-const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
+const Thumbnail: React.FC<Props> = ({ item, editMode, isTeam }) => {
   const [editPost, setEditPost] = useRecoilState(editPostState);
 
   const postEditHandler = (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -21,13 +23,14 @@ const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
   return (
     <Link href={`/post/${item.id}`}>
       <ItemCard>
-        {item.images.length > 0 && (
-          <Image src={item.images[0].image} layout="responsive" width={100} height={100} quality="100" />
-        )}
+        {item.images.length > 0 && <ItemImage src={item.images[0].image} layout="fill" quality="100" />}
         {editMode && (
-          <ImageWrapper onClick={postEditHandler(item.id)}>
-            <Image src={editPost.id === item.id ? edit_icon_pressed : edit_icon} width={32} height={32} />
-          </ImageWrapper>
+          <>
+            <ImageWrapper onClick={postEditHandler(item.id)}>
+              <Image src={editPost.id === item.id ? edit_icon_pressed : edit_icon} width={32} height={32} />
+            </ImageWrapper>
+            {editPost.id === item.id && <PopUp postId={item.id} isTeam={isTeam} />}
+          </>
         )}
 
         {item.title.length > 0 && (
@@ -43,14 +46,17 @@ const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
 export default Thumbnail;
 
 const ItemCard = styled.div`
+  cursor: pointer;
   position: relative;
   width: 363px;
   height: 280px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.gray_500};
-  overflow: hidden;
 `;
 
+const ItemImage = styled(Image)`
+  border-radius: 10px;
+`;
 const ItemInfo = styled.div`
   position: absolute;
   bottom: 0;

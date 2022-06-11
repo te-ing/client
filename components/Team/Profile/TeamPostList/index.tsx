@@ -15,7 +15,7 @@ const TeamPostList: React.FC<Props> = ({ teamId, isLeader, editMode }) => {
     return <h1>Loading</h1>;
   }
 
-  return <ItemList editMode={editMode} isLeader={isLeader} dataList={data} />;
+  return <ItemList editMode={editMode} isLeader={isLeader} dataList={data} isTeam={true} />;
 };
 
 export default TeamPostList;
