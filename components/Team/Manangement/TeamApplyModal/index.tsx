@@ -38,10 +38,10 @@ const TeamApplyModal = ({ teamId, onOffHandler }: Props) => {
           <div>
             {data.map((member) => (
               <ManagedMemberCard
-                key={member.user}
+                key={member.userId}
                 memberInfo={member}
-                leftButton={<RejectApplyButton />}
-                rightButton={<AcceptApplyButton />}
+                leftButton={<RejectApplyButton memberId={member.memberId} teamId={teamId} />}
+                rightButton={<AcceptApplyButton memberId={member.memberId} teamId={teamId} />}
               />
             ))}
           </div>
