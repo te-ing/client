@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 import Image from 'next/image';
-import { scrap_icon, edit_icon } from 'constants/imgUrl';
+import { edit_icon, edit_icon_pressed } from 'constants/imgUrl';
 import { PostType } from 'types/post';
 import Link from 'next/link';
+import { editPostState } from 'recoil/editRecoil';
+import { useRecoilState } from 'recoil';
 
 interface Props {
   item: PostType;
   editMode?: boolean;
 }
 const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
-  // Link로 작품 클릭하면 작품 란으로 이동
+  const [editPost, setEditPost] = useRecoilState(editPostState);
+
+  const postEditHandler = (id: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    setEditPost({ ...editPost, id });
+  };
   return (
     <Link href={`/post/${item.id}`}>
       <ItemCard>
@@ -18,8 +25,8 @@ const Thumbnail: React.FC<Props> = ({ item, editMode }) => {
           <Image src={item.images[0].image} layout="responsive" width={100} height={100} quality="100" />
         )}
         {editMode && (
-          <ImageWrapper>
-            <Image src={editMode ? edit_icon : scrap_icon} width={24} height={24} />
+          <ImageWrapper onClick={postEditHandler(item.id)}>
+            <Image src={editPost.id === item.id ? edit_icon_pressed : edit_icon} width={32} height={32} />
           </ImageWrapper>
         )}
 

@@ -1,7 +1,29 @@
+import membersApi from 'apis/members.api';
 import React from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-const RejectApplyButton = () => {
-  return <RejectButton>거절</RejectButton>;
+
+interface Props {
+  memberId: number;
+  teamId: string;
+}
+
+const RejectApplyButton = ({ memberId, teamId }: Props) => {
+  const queryClient = useQueryClient();
+  const { mutate: applyMutate } = useMutation(
+    () => membersApi.rejectApply(memberId.toString(), { isRequiredLogin: true }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['team-member', teamId]);
+      },
+    }
+  );
+
+  const rejectApplyHandler = () => {
+    console.log('거절');
+    applyMutate();
+  };
+  return <RejectButton onClick={rejectApplyHandler}>거절</RejectButton>;
 };
 
 export default RejectApplyButton;
