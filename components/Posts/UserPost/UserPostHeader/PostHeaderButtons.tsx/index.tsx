@@ -7,57 +7,84 @@ import Login from 'components/Login';
 import useModal from 'hooks/useModal';
 import { User } from 'types/user';
 import { useState } from 'react';
+import { isLoggedIn } from 'utils/isLoggedIn';
 
 interface data {
   status?: number;
 }
-// 좋아요, 스크랩 기능 미구현 (api 부재)
 const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
   const { setModalVisible, isShowing } = useModal();
+  const [isLike, setIsLike] = useState(post.isLike);
+  const [isScrap, setIsScrap] = useState(post.isScrap);
   const [isFollowed, setIsFollowed] = useState(user.isFollowed);
   const [postId, userId] = [post.id, post.author];
   const isOwnPost = post.author.toString() === sessionStorage.getItem('id');
 
   const likePost = async () => {
-    const data: data = await postsApi.likePost(postId, { isRequiredLogin: true });
-    if (data.status === 401) setModalVisible();
-    return data;
+    if (isLoggedIn()) {
+      const data: data = await postsApi.likePost(postId, { isRequiredLogin: true });
+      if (data.status === 201 || data.status === 204) {
+        setIsLike(!isLike);
+      }
+      return data;
+    } else {
+      setModalVisible();
+    }
   };
   const scrapPost = async () => {
-    const data: data = await usersApi.scrapUserPosts(userId, { isRequiredLogin: true });
-    if (data.status === 401) setModalVisible();
-    return data;
+    if (isLoggedIn()) {
+      const data: data = await postsApi.scrapPost(postId, { isRequiredLogin: true });
+      if (data.status === 201 || data.status === 204) {
+        setIsScrap(!isScrap);
+      }
+      return data;
+    } else {
+      setModalVisible();
+    }
   };
   const followUser = async () => {
     const data: data = await usersApi.followingUser(userId, { isRequiredLogin: true });
-    data.status === 401 ? setModalVisible() : setIsFollowed(!isFollowed);
+    if (data.status === 201 || data.status === 204) {
+      setIsFollowed(!isFollowed);
+    }
     return data;
   };
 
-  return isOwnPost ? (
-    <HeaderButtonsWrapper></HeaderButtonsWrapper>
-  ) : (
+  return (
     <HeaderButtonsWrapper>
       <ButtonWrapper onClick={likePost}>
         <ImageWrapper>
-          <ButtonImage alt="delete_btn" src="/images/like-border.svg" width="30px" height="30px" />
+          <ButtonImage
+            alt="delete_btn"
+            src={isLike ? '/images/like.svg' : '/images/like-border.svg'}
+            width="30px"
+            height="30px"
+          />
         </ImageWrapper>
         <ButtonName>좋아요</ButtonName>
       </ButtonWrapper>
 
       <ButtonWrapper onClick={scrapPost}>
         <ImageWrapper>
-          <ButtonImage alt="delete_btn" src="/images/scrap-border.svg" width="18px" height="18px" />
+          <ButtonImage
+            alt="delete_btn"
+            src={isScrap ? '/images/scrap.svg' : '/images/scrap-border.svg'}
+            width="18px"
+            height="18px"
+          />
         </ImageWrapper>
         <ButtonName>스크랩</ButtonName>
       </ButtonWrapper>
-
-      <ButtonWrapper onClick={followUser}>
-        <FollowImageWrapper isFollowing={isFollowed}>
-          <ButtonImage alt="delete_btn" src="/images/add.svg" width="26px" height="26px" />
-        </FollowImageWrapper>
-        <ButtonName>팔로우</ButtonName>
-      </ButtonWrapper>
+      {isOwnPost ? (
+        ''
+      ) : (
+        <ButtonWrapper onClick={followUser}>
+          <FollowImageWrapper isFollowing={isFollowed}>
+            <ButtonImage alt="delete_btn" src="/images/add.svg" width="26px" height="26px" />
+          </FollowImageWrapper>
+          <ButtonName>팔로우</ButtonName>
+        </ButtonWrapper>
+      )}
       <Login isShowing={isShowing} setModalVisible={setModalVisible} />
     </HeaderButtonsWrapper>
   );

@@ -9,8 +9,8 @@ class PostsAPI extends BaseAPI {
     return this.post(``, body, config);
   }
 
-  getPost(params: unknown) {
-    return this.get<PostType[]>(`/${params}`);
+  getPost(params: unknown, config?: CustomAxiosRequestConfig) {
+    return this.get<PostType[]>(`/${params}`, config);
   }
 
   getMainPosts() {
@@ -30,6 +30,10 @@ class PostsAPI extends BaseAPI {
   }
 
   likePost(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`/${params}/like`, {}, config);
+  }
+
+  scrapPost(params: unknown, config: CustomAxiosRequestConfig) {
     return this.post(`/${params}/scrap`, {}, config);
   }
 }
