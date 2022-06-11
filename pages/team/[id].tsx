@@ -21,7 +21,7 @@ import { TeamEditForm } from 'types/team';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 
-import QuitTeam from 'components/Team/Manangement/QuitTeam';
+import QuitTeam from 'components/Team/Profile/QuitTeam';
 import { teamEditForm } from 'utils/teamEditForm';
 import TeamPostList from 'components/Team/Profile/TeamPostList';
 import MemberList from 'components/Team/Profile/MemberList';
@@ -30,6 +30,7 @@ import { useUploadImage } from 'hooks/useUploadImage';
 import AddImage from 'components/Profile/AddImage';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from 'recoil/auth';
+import { editPostState } from 'recoil/editRecoil';
 
 //props로 id 넘겨주기
 
@@ -41,7 +42,7 @@ const TeamProfile = () => {
   const [currentTab, setCurrentTab] = useState('postCount');
   const [values, setValues, handler] = useForm<TeamEditForm>();
   const [userState] = useRecoilState(userInfoState);
-
+  const [editPost, setEditPost] = useRecoilState(editPostState);
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
 
@@ -79,6 +80,11 @@ const TeamProfile = () => {
     }
   );
 
+  const postEditHandler = (id: number) => (e: MouseEvent) => {
+    e.stopPropagation();
+    setEditPost({ ...editPost, id });
+  };
+
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
       setEditMode(flag);
@@ -105,7 +111,9 @@ const TeamProfile = () => {
   );
 
   useEffect(() => {
+    window.addEventListener('click', postEditHandler(-1));
     return () => {
+      window.removeEventListener('click', postEditHandler(-1));
       teamTabMenuArr.forEach((tab) => {
         if (tab.id === 'memberCount') tab.isActive = false;
         else tab.isActive = true;
@@ -193,9 +201,12 @@ const TeamProfile = () => {
           {profileData.leader === userState.id ? (
             <>
               <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
-              {!editMode && <UploadProduct />}
+              {!editMode && <UploadProduct isTeam={true} />}
             </>
-          ) : membersData.map((member) => member.user).includes(userState.id) ? (
+          ) : profileData.checkApplied
+              .filter((member) => member.memberType === 'confirmed')
+              .map((member) => member.member)
+              .includes(userState.id) ? (
             <QuitTeam />
           ) : (
             <>

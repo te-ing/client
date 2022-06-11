@@ -25,3 +25,10 @@ export interface UploadType {
   description: string;
   images?: string[];
 }
+
+export interface TeamUploadType {
+  team: number;
+  title: string;
+  description: string;
+  images?: string[];
+}

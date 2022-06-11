@@ -27,6 +27,7 @@ import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import PostList from 'components/User/PostList';
 import { email } from 'constants/regExp';
+import { editPostState } from 'recoil/editRecoil';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
@@ -38,6 +39,7 @@ const UserProfile: React.FC = () => {
   const [values, setValues, handler] = useForm<UserEditForm | null>(null);
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
+  const [editPost, setEditPost] = useRecoilState(editPostState);
 
   const { isLoading, isError, error, data } = useQuery(
     ['user-profile', id],
@@ -64,6 +66,12 @@ const UserProfile: React.FC = () => {
       },
     }
   );
+
+  const postEditHandler = (id: number) => (e: MouseEvent) => {
+    e.stopPropagation();
+    setEditPost({ ...editPost, id });
+  };
+
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
       setEditMode(flag);
@@ -94,7 +102,9 @@ const UserProfile: React.FC = () => {
     setValues({ nickname: '', description: '', profileImage: '', backgroundImage: '' });
   };
   useEffect(() => {
+    window.addEventListener('click', postEditHandler(-1));
     return () => {
+      window.removeEventListener('click', postEditHandler(-1));
       userTabMenuArr.forEach((tab) => {
         if (tab.id === 'scrapCount') tab.isActive = false;
         else tab.isActive = true;
@@ -205,7 +215,7 @@ const UserProfile: React.FC = () => {
           {data.id === userState.id ? (
             <>
               <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
-              {!editMode && <UploadProduct />}
+              {!editMode && <UploadProduct isTeam={false} />}
             </>
           ) : (
             <>
