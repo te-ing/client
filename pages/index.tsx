@@ -18,17 +18,17 @@ const PostCards = () => {
   return (
     <Layout>
       <MainHeader>
-        <SearchBox>
+        <SearchBox onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>
           <SearchInput placeholder="검색어를 입력해주세요." />
           <SearchIcon>
             <Image src={'/images/search.svg'} width="24" height="24" />
           </SearchIcon>
         </SearchBox>
         <FlexBox>
-          <FilterBtn>전체보기</FilterBtn>
-          <FilterBtn>카테고리</FilterBtn>
-          <FilterBtn>카테고리</FilterBtn>
-          <FilterBtn>카테고리</FilterBtn>
+          <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>전체보기</FilterBtn>
+          <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>카테고리</FilterBtn>
+          <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>카테고리</FilterBtn>
+          <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>카테고리</FilterBtn>
         </FlexBox>
       </MainHeader>
       <MainContent>
