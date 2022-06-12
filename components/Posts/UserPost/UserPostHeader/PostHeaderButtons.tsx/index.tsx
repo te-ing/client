@@ -6,7 +6,7 @@ import usersApi from 'apis/users.api';
 import Login from 'components/Login';
 import useModal from 'hooks/useModal';
 import { User } from 'types/user';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { isLoggedIn } from 'utils/isLoggedIn';
 
 interface data {
@@ -19,6 +19,16 @@ const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
   const [isFollowed, setIsFollowed] = useState(user.isFollowed);
   const [postId, userId] = [post.id, post.author];
   const isOwnPost = post.author.toString() === sessionStorage.getItem('id');
+  useEffect(() => {
+    const getPostInfo = async () => {
+      if (isLoggedIn()) {
+        const { isLike, isScrap } = await postsApi.getPost(post.id, { isRequiredLogin: true });
+        setIsLike(isLike);
+        setIsScrap(isScrap);
+      }
+    };
+    getPostInfo();
+  }, []);
 
   const likePost = async () => {
     if (isLoggedIn()) {
