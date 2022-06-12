@@ -41,9 +41,30 @@ const Header = () => {
           <Image src={'/images/logo.svg'} width={'112px'} height={'20px'} />
         </div>
         <S.MenuTab>
-          <S.NavButtons onClick={() => setTabNum(1)}>커뮤니티</S.NavButtons>
-          <S.NavButtons onClick={() => setTabNum(2)}>메뉴</S.NavButtons>
-          <S.NavButtons onClick={() => setTabNum(3)}>메뉴</S.NavButtons>
+          <S.NavButtons
+            onClick={() => {
+              alert('❗ 아직 구현되지 않은 기능입니다.');
+              // setTabNum(1);
+            }}
+          >
+            작업물
+          </S.NavButtons>
+          <S.NavButtons
+            onClick={() => {
+              alert('❗ 아직 구현되지 않은 기능입니다.');
+              // setTabNum(2);
+            }}
+          >
+            분야
+          </S.NavButtons>
+          <S.NavButtons
+            onClick={() => {
+              alert('❗ 아직 구현되지 않은 기능입니다.');
+              // setTabNum(3);
+            }}
+          >
+            커뮤니티
+          </S.NavButtons>
           <S.Line tabNum={tabNum}></S.Line>
         </S.MenuTab>
         {isLoggedIn ? (
