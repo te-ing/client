@@ -1,17 +1,10 @@
 import React from 'react';
-import Router, { useRouter } from 'next/router';
+import Router from 'next/router';
 import { UploadProductButton } from 'components/common/Atomic/Tabs/Button';
 import Image from 'next/image';
-
-interface Props {
-  isTeam: boolean;
-}
-
-const UploadProduct = ({ isTeam }: Props) => {
-  const router = useRouter();
-  const { id } = router.query;
+const UploadProduct = () => {
   const moveToUpload = () => {
-    isTeam ? Router.push(`/team/upload/${id}`) : Router.push('/user/upload');
+    Router.push('/upload');
   };
   return (
     <UploadProductButton bgColor onClick={moveToUpload}>

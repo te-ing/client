@@ -8,21 +8,11 @@ export const scrap_icon = '/images/icon-folder-add.svg';
 
 export const edit_icon = '/images/edit-icon.svg';
 
-export const edit_icon_pressed = '/images/edit-icon-pressed.svg';
-
 export const following_icon = '/images/icon-add-round.svg';
 
 export const message_icon = '/images/icon-message.svg';
 
-export const edit_button = '/images/edit-button.svg';
-
-export const delete_button = '/images/delete-button.svg';
-
-export const user_profile_image = '/images/default-profile-image.png';
-
 export const team_profile_icon = '/images/team-profile-icon.svg';
-
-export const team_profile_image = '/images/default-team-image.png';
 
 export const team_add_icon = '/images/team-add-icon.svg';
 
@@ -35,5 +25,3 @@ export const setting_icon = '/images/setting-icon.svg';
 export const upload_image_icon = '/images/icon-upload_image.svg';
 
 export const upload_video_icon = '/images/icon-upload_video.svg';
-
-export const warning_icon = '/images/warning-icon.svg';

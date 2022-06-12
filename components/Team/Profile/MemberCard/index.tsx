@@ -12,19 +12,16 @@ interface Props {
 
 const MemberCard = ({ memberInfo }: Props) => {
   return (
-    <Link href={`/user/${memberInfo.userId}`}>
+    <Link href={`/user/${memberInfo.user}`}>
       <CardContainer>
-        <ProfileImg src={memberInfo.image.length > 0 ? memberInfo.image : default_profile} width={56} height={56} />
+        <Image src={memberInfo.image.length > 0 ? memberInfo.image : default_profile} width={56} height={56}></Image>
         <span>{memberInfo.nickname}</span>
         <KeywordsConatiner>
-          {memberInfo.subCategory.map((category, i) => (
-            <Keyword key={i}>{category.subCategory}</Keyword>
-          ))}
-          {/* <Keyword>일러스트레이션</Keyword>
           <Keyword>일러스트레이션</Keyword>
           <Keyword>일러스트레이션</Keyword>
           <Keyword>일러스트레이션</Keyword>
-          <Keyword>일러스트레이션</Keyword> */}
+          <Keyword>일러스트레이션</Keyword>
+          <Keyword>일러스트레이션</Keyword>
         </KeywordsConatiner>
         <FollowInfo>
           <span>팔로워</span>
@@ -61,6 +58,7 @@ const CardContainer = styled.a`
   &:active {
     box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.237602);
   }
+
   & > span {
     margin-top: 8px;
     margin-bottom: 12px;
@@ -71,11 +69,7 @@ const CardContainer = styled.a`
   }
 `;
 
-const ProfileImg = styled(Image)`
-  border-radius: 50%;
-`;
-
-const KeywordsConatiner = styled.div`
+export const KeywordsConatiner = styled.div`
   margin-bottom: 8px;
   display: flex;
   flex-wrap: wrap;
@@ -83,7 +77,7 @@ const KeywordsConatiner = styled.div`
   justify-content: center;
 `;
 
-const FollowInfo = styled.div`
+export const FollowInfo = styled.div`
   margin-bottom: 8px;
   span {
     font-weight: 400;

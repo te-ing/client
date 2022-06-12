@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useQuery, QueryClient, dehydrate, useMutation, useQueryClient } from 'react-query';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
+import ItemList from 'components/Profile/ItemList';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { userTabMenuArr } from 'constants/tabMenu';
 import usersApi from 'apis/users.api';
@@ -26,9 +27,6 @@ import { userInfoState } from 'recoil/auth';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import PostList from 'components/User/PostList';
-import ScrapList from 'components/User/ScrapList';
-import { email } from 'constants/regExp';
-import { editPostState } from 'recoil/editRecoil';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
@@ -40,7 +38,6 @@ const UserProfile: React.FC = () => {
   const [values, setValues, handler] = useForm<UserEditForm | null>(null);
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
-  const [editPost, setEditPost] = useRecoilState(editPostState);
 
   const { isLoading, isError, error, data } = useQuery(
     ['user-profile', id],
@@ -67,12 +64,6 @@ const UserProfile: React.FC = () => {
       },
     }
   );
-
-  const postEditHandler = (id: number) => (e: MouseEvent) => {
-    e.stopPropagation();
-    setEditPost({ ...editPost, id });
-  };
-
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
       setEditMode(flag);
@@ -96,16 +87,8 @@ const UserProfile: React.FC = () => {
     },
     [currentTab]
   );
-
-  const initProfile = () => {
-    setProfileImg('');
-    setBannerImg('');
-    setValues({ nickname: '', description: '', profileImage: '', backgroundImage: '' });
-  };
   useEffect(() => {
-    window.addEventListener('click', postEditHandler(-1));
     return () => {
-      window.removeEventListener('click', postEditHandler(-1));
       userTabMenuArr.forEach((tab) => {
         if (tab.id === 'scrapCount') tab.isActive = false;
         else tab.isActive = true;
@@ -114,10 +97,12 @@ const UserProfile: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    console.log('profile', profileImg);
     setValues({ ...values, profileImage: profileImg });
   }, [profileImg]);
 
   useEffect(() => {
+    console.log('banner', bannerImg);
     setValues({ ...values, backgroundImage: bannerImg });
   }, [bannerImg]);
 
@@ -134,10 +119,11 @@ const UserProfile: React.FC = () => {
             editMode={editMode}
             text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
           />
+          <button onClick={() => setBannerImg('')}>초기화</button>
         </>
       ) : (
         <>
-          <Banner bannerImg={data?.backgroundImage} isTeamPage={false} />
+          <Banner bannerImg={data?.backgroundImage} />
         </>
       )}
       <InfoWrapper>
@@ -173,21 +159,7 @@ const UserProfile: React.FC = () => {
           </ProfileWrapper>
         </ProfileImg>
         <InfoSection>
-          {editMode ? (
-            <>
-              <EditNickname
-                name="nickname"
-                type="text"
-                placeholder="닉네임을 입력해주세요."
-                onChange={handler}
-                value={values.nickname}
-              />
-              <InitButton onClick={initProfile}>프로필 초기화</InitButton>
-            </>
-          ) : (
-            <h1>{data?.nickname}</h1>
-          )}
-
+          <h1>{data?.nickname}</h1>
           <InfoDescription>
             <div>
               {data?.categories.map((ability) => (
@@ -201,12 +173,7 @@ const UserProfile: React.FC = () => {
               <span>{numberWithCommas(Number(data?.followingCount))}</span>
             </FollowInfo>
             {editMode ? (
-              <DescriptionArea
-                name="description"
-                onChange={handler}
-                placeholder="사용자 소개를 입력해주세요."
-                value={values.description}
-              />
+              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
             ) : (
               <p>{data?.description}</p>
             )}
@@ -216,7 +183,7 @@ const UserProfile: React.FC = () => {
           {data.id === userState.id ? (
             <>
               <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
-              {!editMode && <UploadProduct isTeam={false} />}
+              {!editMode && <UploadProduct />}
             </>
           ) : (
             <>
@@ -237,7 +204,7 @@ const UserProfile: React.FC = () => {
       {currentTab === 'postCount' && (
         <PostList userId={id} isLeader={userState.id === Number(id)} editMode={editMode} />
       )}
-      {currentTab === 'scrapCount' && <ScrapList userId={id} isLeader={false} editMode={editMode} />}
+      {/* {currentTab === 'scrapCount' && <ItemList itemList={Items[currentTab]} />} */}
     </Layout>
   );
 };
@@ -247,7 +214,7 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
     const queryClient = new QueryClient();
     const id = context.params?.id as string;
 
-    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(Number(queryKey[1])));
+    await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(queryKey[1] as any));
 
     return {
       props: {
@@ -262,20 +229,20 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
 
 export default UserProfile;
 
-const InfoWrapper = styled.div`
+export const InfoWrapper = styled.div`
   padding: 24px;
   position: relative;
   margin-bottom: 80px;
   display: flex;
 `;
 
-const ProfileImg = styled.div``;
+export const ProfileImg = styled.div``;
 
-const ImgWrapper = styled(Image)`
+export const ImgWrapper = styled(Image)`
   border-radius: 50%;
 `;
 
-const InfoSection = styled.div`
+export const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
 
@@ -287,7 +254,7 @@ const InfoSection = styled.div`
     margin-bottom: 16px;
   }
 `;
-const InfoDescription = styled.div`
+export const InfoDescription = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -300,7 +267,7 @@ const InfoDescription = styled.div`
   }
 `;
 
-const FollowInfo = styled.div`
+export const FollowInfo = styled.div`
   margin-bottom: 8px;
   span {
     font-weight: 400;
@@ -316,29 +283,7 @@ const FollowInfo = styled.div`
   }
 `;
 
-const EditNickname = styled.input`
-  width: 240px;
-  height: 26px;
-  padding: 8px;
-  border: 1px solid ${({ theme }) => theme.color.gray_400};
-  &::placeholder {
-    font-family: 'Noto Sans KR', sans serif;
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-    font-size: 12px;
-    line-height: 1.416666;
-    color: ${({ theme }) => theme.color.gray_400};
-  }
-`;
-
-const InitButton = styled.button`
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-  color: ${({ theme }) => theme.color.gray_500};
-  margin-left: 16px;
-`;
-
-const DescriptionArea = styled.textarea`
+export const DescriptionArea = styled.textarea`
   box-sizing: border-box;
   resize: none;
   padding: 8px;
@@ -363,7 +308,7 @@ const DescriptionArea = styled.textarea`
   }
 `;
 
-const InfoAside = styled.div`
+export const InfoAside = styled.div`
   position: absolute;
   right: 24px;
 `;

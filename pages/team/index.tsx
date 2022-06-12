@@ -60,13 +60,9 @@ const TeamManagement = () => {
         <TeamListContainer>
           {data
             .filter((team) => team.leader !== JSON.parse(sessionStorage.getItem('id')))
-            .map(
-              (team) =>
-                team.checkApplied
-                  .filter((member) => member.memberType === 'confirmed')
-                  .map((member) => member.member)
-                  .includes(userState.id) && <TeamCard key={team.id} teamInfo={team} isLeader={false} />
-            )}
+            .map((team) => (
+              <TeamCard key={team.id} teamInfo={team} isLeader={false} />
+            ))}
         </TeamListContainer>
       </Wrapper>
     </ManageMent>

@@ -1,4 +1,4 @@
-type AppliedMemberType = { member: number; memberType: string };
+type AppliedMemberType = { user: number; memberType: string };
 
 export interface TeamTypes {
   id: string;
@@ -21,8 +21,7 @@ export interface TeamEditForm {
 }
 
 export interface MemberTypes {
-  memberId: number;
-  userId: number;
+  user: number;
   nickname: string;
   postCount: number;
   mainCategory?: { mainCategory: string }[];

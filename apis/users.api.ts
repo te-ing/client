@@ -37,12 +37,10 @@ class UsersAPI extends BaseAPI {
     return this.put(`/${params}`, body, config);
   }
 
-  getPostList(params: string | string[], config: CustomAxiosRequestConfig) {
-    return this.get<PostType[]>(`/${params}/posts`, config);
+  getPostList(params: string | string[]) {
+    return this.get<PostType[]>(`/${params}/posts`);
   }
-  getScrapList(params: string | string[], config: CustomAxiosRequestConfig) {
-    return this.get<PostType[]>(`/${params}/scraps`, config);
-  }
+
   followingUser(params: unknown, config: CustomAxiosRequestConfig) {
     return this.post(`/${params}/follow`, {}, config);
   }
