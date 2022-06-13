@@ -15,6 +15,7 @@ export interface PostType {
   updatedAt: string;
   author: number;
   likeCount: number;
+  scrapCount: number;
   commentCount: number;
   isLike: boolean;
   isScrap: boolean;
