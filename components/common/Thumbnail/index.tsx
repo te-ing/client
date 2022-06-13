@@ -13,6 +13,7 @@ interface Props {
   editMode?: boolean;
   isTeam: boolean;
 }
+
 const Thumbnail: React.FC<Props> = ({ item, editMode, isTeam }) => {
   const [editPost, setEditPost] = useRecoilState(editPostState);
 

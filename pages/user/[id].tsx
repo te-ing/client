@@ -26,7 +26,6 @@ import { userInfoState } from 'recoil/auth';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import PostList from 'components/User/PostList';
-import ScrapList from 'components/User/ScrapList';
 import { email } from 'constants/regExp';
 import { editPostState } from 'recoil/editRecoil';
 
@@ -237,7 +236,7 @@ const UserProfile: React.FC = () => {
       {currentTab === 'postCount' && (
         <PostList userId={id} isLeader={userState.id === Number(id)} editMode={editMode} />
       )}
-      {currentTab === 'scrapCount' && <ScrapList userId={id} isLeader={false} editMode={editMode} />}
+      {/* {currentTab === 'scrapCount' && <ItemList itemList={Items[currentTab]} />} */}
     </Layout>
   );
 };
@@ -246,6 +245,7 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
   try {
     const queryClient = new QueryClient();
     const id = context.params?.id as string;
+
 
     await queryClient.prefetchQuery(['user-profile', id], ({ queryKey }) => usersApi.getUserInfo(Number(queryKey[1])));
 

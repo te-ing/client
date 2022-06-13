@@ -64,7 +64,7 @@ const TeamManagement = () => {
               (team) =>
                 team.checkApplied
                   .filter((member) => member.memberType === 'confirmed')
-                  .map((member) => member.member)
+                  .map((member) => member.user)
                   .includes(userState.id) && <TeamCard key={team.id} teamInfo={team} isLeader={false} />
             )}
         </TeamListContainer>

@@ -48,10 +48,10 @@ const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
         <ListContainer>
           <div>
             {data
-              .filter((member) => member.userId !== userState.id)
+              .filter((member) => member.user !== userState.id)
               .map((member) => (
                 <ManagedMemberCard
-                  key={member.userId}
+                  key={member.user}
                   memberInfo={member}
                   leftButton={<ExportMemberButton />}
                   rightButton={<MessageButton />}

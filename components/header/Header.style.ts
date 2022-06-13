@@ -115,3 +115,10 @@ export const SignUp = styled.div`
 
   cursor: pointer;
 `;
+
+export const TempAlert = styled.div`
+  width: 352px;
+  height: 100px;
+  background: #bdf486;
+  padding: 16px;
+`;
