@@ -9,8 +9,12 @@ class PostsAPI extends BaseAPI {
     return this.post(``, body, config);
   }
 
-  getPost(params: unknown, config?: CustomAxiosRequestConfig) {
-    return this.get<PostType>(`/${params}`, config);
+  uploadTeamPost(body: UploadType, config: CustomAxiosRequestConfig) {
+    return this.post(`/posts`, body, config);
+  }
+  
+  getPost(params: unknown) {
+    return this.get<PostType[]>(`/${params}`);
   }
 
   getMainPosts() {
@@ -24,7 +28,9 @@ class PostsAPI extends BaseAPI {
   deletePost(params: unknown, config: CustomAxiosRequestConfig) {
     return this.delete(`/${params}`, config);
   }
-
+  deleteTeamPost(params: number, config: CustomAxiosRequestConfig) {
+    return this.delete(`${params}`, config);
+  }
   getMyPost(config: CustomAxiosRequestConfig) {
     return this.get<PostType[]>(`/me`, config);
   }

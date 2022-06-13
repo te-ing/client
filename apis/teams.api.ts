@@ -1,4 +1,4 @@
-import { PostType } from 'types/post';
+import { PostType, UploadType } from 'types/post';
 import { MemberTypes, TeamEditForm, TeamTypes } from 'types/team';
 import BaseAPI from './base.api';
 
@@ -30,6 +30,7 @@ class TeamsAPI extends BaseAPI {
   editTeamProfile(params: unknown, body: TeamEditForm, config: CustomAxiosRequestConfig) {
     return this.put(`${params}`, body, config);
   }
+
   deleteTeam(params: unknown, config: CustomAxiosRequestConfig) {
     return this.delete(`${params}`, config);
   }
