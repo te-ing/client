@@ -12,13 +12,13 @@ class PostsAPI extends BaseAPI {
   uploadTeamPost(body: UploadType, config: CustomAxiosRequestConfig) {
     return this.post(`/posts`, body, config);
   }
-  
+
   getPost(params: unknown) {
     return this.get<PostType[]>(`/${params}`);
   }
 
-  getMainPosts() {
-    return this.get<PostType[]>(`/main`);
+  getMainPosts(config?: CustomAxiosRequestConfig) {
+    return this.get<PostType[]>(`/main`, config);
   }
 
   editPost(params: unknown, body: UploadType, config: CustomAxiosRequestConfig) {
