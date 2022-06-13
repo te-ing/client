@@ -8,7 +8,6 @@ import { useMutation, useQueryClient } from 'react-query';
 import { UploadType } from 'types/post';
 
 const Upload: React.FC = () => {
-  const queryClient = useQueryClient();
   const [values, setValues, handler] = useForm<UploadType>({ title: '', description: '', images: [] });
   const { mutate: uploadMutate } = useMutation(() => postsApi.uploadPost(values, { isRequiredLogin: true }), {
     onSuccess: ({ data }) => {

@@ -6,6 +6,7 @@ import { delete_button, edit_button } from 'constants/imgUrl';
 import DeleteModal from '../DeleteModal';
 import { useMutation, useQueryClient } from 'react-query';
 import teamsApi from 'apis/teams.api';
+import Router from 'next/router';
 
 interface Props {
   postId: number;
@@ -25,11 +26,14 @@ const PopUp = ({ postId, isTeam }: Props) => {
     setDeleteModal(false);
   };
 
+  const moveToEdit = () => {
+    Router.push(isTeam ? `/team/edit/${postId}` : `/user/edit/${postId}`);
+  };
   return (
     <PopUpContainer onClick={(e) => e.stopPropagation()}>
       {deleteModal && <DeleteModal deleteModalOff={deleteModalOff} postId={postId} isTeam={isTeam} />}
 
-      <EditButton>
+      <EditButton onClick={moveToEdit}>
         <Image src={edit_button} width={16} height={16} />
         <span>수정하기</span>
       </EditButton>
