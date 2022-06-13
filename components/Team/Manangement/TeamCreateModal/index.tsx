@@ -1,10 +1,12 @@
 import teamsApi from 'apis/teams.api';
+import { FileInput, ProfileLabel } from 'components/common/Atomic/ImageInput';
 import { ProfileWrapper } from 'components/common/Atomic/Profile';
 import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
 import { camera_icon, team_profile_icon, close_icon } from 'constants/imgUrl';
 import useForm from 'hooks/useForm';
+import { useUploadImage } from 'hooks/useUploadImage';
 import Image from 'next/image';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { TeamEditForm } from 'types/team';
@@ -14,6 +16,8 @@ interface Props {
 }
 const TeamCreateModal = ({ onOffHandler }: Props) => {
   const queryClient = useQueryClient();
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
+  const [error, setError] = useState('');
   const [values, setValues, handler] = useForm<TeamEditForm>({
     title: '',
     description: '안녕하세요.',
@@ -21,18 +25,19 @@ const TeamCreateModal = ({ onOffHandler }: Props) => {
     background_image: '',
   });
   const { mutate: teamCreate } = useMutation(() => teamsApi.createTeam(values, { isRequiredLogin: true }), {
-    onSuccess: () => {
+    onSuccess: ({ status }) => {
       queryClient.invalidateQueries(['team-list']);
-      onOffHandler(false);
-      alert('팀 생성이 완료 되었습니다.');
+      if (status === 400) {
+        setError('중복되는 팀 명 입니다.');
+      } else {
+        onOffHandler(false);
+        alert('팀 생성이 완료 되었습니다.');
+      }
     },
-    onError: (e) => {
-      alert(e); //추후에 체크
+    onError: (error) => {
+      alert(error); //추후에 체크
     },
   });
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
 
   const teamCreateSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +45,9 @@ const TeamCreateModal = ({ onOffHandler }: Props) => {
       teamCreate();
     }
   };
-
+  useEffect(() => {
+    setValues({ ...values, team_profile_image: profileImg });
+  }, [profileImg]);
   return (
     <Modal>
       <ModalBox>
@@ -52,19 +59,28 @@ const TeamCreateModal = ({ onOffHandler }: Props) => {
         <p>이미지와 팀 명을 입력 해주세요.</p>
         <form onSubmit={teamCreateSubmit}>
           <div>
-            <ImageUploadWrapper name="team_profile_image">
-              <ProfileWrapper style={{ marginBottom: '8px' }}>
-                <ImgWrapper alt="icon-profile" src={team_profile_icon} width={120} height={120} />
+            <ProfileLabel htmlFor="create-input">
+              <ProfileWrapper style={{ margin: '0 auto 32px' }}>
+                <ImgWrapper
+                  alt="icon-profile"
+                  src={profileImg.length > 0 ? profileImg : team_profile_icon}
+                  width={120}
+                  height={120}
+                />
                 <CameraIconWrapper>
                   <Image alt="icon-camera" src={camera_icon} width={24} height={24} />
                 </CameraIconWrapper>
               </ProfileWrapper>
-            </ImageUploadWrapper>
+              <FileInput id="create-input" type="file" name="team_profile_image" onChange={profileImgUpload} />
+            </ProfileLabel>
             <TeamTitle>
               <label htmlFor="title">팀 명</label>
+              <span>{error}</span>
               <input type="text" name="title" placeholder="팀 명을 입력 해주세요." onChange={handler} />
             </TeamTitle>
-            <span>에러 메시지</span>
+            <TeamDescription>
+              <textarea name="description" placeholder="팀에 대한 설명을 입력해주세요." onChange={handler} />
+            </TeamDescription>
           </div>
           <CreateButton>팀 생성</CreateButton>
         </form>
@@ -90,7 +106,7 @@ const Modal = styled.div`
 const ModalBox = styled.div`
   position: relative;
   width: 416px;
-  height: 488px;
+  height: 631px;
   background-color: #ffffff;
   border-radius: 4px;
   padding: 16px;
@@ -122,19 +138,12 @@ const ModalBox = styled.div`
       color: ${({ theme }) => theme.color.gray_500};
     }
 
-    & span {
-      width: 100%;
-      margin-top: 16px;
-      color: ${({ theme }) => theme.color.warningRed};
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 1.4375;
-    }
     & > div {
       margin-bottom: 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       width: 100%;
       padding: 12px 16px;
     }
@@ -160,9 +169,23 @@ const CameraIconWrapper = styled.div`
 
 const TeamTitle = styled.div`
   width: 100%;
+  margin-bottom: 16px;
+  position: relative;
   & label {
-    display: block;
+    display: inline-block;
     margin-bottom: 10px;
+  }
+
+  & span {
+    // width: 100%;
+    color: ${({ theme }) => theme.color.warningRed};
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4375;
+
+    position: absolute;
+    right: 0;
+    top: -5spx;
   }
 
   & input {
@@ -171,6 +194,27 @@ const TeamTitle = styled.div`
     height: 56px;
     border: 1px solid #979797;
     border-radius: 4px;
+
+    &::placeholder {
+      font-weight: 400;
+      letter-spacing: 0.15px;
+      color: ${({ theme }) => theme.color.gray_400};
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  }
+`;
+
+const TeamDescription = styled.div`
+  width: 100%;
+
+  & textarea {
+    padding: 16px;
+    width: 100%;
+    height: 160px;
+    border: 1px solid #979797;
+    border-radius: 4px;
+    resize: none;
 
     &::placeholder {
       font-weight: 400;

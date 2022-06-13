@@ -5,8 +5,6 @@ import Image from 'next/image';
 import Layout from 'components/Layout';
 import Banner from 'components/Profile/Banner';
 
-import ItemList from 'components/Profile/ItemList';
-
 import { ProfileWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { camera_icon, team_profile_icon } from 'constants/imgUrl';
@@ -22,7 +20,7 @@ import useForm from 'hooks/useForm';
 import { TeamEditForm } from 'types/team';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
-import ImageUploadWrapper from 'components/common/ImageUploadWrapper';
+
 import QuitTeam from 'components/Team/Manangement/QuitTeam';
 import { teamEditForm } from 'utils/teamEditForm';
 import TeamPostList from 'components/Team/Profile/TeamPostList';
@@ -148,7 +146,7 @@ const TeamProfile = () => {
           <button onClick={() => setBannerImg('')}>초기화</button>
         </>
       ) : (
-        <Banner bannerImg={profileData?.backgroundImage} />
+        <Banner bannerImg={profileData?.backgroundImage} isTeamPage={true} />
       )}
 
       <InfoWrapper>

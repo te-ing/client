@@ -12,7 +12,11 @@ export const following_icon = '/images/icon-add-round.svg';
 
 export const message_icon = '/images/icon-message.svg';
 
+export const user_profile_image = '/images/default-profile-image.png';
+
 export const team_profile_icon = '/images/team-profile-icon.svg';
+
+export const team_profile_image = '/images/default-team-image.png';
 
 export const team_add_icon = '/images/team-add-icon.svg';
 
