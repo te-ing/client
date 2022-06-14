@@ -13,8 +13,8 @@ class PostsAPI extends BaseAPI {
     return this.post(`/posts`, body, config);
   }
 
-  getPost(params: unknown) {
-    return this.get<PostType[]>(`/${params}`);
+  getPost(params: unknown, config?: CustomAxiosRequestConfig) {
+    return this.get<PostType>(`/${params}`, config);
   }
 
   getMainPosts(config?: CustomAxiosRequestConfig) {
