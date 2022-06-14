@@ -14,7 +14,7 @@ const PostCards = () => {
     const data = await postsApi.getMainPosts({ isRequiredLogin: isLoggedIn() });
     return data;
   };
-  const { data, isLoading } = useQuery<PostType[]>('post', getPosts);
+  const { data, isLoading } = useQuery<PostType[]>('post', getPosts, { refetchOnWindowFocus: false });
 
   return (
     <Layout>
