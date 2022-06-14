@@ -18,7 +18,7 @@ const UserPostHeader = ({ post }: { post: PostType }) => {
   return !isLoading ? (
     <PostHeader>
       <PostHeaderInfo post={post} user={data} />
-      <PostHeaderButtons post={post} user={data} />
+      <PostHeaderButtons postId={post.id} user={data} />
     </PostHeader>
   ) : (
     <SkeletonHeader />

@@ -14,7 +14,7 @@ const PostCards = () => {
     const data = await postsApi.getMainPosts({ isRequiredLogin: isLoggedIn() });
     return data;
   };
-  const { data, isLoading } = useQuery<PostType[]>('post', getPosts);
+  const { data, isLoading } = useQuery<PostType[]>('post', getPosts, { refetchOnWindowFocus: false });
 
   return (
     <Layout>
@@ -33,7 +33,7 @@ const PostCards = () => {
         </FlexBox>
       </MainHeader>
       <MainContent>
-        {isLoading
+        {isLoading || !data.length
           ? 'Loading..'
           : data?.map((post) => {
               return <MainCard post={post} key={post.id} />;
