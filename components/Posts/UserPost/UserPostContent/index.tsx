@@ -31,13 +31,12 @@ const PostImageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 16px;
+  padding: 16px 0;
   gap: 20px;
 `;
 
 const PostImage = styled.img`
   display: flex;
   max-width: 100%;
-  max-height: 800px;
   object-fit: scale-down;
 `;

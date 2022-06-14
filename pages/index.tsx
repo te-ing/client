@@ -33,7 +33,7 @@ const PostCards = () => {
         </FlexBox>
       </MainHeader>
       <MainContent>
-        {isLoading
+        {isLoading || !data.length
           ? 'Loading..'
           : data?.map((post) => {
               return <MainCard post={post} key={post.id} />;
