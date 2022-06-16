@@ -20,7 +20,7 @@ export interface TeamEditForm {
   background_image: string;
 }
 
-export interface PendedMemberTypes {
+export interface MemberTypes {
   memberId: number;
   userId: number;
   nickname: string;
@@ -32,5 +32,3 @@ export interface PendedMemberTypes {
   followingCount: number;
   followerCount: number;
 }
-
-export interface MemberTypes {}

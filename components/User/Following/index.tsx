@@ -12,7 +12,7 @@ interface Props {
 
 const Following = ({ userId, isFollowing }: Props) => {
   const queryClient = useQueryClient();
-  const { mutate: followMutate } = useMutation(() => usersApi.followingUser(userId, { isRequiredLogin: true }), {
+  const { mutate: followMutate } = useMutation(() => usersApi.followUser(userId, { isRequiredLogin: true }), {
     onSuccess: () => {
       queryClient.invalidateQueries(['user-profile', userId]);
     },

@@ -133,6 +133,7 @@ const UserProfile: React.FC = () => {
             bannerImgUpload={bannerImgUpload}
             editMode={editMode}
             text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
+            isTeamPage={false}
           />
         </>
       ) : (
