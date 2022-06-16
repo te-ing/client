@@ -13,7 +13,7 @@ const MemberList = ({ memberList }: Props) => {
   return (
     <MemberListWrapper>
       {memberList.map((member) => (
-        <MemberCard key={member.user} memberInfo={member} />
+        <MemberCard key={member.memberId} memberInfo={member} />
       ))}
     </MemberListWrapper>
   );

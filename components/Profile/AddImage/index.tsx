@@ -9,11 +9,12 @@ interface Props {
   bannerImg: string;
   bannerImgUpload: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
   text: string;
+  isTeamPage: boolean;
 }
 
-const AddImage: React.FC<Props> = ({ editMode, bannerImg, bannerImgUpload, text }) => {
+const AddImage: React.FC<Props> = ({ editMode, bannerImg, bannerImgUpload, text, isTeamPage }) => {
   return (
-    <Banner bannerImg={bannerImg}>
+    <Banner bannerImg={bannerImg} isTeamPage={isTeamPage}>
       <ProfileLabel htmlFor="banner-input">
         <AddImageWrapper editMode={editMode}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
