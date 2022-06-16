@@ -41,7 +41,7 @@ class UsersAPI extends BaseAPI {
     return this.get<PostType[]>(`/${params}/posts`);
   }
 
-  followingUser(params: unknown, config: CustomAxiosRequestConfig) {
+  followUser(params: unknown, config: CustomAxiosRequestConfig) {
     return this.post(`/${params}/follow`, {}, config);
   }
 

@@ -7,13 +7,14 @@ import Layout from 'components/Layout';
 import postsApi from 'apis/posts.api';
 import { PostType } from 'types/post';
 import { useQuery } from 'react-query';
+import { isLoggedIn } from 'utils/isLoggedIn';
 
 const PostCards = () => {
   const getPosts = async () => {
-    const data = await postsApi.getMainPosts();
+    const data = await postsApi.getMainPosts({ isRequiredLogin: isLoggedIn() });
     return data;
   };
-  const { data, isLoading } = useQuery<PostType[]>('post', getPosts);
+  const { data, isLoading } = useQuery<PostType[]>('post', getPosts, { refetchOnWindowFocus: false });
 
   return (
     <Layout>
@@ -32,7 +33,7 @@ const PostCards = () => {
         </FlexBox>
       </MainHeader>
       <MainContent>
-        {isLoading
+        {isLoading || !data.length
           ? 'Loading..'
           : data?.map((post) => {
               return <MainCard post={post} key={post.id} />;

@@ -1,15 +1,20 @@
 import styled from 'styled-components';
 import { PostType } from 'types/post';
+import Image from 'next/image';
 
 const UserPostContent = ({ post }: { post: PostType }) => {
   return (
     <ContentWrapper>
       <PostTextWrapper>{post.description}</PostTextWrapper>
-      <PostImageWrapper>
+      <PostImages>
         {post.images.map(({ image }, index) => {
-          return <PostImage key={index} src={image} alt={`${post.title} ${index + 1}번째 이미지`} />;
+          return (
+            <PostImageWrapper key={index}>
+              <PostImage layout="fill" src={image} alt={`${post.title} ${index + 1}번째 이미지`} />
+            </PostImageWrapper>
+          );
         })}
-      </PostImageWrapper>
+      </PostImages>
     </ContentWrapper>
   );
 };
@@ -27,17 +32,24 @@ const PostTextWrapper = styled.div`
   line-height: 21px;
 `;
 
-const PostImageWrapper = styled.div`
+const PostImages = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 16px;
+  padding: 16px 0;
   gap: 20px;
 `;
 
-const PostImage = styled.img`
-  display: flex;
-  max-width: 100%;
-  max-height: 800px;
+const PostImageWrapper = styled.div`
+  height: 100%;
+  span {
+    position: unset !important;
+  }
+`;
+
+const PostImage = styled(Image)`
   object-fit: scale-down;
+  width: unset !important;
+  position: relative !important;
+  height: 100% !important;
 `;

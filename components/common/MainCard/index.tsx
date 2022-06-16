@@ -52,7 +52,7 @@ const MainCard = ({ post }: Props) => {
               width="16px"
               height="16px"
             />
-            <CountInfo>{post.commentCount /* scrapCount 대신 임시로 commentCount 사용중 */}</CountInfo>
+            <CountInfo>{post.scrapCount}</CountInfo>
           </InfoImageBox>
         </FlexBox>
       </CardInfo>

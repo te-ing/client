@@ -6,67 +6,52 @@ import usersApi from 'apis/users.api';
 import Login from 'components/Login';
 import useModal from 'hooks/useModal';
 import { User } from 'types/user';
-import { useEffect, useState } from 'react';
 import { isLoggedIn } from 'utils/isLoggedIn';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 interface data {
   status?: number;
 }
-const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
-  const { setModalVisible, isShowing } = useModal();
-  const [isLike, setIsLike] = useState(post.isLike);
-  const [isScrap, setIsScrap] = useState(post.isScrap);
-  const [isFollowed, setIsFollowed] = useState(user.isFollowed);
-  const [postId, userId] = [post.id, post.author];
-  const isOwnPost = post.author.toString() === sessionStorage.getItem('id');
-  useEffect(() => {
-    const getPostInfo = async () => {
-      if (isLoggedIn()) {
-        const { isLike, isScrap } = await postsApi.getPost(post.id, { isRequiredLogin: true });
-        setIsLike(isLike);
-        setIsScrap(isScrap);
-      }
-    };
-    getPostInfo();
-  }, []);
-
-  const likePost = async () => {
-    if (isLoggedIn()) {
-      const data: data = await postsApi.likePost(postId, { isRequiredLogin: true });
-      if (data.status === 201 || data.status === 204) {
-        setIsLike(!isLike);
-      }
-      return data;
-    } else {
-      setModalVisible();
-    }
-  };
-  const scrapPost = async () => {
-    if (isLoggedIn()) {
-      const data: data = await postsApi.scrapPost(postId, { isRequiredLogin: true });
-      if (data.status === 201 || data.status === 204) {
-        setIsScrap(!isScrap);
-      }
-      return data;
-    } else {
-      setModalVisible();
-    }
-  };
-  const followUser = async () => {
-    const data: data = await usersApi.followingUser(userId, { isRequiredLogin: true });
-    if (data.status === 201 || data.status === 204) {
-      setIsFollowed(!isFollowed);
-    }
+const PostHeaderButtons = ({ postId, user }: { postId: number; user: User }) => {
+  const getPost = async () => {
+    const data = await postsApi.getPost(postId, { isRequiredLogin: isLoggedIn() });
     return data;
   };
+  const { data, isLoading } = useQuery<PostType>('post', getPost);
+  const { setModalVisible, isShowing } = useModal();
+  const queryClient = useQueryClient();
+  const isOwnPost = user.id.toString() === sessionStorage.getItem('id');
+  const post = data;
 
-  return (
+  const likePostMutate = useMutation(() => postsApi.likePost(postId, { isRequiredLogin: isLoggedIn() }), {
+    onSuccess: (data: data) => {
+      data.status === 401 ? setModalVisible() : queryClient.invalidateQueries('post');
+    },
+  });
+  const scrapPostMutate = useMutation(() => postsApi.scrapPost(postId, { isRequiredLogin: isLoggedIn() }), {
+    onSuccess: (data: data) => {
+      data.status === 401 ? setModalVisible() : queryClient.invalidateQueries('post');
+    },
+  });
+  const followUserMutate = useMutation(() => usersApi.followUser(post.author, { isRequiredLogin: isLoggedIn() }), {
+    onSuccess: (data: data) => {
+      data.status === 401 ? setModalVisible() : queryClient.invalidateQueries();
+    },
+  });
+
+  const handlePostLike = () => likePostMutate.mutate();
+  const handlePostScrap = () => scrapPostMutate.mutate();
+  const handleUserFollow = () => followUserMutate.mutate();
+
+  return isLoading ? (
+    <div>Loading..</div>
+  ) : (
     <HeaderButtonsWrapper>
-      <ButtonWrapper onClick={likePost}>
+      <ButtonWrapper onClick={handlePostLike}>
         <ImageWrapper>
           <ButtonImage
-            alt="delete_btn"
-            src={isLike ? '/images/like.svg' : '/images/like-border.svg'}
+            alt="like_btn"
+            src={post.isLike ? '/images/like.svg' : '/images/like-border.svg'}
             width="30px"
             height="30px"
           />
@@ -74,11 +59,11 @@ const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
         <ButtonName>좋아요</ButtonName>
       </ButtonWrapper>
 
-      <ButtonWrapper onClick={scrapPost}>
+      <ButtonWrapper onClick={handlePostScrap}>
         <ImageWrapper>
           <ButtonImage
-            alt="delete_btn"
-            src={isScrap ? '/images/scrap.svg' : '/images/scrap-border.svg'}
+            alt="scrap_btn"
+            src={post.isScrap ? '/images/scrap.svg' : '/images/scrap-border.svg'}
             width="18px"
             height="18px"
           />
@@ -88,9 +73,9 @@ const PostHeaderButtons = ({ post, user }: { post: PostType; user: User }) => {
       {isOwnPost ? (
         ''
       ) : (
-        <ButtonWrapper onClick={followUser}>
-          <FollowImageWrapper isFollowing={isFollowed}>
-            <ButtonImage alt="delete_btn" src="/images/add.svg" width="26px" height="26px" />
+        <ButtonWrapper onClick={handleUserFollow}>
+          <FollowImageWrapper isFollowing={user.isFollowed}>
+            <ButtonImage alt="follow_btn" src="/images/add.svg" width="26px" height="26px" />
           </FollowImageWrapper>
           <ButtonName>팔로우</ButtonName>
         </ButtonWrapper>
