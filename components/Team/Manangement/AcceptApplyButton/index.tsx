@@ -14,6 +14,7 @@ const AcceptApplyButton = ({ memberId, teamId }: Props) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['team-member', teamId]);
+        queryClient.invalidateQueries(['team-list']);
       },
     }
   );

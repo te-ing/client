@@ -1,7 +1,30 @@
+import membersApi from 'apis/members.api';
 import React from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-const ExportMemberButton = () => {
-  return <ExportButton>내보내기</ExportButton>;
+
+interface Props {
+  memberId: number;
+  teamId: string;
+}
+
+const ExportMemberButton = ({ memberId, teamId }: Props) => {
+  const queryClient = useQueryClient();
+  const { mutate: applyMutate } = useMutation(
+    () => membersApi.rejectApply(memberId.toString(), { isRequiredLogin: true }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['team-member', teamId]);
+        queryClient.invalidateQueries(['team-list']);
+      },
+    }
+  );
+  const exportMemberHandler = () => {
+    console.log('내보내기');
+    applyMutate();
+  };
+
+  return <ExportButton onClick={exportMemberHandler}>내보내기</ExportButton>;
 };
 
 export default ExportMemberButton;

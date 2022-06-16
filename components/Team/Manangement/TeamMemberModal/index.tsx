@@ -9,6 +9,7 @@ import ExportMemberButton from '../ExportMemberButton';
 import MessageButton from '../MessageButton';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from 'recoil/auth';
+import membersApi from 'apis/members.api';
 interface Props {
   teamId: string;
   onOffHandler: React.Dispatch<React.SetStateAction<boolean>>;
@@ -53,7 +54,7 @@ const TeamMemberModal = ({ teamId, onOffHandler }: Props) => {
                 <ManagedMemberCard
                   key={member.userId}
                   memberInfo={member}
-                  leftButton={<ExportMemberButton />}
+                  leftButton={<ExportMemberButton memberId={member.memberId} teamId={teamId} />}
                   rightButton={<MessageButton />}
                 />
               ))}
