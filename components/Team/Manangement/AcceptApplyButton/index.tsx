@@ -1,7 +1,28 @@
+import membersApi from 'apis/members.api';
 import React from 'react';
+import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-const AcceptApplyButton = () => {
-  return <AcceptButton>수락</AcceptButton>;
+
+interface Props {
+  memberId: number;
+  teamId: string;
+}
+const AcceptApplyButton = ({ memberId, teamId }: Props) => {
+  const queryClient = useQueryClient();
+  const { mutate: applyMutate } = useMutation(
+    () => membersApi.confirmApply(memberId.toString(), { isRequiredLogin: true }),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['team-member', teamId]);
+      },
+    }
+  );
+
+  const acceptApplyHandler = () => {
+    console.log('수락');
+    applyMutate();
+  };
+  return <AcceptButton onClick={acceptApplyHandler}>수락</AcceptButton>;
 };
 
 export default AcceptApplyButton;
