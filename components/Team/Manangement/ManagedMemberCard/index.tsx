@@ -15,7 +15,6 @@ interface Props {
 }
 
 const ManagedMemberCard = ({ memberInfo, leftButton, rightButton }: Props) => {
-  console.log(memberInfo);
   return (
     <CardContainer>
       <div>
