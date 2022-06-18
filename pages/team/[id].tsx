@@ -7,7 +7,7 @@ import Banner from 'components/Profile/Banner';
 
 import { ProfileWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { camera_icon, team_profile_icon } from 'constants/imgUrl';
+import { camera_icon, team_nickname_icon, team_profile_icon } from 'constants/imgUrl';
 import { teamTabMenuArr } from 'constants/tabMenu';
 
 import { useRouter } from 'next/router';
@@ -110,6 +110,11 @@ const TeamProfile = () => {
     [currentTab]
   );
 
+  const initProfile = () => {
+    setProfileImg('');
+    setBannerImg('');
+    setValues({ title: '', description: '', team_profile_image: '', background_image: '' });
+  };
   useEffect(() => {
     window.addEventListener('click', postEditHandler(-1));
     return () => {
@@ -152,7 +157,6 @@ const TeamProfile = () => {
             text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
             isTeamPage={true}
           />
-          <button onClick={() => setBannerImg('')}>초기화</button>
         </>
       ) : (
         <Banner bannerImg={profileData?.backgroundImage} isTeamPage={true} />
@@ -189,7 +193,23 @@ const TeamProfile = () => {
           )}
         </div>
         <InfoSection>
-          <h1>{profileData?.title}</h1>
+          {editMode ? (
+            <>
+              <EditNickname
+                name="title"
+                type="text"
+                placeholder="닉네임을 입력해주세요."
+                onChange={handler}
+                value={values.title}
+              />
+              <InitButton onClick={initProfile}>프로필 초기화</InitButton>
+            </>
+          ) : (
+            <h1>
+              {profileData?.title} <Image src={team_nickname_icon} width={24} height={24} />
+            </h1>
+          )}
+
           <InfoDescription>
             {editMode ? (
               <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
@@ -274,6 +294,11 @@ export const InfoSection = styled.div`
     font-weight: ${({ theme }) => theme.fontWeight.bold};
     color: ${({ theme }) => theme.color.profileNameBlack};
     margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    & span {
+      margin-left: 5px !important;
+    }
   }
 `;
 
@@ -349,4 +374,27 @@ export const CameraIconWrapper = styled.div`
   border: 2px solid #ffffff;
   border-radius: 50%;
   background-color: ${({ theme }) => theme.color.gray_700};
+`;
+
+const EditNickname = styled.input`
+  width: 240px;
+  height: 26px;
+  padding: 8px;
+  border: 1px solid ${({ theme }) => theme.color.gray_400};
+  margin-bottom: 16px;
+  &::placeholder {
+    font-family: 'Noto Sans KR', sans serif;
+    font-weight: ${({ theme }) => theme.fontWeight.medium};
+    font-size: 12px;
+    line-height: 1.416666;
+    color: ${({ theme }) => theme.color.gray_400};
+  }
+`;
+
+const InitButton = styled.button`
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.25;
+  color: ${({ theme }) => theme.color.gray_500};
+  margin-left: 16px;
 `;

@@ -48,6 +48,7 @@ const PopUp = ({ postId, isTeam }: Props) => {
 export default PopUp;
 
 const PopUpContainer = styled.div`
+  z-index: 100;
   right: -104px;
   top: 16px;
   position: absolute;

@@ -8,9 +8,16 @@ import usersApi from 'apis/users.api';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { CameraIcon, CameraIconWrapper, ProfileIcon, ProfileWrapper } from 'components/common/Atomic/Profile';
-import { camera_icon, default_profile } from 'constants/imgUrl';
+import {
+  add_interest_icon,
+  camera_icon,
+  close_icon,
+  default_profile,
+  following_icon,
+  sub_interest_icon,
+} from 'constants/imgUrl';
 import { numberWithCommas } from 'utils/numberWithCommas';
-import { Keyword } from 'components/common/Atomic/Tabs/Keyword';
+import { Keyword, TempKeyword } from 'components/common/Atomic/Tabs/Keyword';
 import Following from 'components/User/Following';
 import Message from 'components/User/Message';
 import styled from 'styled-components';
@@ -27,21 +34,22 @@ import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import PostList from 'components/User/PostList';
 import ScrapList from 'components/User/ScrapList';
-import { email } from 'constants/regExp';
 import { editPostState } from 'recoil/editRecoil';
+import InterestModal from 'components/User/InterestModal';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const queryClient = useQueryClient();
   const [userState] = useRecoilState(userInfoState);
+  const [interestOnOff, setInterestOnOff] = useState(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState('postCount');
   const [values, setValues, handler] = useForm<UserEditForm | null>(null);
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
   const [editPost, setEditPost] = useRecoilState(editPostState);
-
+  const [interestList, setInterestList] = useState<{ id: number; name: string }[]>([]);
   const { isLoading, isError, error, data } = useQuery(
     ['user-profile', id],
     () => usersApi.checkUsers(id, { isRequiredLogin: sessionStorage.getItem('jwtToken') ? true : false }),
@@ -51,6 +59,7 @@ const UserProfile: React.FC = () => {
           setValues(userEditForm(data));
           setBannerImg(data.backgroundImage);
           setProfileImg(data.profileImage);
+          setInterestList(data.categories);
         }
       },
       onError: (error) => {
@@ -102,6 +111,16 @@ const UserProfile: React.FC = () => {
     setBannerImg('');
     setValues({ nickname: '', description: '', profileImage: '', backgroundImage: '' });
   };
+
+  const interestHandler = (flag: boolean) => () => {
+    console.log('닽ㅇ므');
+    setInterestOnOff(flag);
+  };
+
+  const deleteInterest = (id: number) => () => {
+    setInterestList(interestList.filter((interest) => interest.id !== id));
+  };
+
   useEffect(() => {
     window.addEventListener('click', postEditHandler(-1));
     return () => {
@@ -121,11 +140,23 @@ const UserProfile: React.FC = () => {
     setValues({ ...values, backgroundImage: bannerImg });
   }, [bannerImg]);
 
+  useEffect(() => {
+    const list = interestList.map((el) => el.id).join(',');
+    setValues({ ...values, categories: list });
+  }, [interestList]);
+
   if (isError) {
     return <h1>{error}</h1>;
   }
   return (
     <Layout>
+      {interestOnOff && (
+        <InterestModal
+          setInterestOnOff={setInterestOnOff}
+          interestList={interestList}
+          setInterestList={setInterestList}
+        />
+      )}
       {editMode ? (
         <>
           <AddImage
@@ -191,9 +222,23 @@ const UserProfile: React.FC = () => {
 
           <InfoDescription>
             <div>
-              {data?.categories.map((ability) => (
-                <Keyword key={ability.id}>{ability.name}</Keyword>
-              ))}
+              {editMode ? (
+                <>
+                  {interestList.map((ability) => (
+                    <TempKeyword key={ability.id}>
+                      {ability.name}
+                      <button onClick={deleteInterest(ability.id)}>
+                        <Image src={sub_interest_icon} width={16} height={16} />
+                      </button>
+                    </TempKeyword>
+                  ))}
+                  <TempKeyword style={{ cursor: 'pointer' }} onClick={interestHandler(true)}>
+                    <Image src={add_interest_icon} width={16} height={16} />
+                  </TempKeyword>
+                </>
+              ) : (
+                data?.categories.map((ability) => <Keyword key={ability.id}>{ability.name}</Keyword>)
+              )}
             </div>
             <FollowInfo>
               <span>팔로워</span>
@@ -293,6 +338,9 @@ const InfoDescription = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
 
+  & > div {
+    display: flex;
+  }
   p {
     color: ${({ theme }) => theme.color.gray_700};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
@@ -322,6 +370,7 @@ const EditNickname = styled.input`
   height: 26px;
   padding: 8px;
   border: 1px solid ${({ theme }) => theme.color.gray_400};
+  margin-bottom: 16px;
   &::placeholder {
     font-family: 'Noto Sans KR', sans serif;
     font-weight: ${({ theme }) => theme.fontWeight.medium};
