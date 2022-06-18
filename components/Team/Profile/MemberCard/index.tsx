@@ -17,14 +17,17 @@ const MemberCard = ({ memberInfo }: Props) => {
         <ProfileImg src={memberInfo.image.length > 0 ? memberInfo.image : default_profile} width={56} height={56} />
         <span>{memberInfo.nickname}</span>
         <KeywordsConatiner>
-          {memberInfo.subCategory.map((category, i) => (
+          {memberInfo.subCategory.slice(0, 3).map((category, i) => {
+            <Keyword key={i}>{category.subCategory}</Keyword>;
+          })}
+          {memberInfo.subCategory.length > 3 && <Keyword>...</Keyword>}
+          {/* {memberInfo.subCategory.map((category, i) => (
             <Keyword key={i}>{category.subCategory}</Keyword>
-          ))}
-          {/* <Keyword>일러스트레이션</Keyword>
+          ))} */}
           <Keyword>일러스트레이션</Keyword>
           <Keyword>일러스트레이션</Keyword>
           <Keyword>일러스트레이션</Keyword>
-          <Keyword>일러스트레이션</Keyword> */}
+          <Keyword>...</Keyword>
         </KeywordsConatiner>
         <FollowInfo>
           <span>팔로워</span>
