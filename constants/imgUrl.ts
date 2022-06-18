@@ -12,6 +12,8 @@ export const edit_icon_pressed = '/images/edit-icon-pressed.svg';
 
 export const following_icon = '/images/icon-add-round.svg';
 
+export const unfollowing_icon = '/images/unfollow-icon.svg';
+
 export const message_icon = '/images/icon-message.svg';
 
 export const edit_button = '/images/edit-button.svg';
@@ -37,3 +39,5 @@ export const upload_image_icon = '/images/icon-upload_image.svg';
 export const upload_video_icon = '/images/icon-upload_video.svg';
 
 export const warning_icon = '/images/warning-icon.svg';
+
+export const team_nickname_icon = '/images/team-nickname-icon.svg';

@@ -7,7 +7,7 @@ import Banner from 'components/Profile/Banner';
 
 import { ProfileWrapper } from 'components/common/Atomic/Profile';
 import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { camera_icon, team_profile_icon } from 'constants/imgUrl';
+import { camera_icon, team_nickname_icon, team_profile_icon } from 'constants/imgUrl';
 import { teamTabMenuArr } from 'constants/tabMenu';
 
 import { useRouter } from 'next/router';
@@ -205,7 +205,9 @@ const TeamProfile = () => {
               <InitButton onClick={initProfile}>프로필 초기화</InitButton>
             </>
           ) : (
-            <h1>{profileData?.title}</h1>
+            <h1>
+              {profileData?.title} <Image src={team_nickname_icon} width={24} height={24} />
+            </h1>
           )}
 
           <InfoDescription>
@@ -292,6 +294,11 @@ export const InfoSection = styled.div`
     font-weight: ${({ theme }) => theme.fontWeight.bold};
     color: ${({ theme }) => theme.color.profileNameBlack};
     margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    & span {
+      margin-left: 5px !important;
+    }
   }
 `;
 

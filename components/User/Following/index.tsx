@@ -1,7 +1,7 @@
 import React from 'react';
 import { FollowButton } from 'components/common/Atomic/Tabs/Button';
 import Image from 'next/image';
-import { following_icon } from 'constants/imgUrl';
+import { following_icon, unfollowing_icon } from 'constants/imgUrl';
 import { useMutation, useQueryClient } from 'react-query';
 import usersApi from 'apis/users.api';
 
@@ -30,7 +30,7 @@ const Following = ({ userId, isFollowing }: Props) => {
         </>
       ) : (
         <>
-          <Image src={following_icon} width={24} height={24} />
+          <Image src={unfollowing_icon} width={24} height={24} />
           <span>언팔로우</span>
         </>
       )}
