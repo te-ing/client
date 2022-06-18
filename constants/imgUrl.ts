@@ -41,3 +41,7 @@ export const upload_video_icon = '/images/icon-upload_video.svg';
 export const warning_icon = '/images/warning-icon.svg';
 
 export const team_nickname_icon = '/images/team-nickname-icon.svg';
+
+export const add_interest_icon = '/images/add-interest-icon.svg';
+
+export const sub_interest_icon = '/images/sub-interest-icon.svg';
