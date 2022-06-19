@@ -29,3 +29,29 @@ export const SubInfo = styled.p`
   line-height: 29px;
   color: #616161;
 `;
+
+export const Button = styled.button`
+  min-width: 100%;
+  min-height: 56px;
+  padding: 16px 165px;
+  border: none;
+  border-radius: 4px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  background-color: #abf066;
+  color: #000000;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #bdf486;
+  }
+
+  &:disabled {
+    color: #b0b0b0;
+    background-color: #eeeeee;
+    cursor: default;
+  }
+`;

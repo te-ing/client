@@ -4,19 +4,18 @@ import * as S from './SetUserProfile.style';
 import usersApi from 'apis/users.api';
 
 import SetUserInterest from '../SetUserInterest';
-import CompleteRegister from '../CompleteRegister';
-import Button from '../Button';
 
 import useModal from 'hooks/useModal';
 import useDebounce from 'hooks/useDebounce';
 import { useUploadImage } from 'hooks/useUploadImage';
+import editUserData from '../userEdit.api';
 
 interface checkUserNameResult {
   message?: string;
 }
 
 const SetUserProfile: React.FC = () => {
-  const { isNext, navigateToNext, isSkip } = useModal();
+  const { skip, isSkip } = useModal();
   const [imgUrl, setImgUrl, storeImage] = useUploadImage();
   const [nickname, setNickname] = useState('');
   const [isNicknameLoading, setIsNicknameLoading] = useState(true);
@@ -46,8 +45,12 @@ const SetUserProfile: React.FC = () => {
     checkNickname();
   }, [debounceNickname]);
 
-  if (isNext) return <SetUserInterest />;
-  else if (isSkip) return <CompleteRegister />;
+  const confirmSetting = () => {
+    skip();
+    editUserData(userData);
+  };
+
+  if (isSkip) return <SetUserInterest />;
   else
     return (
       <S.Wrapper>
@@ -81,13 +84,9 @@ const SetUserProfile: React.FC = () => {
             </S.Alert>
           </S.UserInfoInputInner>
         </S.UserInfoInputWrapper>
-        <Button
-          sort="setUserProfile"
-          name="관심분야 설정하러가기"
-          userData={userData}
-          navigateToNext={navigateToNext}
-          disabled={!isNicknameUnique}
-        />
+        <S.Button disabled={!isNicknameUnique} onClick={confirmSetting}>
+          관심분야 설정하러가기
+        </S.Button>
       </S.Wrapper>
     );
 };

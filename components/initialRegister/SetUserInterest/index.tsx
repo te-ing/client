@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import * as S from './SetUserInterest.style';
 
-import CompleteRegister from '../CompleteRegister';
-
-import Button from '../Button';
+import CompleteRegister from '../CelebrateRegister';
 
 import useModal from 'hooks/useModal';
 
 import intereCategories from 'data/interestCategories.json';
+import editUserData from '../userEdit.api';
+import { useRouter } from 'next/router';
 
 export interface UserSubCategoryInfoType {
   id: number;
@@ -26,7 +26,8 @@ export interface StyledTagType {
 
 const SetUserInterest: React.FC = () => {
   const [userInterests, setUserInterests] = useState([]);
-  const { navigateToNext, isNext } = useModal();
+  const { setModalVisible } = useModal();
+  const router = useRouter();
   const userData = { categories: userInterests.join(',') };
   let isCompleted = false;
   if (userInterests.length) isCompleted = true;
@@ -42,7 +43,11 @@ const SetUserInterest: React.FC = () => {
     }
   };
 
-  if (isNext) return <CompleteRegister />;
+  const confirmSetting = () => {
+    editUserData(userData);
+    setModalVisible();
+    router.push(`/user/${sessionStorage.getItem('id')}`);
+  };
 
   return (
     <S.Wrapper>
@@ -70,13 +75,9 @@ const SetUserInterest: React.FC = () => {
           );
         })}
       </S.CategoriesWrapper>
-      <Button
-        sort="setUserInteres"
-        name="관심분야 설정 완료"
-        navigateToNext={navigateToNext}
-        userData={userData}
-        disabled={!isCompleted}
-      />
+      <S.Button disabled={!isCompleted} onClick={confirmSetting}>
+        관심분야 설정 완료
+      </S.Button>
     </S.Wrapper>
   );
 };
