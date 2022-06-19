@@ -15,7 +15,7 @@ const MainCard = ({ post }: Props) => {
     const data = await usersApi.getUserInfo(post.author);
     return data;
   };
-  const { data } = useQuery<User>('user', getAuthor);
+  const { data } = useQuery<User>(post.id.toString(), getAuthor);
   const router = useRouter();
   const userData = data;
 
