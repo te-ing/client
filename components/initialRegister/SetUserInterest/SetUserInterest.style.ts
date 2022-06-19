@@ -77,3 +77,29 @@ export const Tag = styled.button<StyledTagType>`
       background-color: #bdf486;
     `}
 `;
+
+export const Button = styled.button`
+  min-width: 552px;
+  min-height: 56px;
+  padding: 16px 197px;
+  border: none;
+  border-radius: 4px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+  background-color: #abf066;
+  color: #000000;
+  outline: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #bdf486;
+  }
+
+  &:disabled {
+    color: #b0b0b0;
+    background-color: #eeeeee;
+    cursor: default;
+  }
+`;

@@ -22,15 +22,13 @@ const useModal = () => {
     }
   );
 
-  const navigateToNext = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const currentModalButton = (e.target as HTMLButtonElement).name;
-    if (currentModalButton === '프로필 설정하기') {
-      setComplete(!isComplete);
-      setModalVisible();
-    } else setIsNext(true);
+  const navigateToNext = () => {
+    setIsNext(true);
   };
 
-  const skip = (e: React.MouseEvent<HTMLParagraphElement, MouseEvent>) => setIsSkip(true);
+  const skip = () => {
+    setIsSkip(true);
+  };
 
   const initializeForm = () => {
     resetUserInfo();
