@@ -1,24 +1,21 @@
+import Image from 'next/image';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   text-align: center;
 `;
 
-export const Header = styled.header`
-  margin-bottom: 60px;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 24px;
-  letter-spacing: 0.15px;
-  color: #5bb028;
+export const Logo = styled(Image)`
+  object-fit: contain;
+  object-position: center top;
 `;
+export const CelebrateImage = styled(Image)``;
 
 export const InfoWrapper = styled.div`
-  margin-bottom: 68px;
+  margin-bottom: 24px;
 `;
 
 export const Info = styled.p`
-  margin-bottom: 16px;
   font-size: 32px;
   font-weight: 700;
   line-height: 46px;
@@ -26,6 +23,7 @@ export const Info = styled.p`
 `;
 
 export const SubInfo = styled.p`
+  margin: 16px 0;
   font-size: 20px;
   font-weight: 400;
   line-height: 29px;
