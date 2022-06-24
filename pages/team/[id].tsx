@@ -31,6 +31,8 @@ import AddImage from 'components/Profile/AddImage';
 import { useRecoilState } from 'recoil';
 import { userInfoState } from 'recoil/auth';
 import { editPostState } from 'recoil/editRecoil';
+import TeamProfileImage from 'components/Team/Profile/TeamProfileImg';
+import TeamNickname from 'components/Team/Profile/TeamNickname';
 
 //props로 id 넘겨주기
 
@@ -148,68 +150,30 @@ const TeamProfile = () => {
 
   return (
     <Layout>
-      {editMode ? (
-        <>
-          <AddImage
-            bannerImg={bannerImg}
-            bannerImgUpload={bannerImgUpload}
-            editMode={editMode}
-            text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
-            isTeamPage={true}
-          />
-        </>
-      ) : (
-        <Banner bannerImg={profileData?.backgroundImage} isTeamPage={true} />
-      )}
-
+      <AddImage
+        originImg={profileData?.backgroundImage}
+        bannerImg={bannerImg}
+        bannerImgUpload={bannerImgUpload}
+        editMode={editMode}
+        isTeamPage={false}
+      />
       <InfoWrapper>
         <div>
-          {editMode ? (
-            <>
-              <ProfileLabel htmlFor="file-input">
-                <ProfileWrapper>
-                  <ImgWrapper
-                    alt="icon-profile"
-                    src={profileImg.length ? profileImg : team_profile_icon}
-                    width={120}
-                    height={120}
-                  />
-                  <CameraIconWrapper>
-                    <Image alt="icon-camera" src={camera_icon} width={24} height={24} />
-                  </CameraIconWrapper>
-                </ProfileWrapper>
-                <FileInput id="file-input" type="file" name="team_profile_image" onChange={profileImgUpload} />
-              </ProfileLabel>
-            </>
-          ) : (
-            <ProfileWrapper>
-              <ImgWrapper
-                alt="icon-profile"
-                src={profileData?.teamProfileImage ? profileData?.teamProfileImage : team_profile_icon}
-                width={120}
-                height={120}
-              />
-            </ProfileWrapper>
-          )}
+          <TeamProfileImage
+            editMode={editMode}
+            originImg={profileData.teamProfileImage}
+            profileImg={profileImg}
+            profileImgUpload={profileImgUpload}
+          />
         </div>
         <InfoSection>
-          {editMode ? (
-            <>
-              <EditNickname
-                name="title"
-                type="text"
-                placeholder="닉네임을 입력해주세요."
-                onChange={handler}
-                value={values.title}
-              />
-              <InitButton onClick={initProfile}>프로필 초기화</InitButton>
-            </>
-          ) : (
-            <h1>
-              {profileData?.title} <Image src={team_nickname_icon} width={24} height={24} />
-            </h1>
-          )}
-
+          <TeamNickname
+            editMode={editMode}
+            originNickname={profileData.title}
+            changedNickname={values.title}
+            handler={handler}
+            initProfile={initProfile}
+          />
           <InfoDescription>
             {editMode ? (
               <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
@@ -273,18 +237,14 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
 
 export default TeamProfile;
 
-export const InfoWrapper = styled.div`
+const InfoWrapper = styled.div`
   padding: 24px;
   position: relative;
   margin-bottom: 80px;
   display: flex;
 `;
 
-export const ImgWrapper = styled(Image)`
-  border-radius: 12px;
-`;
-
-export const InfoSection = styled.div`
+const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
 
@@ -302,7 +262,7 @@ export const InfoSection = styled.div`
   }
 `;
 
-export const InfoDescription = styled.div`
+const InfoDescription = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -315,23 +275,7 @@ export const InfoDescription = styled.div`
   }
 `;
 
-export const FollowInfo = styled.div`
-  margin-bottom: 8px;
-  span {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 1.833333;
-    letter-spacing: -0.01em;
-    color: ${({ theme }) => theme.color.gray_700};
-    margin-right: 16px;
-  }
-
-  span:nth-child(2n-1) {
-    margin-right: 4px;
-  }
-`;
-
-export const DescriptionArea = styled.textarea`
+const DescriptionArea = styled.textarea`
   box-sizing: border-box;
   resize: none;
   padding: 8px;
@@ -356,24 +300,9 @@ export const DescriptionArea = styled.textarea`
   }
 `;
 
-export const InfoAside = styled.div`
+const InfoAside = styled.div`
   position: absolute;
   right: 24px;
-`;
-
-export const CameraIconWrapper = styled.div`
-  width: 36px;
-  height: 36px;
-  position: absolute;
-  left: -18px;
-  bottom: -8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 6px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  background-color: ${({ theme }) => theme.color.gray_700};
 `;
 
 const EditNickname = styled.input`

@@ -1,7 +1,6 @@
 import { ProfileWrapper } from 'components/common/Atomic/Profile';
 import { team_profile_icon, user_multiple_icon, setting_icon } from 'constants/imgUrl';
 import Link from 'next/link';
-import { ImgWrapper } from 'pages/team/[id]';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
@@ -79,6 +78,10 @@ const CardWrapper = styled.div`
   & > div {
     display: flex;
   }
+`;
+
+const ImgWrapper = styled(Image)`
+  border-radius: 12px;
 `;
 
 const TeamInfo = styled.div`

@@ -1,41 +1,33 @@
 import { useCallback, useEffect, useState } from 'react';
+import { GetStaticPropsContext } from 'next';
 import { useQuery, QueryClient, dehydrate, useMutation, useQueryClient } from 'react-query';
-import Layout from 'components/Layout';
-import Banner from 'components/Profile/Banner';
-import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
-import { userTabMenuArr } from 'constants/tabMenu';
-import usersApi from 'apis/users.api';
 import { useRouter } from 'next/router';
+import styled from 'styled-components';
 import Image from 'next/image';
-import { CameraIcon, CameraIconWrapper, ProfileIcon, ProfileWrapper } from 'components/common/Atomic/Profile';
-import {
-  add_interest_icon,
-  camera_icon,
-  close_icon,
-  default_profile,
-  following_icon,
-  sub_interest_icon,
-} from 'constants/imgUrl';
-import { numberWithCommas } from 'utils/numberWithCommas';
+import { useRecoilState } from 'recoil';
+import Layout from 'components/Layout';
+import { TabButton } from 'components/common/Atomic/Tabs/TabButton';
 import { Keyword, TempKeyword } from 'components/common/Atomic/Tabs/Keyword';
 import Following from 'components/User/Following';
 import Message from 'components/User/Message';
-import styled from 'styled-components';
-import { GetStaticPropsContext } from 'next';
-import { useUploadImage } from 'hooks/useUploadImage';
-import useForm from 'hooks/useForm';
-import { UserEditForm } from 'types/user';
-import { userEditForm } from 'utils/userEditForm';
 import AddImage from 'components/Profile/AddImage';
-import { FileInput, ProfileLabel } from 'components/common/Atomic/ImageInput';
-import { useRecoilState } from 'recoil';
-import { userInfoState } from 'recoil/auth';
 import ProfileEdit from 'components/Profile/ProfileEdit';
 import UploadProduct from 'components/Profile/UploadProduct';
 import PostList from 'components/User/PostList';
 import ScrapList from 'components/User/ScrapList';
-import { editPostState } from 'recoil/editRecoil';
 import InterestModal from 'components/User/InterestModal';
+import usersApi from 'apis/users.api';
+import { userEditForm } from 'utils/userEditForm';
+import { numberWithCommas } from 'utils/numberWithCommas';
+import { userInfoState } from 'recoil/auth';
+import { editPostState } from 'recoil/editRecoil';
+import useForm from 'hooks/useForm';
+import { useUploadImage } from 'hooks/useUploadImage';
+import { UserEditForm } from 'types/user';
+import { add_interest_icon, sub_interest_icon } from 'constants/imgUrl';
+import { userTabMenuArr } from 'constants/tabMenu';
+import ProfileImage from 'components/User/ProfileImage';
+import Nickname from 'components/User/NickName';
 
 const UserProfile: React.FC = () => {
   const router = useRouter();
@@ -50,7 +42,7 @@ const UserProfile: React.FC = () => {
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
   const [editPost, setEditPost] = useRecoilState(editPostState);
   const [interestList, setInterestList] = useState<{ id: number; name: string }[]>([]);
-  const { isLoading, isError, error, data } = useQuery(
+  const { isError, error, data } = useQuery(
     ['user-profile', id],
     () => usersApi.checkUsers(id, { isRequiredLogin: sessionStorage.getItem('jwtToken') ? true : false }),
     {
@@ -113,7 +105,6 @@ const UserProfile: React.FC = () => {
   };
 
   const interestHandler = (flag: boolean) => () => {
-    console.log('닽ㅇ므');
     setInterestOnOff(flag);
   };
 
@@ -157,69 +148,28 @@ const UserProfile: React.FC = () => {
           setInterestList={setInterestList}
         />
       )}
-      {editMode ? (
-        <>
-          <AddImage
-            bannerImg={bannerImg}
-            bannerImgUpload={bannerImgUpload}
-            editMode={editMode}
-            text={!editMode ? '프로필 배너를 추가해주세요.' : '배너 변경하기'}
-            isTeamPage={false}
-          />
-        </>
-      ) : (
-        <>
-          <Banner bannerImg={data?.backgroundImage} isTeamPage={false} />
-        </>
-      )}
+      <AddImage
+        originImg={data?.backgroundImage}
+        bannerImg={bannerImg}
+        bannerImgUpload={bannerImgUpload}
+        editMode={editMode}
+        isTeamPage={false}
+      />
       <InfoWrapper>
-        <ProfileImg>
-          <ProfileWrapper>
-            {editMode ? (
-              <>
-                <ProfileLabel htmlFor="profile-input">
-                  <ProfileWrapper>
-                    <ProfileIcon
-                      alt="icon-profile"
-                      src={profileImg.length > 0 ? profileImg : default_profile}
-                      width={116}
-                      height={116}
-                    />
-                    <CameraIconWrapper direction="left">
-                      <CameraIcon alt="icon-camera" src={camera_icon} width={24} height={24} />
-                    </CameraIconWrapper>
-                  </ProfileWrapper>
-                </ProfileLabel>
-                <FileInput id="profile-input" type="file" name="profileImage" onChange={profileImgUpload} />
-              </>
-            ) : (
-              <ProfileWrapper>
-                <ImgWrapper
-                  alt="icon-profile"
-                  src={!data?.profileImage ? default_profile : data?.profileImage}
-                  width={116}
-                  height={116}
-                />
-              </ProfileWrapper>
-            )}
-          </ProfileWrapper>
-        </ProfileImg>
+        <ProfileImage
+          editMode={editMode}
+          originImg={data?.profileImage}
+          profileImg={profileImg}
+          profileImgUpload={profileImgUpload}
+        />
         <InfoSection>
-          {editMode ? (
-            <>
-              <EditNickname
-                name="nickname"
-                type="text"
-                placeholder="닉네임을 입력해주세요."
-                onChange={handler}
-                value={values.nickname}
-              />
-              <InitButton onClick={initProfile}>프로필 초기화</InitButton>
-            </>
-          ) : (
-            <h1>{data?.nickname}</h1>
-          )}
-
+          <Nickname
+            editMode={editMode}
+            originNickname={data?.nickname}
+            changedNickname={values.nickname}
+            handler={handler}
+            initProfile={initProfile}
+          />
           <InfoDescription>
             <div>
               {editMode ? (
@@ -315,12 +265,6 @@ const InfoWrapper = styled.div`
   display: flex;
 `;
 
-const ProfileImg = styled.div``;
-
-const ImgWrapper = styled(Image)`
-  border-radius: 50%;
-`;
-
 const InfoSection = styled.div`
   margin-left: 24px;
   width: 610px;
@@ -363,29 +307,6 @@ const FollowInfo = styled.div`
   span:nth-child(2n-1) {
     margin-right: 4px;
   }
-`;
-
-const EditNickname = styled.input`
-  width: 240px;
-  height: 26px;
-  padding: 8px;
-  border: 1px solid ${({ theme }) => theme.color.gray_400};
-  margin-bottom: 16px;
-  &::placeholder {
-    font-family: 'Noto Sans KR', sans serif;
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-    font-size: 12px;
-    line-height: 1.416666;
-    color: ${({ theme }) => theme.color.gray_400};
-  }
-`;
-
-const InitButton = styled.button`
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-  color: ${({ theme }) => theme.color.gray_500};
-  margin-left: 16px;
 `;
 
 const DescriptionArea = styled.textarea`
