@@ -6,25 +6,43 @@ import { FileInput, ProfileLabel } from 'components/common/Atomic/ImageInput';
 
 interface Props {
   editMode: boolean;
+  originImg: string;
   bannerImg: string;
   bannerImgUpload: (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>;
-  text: string;
+
   isTeamPage: boolean;
 }
 
-const AddImage: React.FC<Props> = ({ editMode, bannerImg, bannerImgUpload, text, isTeamPage }) => {
+const AddImage: React.FC<Props> = ({ editMode, originImg, bannerImg, bannerImgUpload, isTeamPage }) => {
   return (
-    <Banner bannerImg={bannerImg} isTeamPage={isTeamPage}>
-      <ProfileLabel htmlFor="banner-input">
-        <AddImageWrapper editMode={editMode}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <AddImageSvg priority width={80} height={80} />
-            <AddImageText>{text}</AddImageText>
-          </div>
-        </AddImageWrapper>
-      </ProfileLabel>
-      <FileInput id="banner-input" type="file" name="backgroundImage" onChange={bannerImgUpload} />
-    </Banner>
+    <>
+      {editMode ? (
+        <Banner bannerImg={bannerImg} isTeamPage={isTeamPage}>
+          <ProfileLabel htmlFor="banner-input">
+            <AddImageWrapper editMode={editMode}>
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <AddImageSvg priority width={80} height={80} />
+                <AddImageText>배너 변경하기</AddImageText>
+              </div>
+            </AddImageWrapper>
+          </ProfileLabel>
+          <FileInput id="banner-input" type="file" name="backgroundImage" onChange={bannerImgUpload} />
+        </Banner>
+      ) : (
+        <Banner bannerImg={originImg} isTeamPage={false} />
+      )}
+      {/* <Banner bannerImg={bannerImg} isTeamPage={isTeamPage}>
+        <ProfileLabel htmlFor="banner-input">
+          <AddImageWrapper editMode={editMode}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <AddImageSvg priority width={80} height={80} />
+              <AddImageText>배너 변경하기</AddImageText>
+            </div>
+          </AddImageWrapper>
+        </ProfileLabel>
+        <FileInput id="banner-input" type="file" name="backgroundImage" onChange={bannerImgUpload} />
+      </Banner> */}
+    </>
   );
 };
 
