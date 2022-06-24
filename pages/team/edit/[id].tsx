@@ -7,22 +7,28 @@ import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { dehydrate, QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
-import { UploadType } from 'types/post';
+import { TeamUploadType } from 'types/post';
 
 const Edit: React.FC = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = router.query;
-  const [values, setValues, handler] = useForm<UploadType>({ title: '', description: '', images: [] });
+  const [values, setValues, handler] = useForm<TeamUploadType>({ team: -1, title: '', description: '', images: [] });
   const { data, isLoading, isError } = useQuery(['user-post-edit', id], () => postsApi.getPost(id), {
     select: (data) => {
       console.log('에딧', data);
+      const format = { team: data.id, title: data.title, description: data.description, images: [...data.images] };
+      return format;
+    },
+    onSuccess: (data) => {
+      console.log('성공', data);
+      setValues({ ...data, images: data.images.map((img) => img.image) });
     },
   });
   const { mutate: uploadMutate } = useMutation(() => postsApi.uploadPost(values, { isRequiredLogin: true }), {
     onSuccess: ({ data }) => {
       // queryClient.invalidateQueries(['user-profile', data);
-      setValues({ title: '', description: '', images: [] });
+      // setValues({ title: '', description: '', images: [] });
     },
   });
   useEffect(() => {
