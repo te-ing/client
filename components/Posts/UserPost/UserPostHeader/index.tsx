@@ -6,22 +6,19 @@ import { User } from 'types/user';
 import { isLoggedIn } from 'utils/isLoggedIn';
 import PostHeaderButtons from './PostHeaderButtons.tsx';
 import PostHeaderInfo from './PostHeaderInfo';
-import SkeletonHeader from './SkeletonHeader SkeletonHeader';
 
 const UserPostHeader = ({ post }: { post: PostType }) => {
   const getUserInfo = async () => {
     const data = await usersApi.getUserInfo(post.author, { isRequiredLogin: isLoggedIn() });
     return data;
   };
-  const { data, isLoading } = useQuery<User>('user', getUserInfo);
+  const { data } = useQuery<User>('user', getUserInfo);
 
-  return !isLoading ? (
+  return (
     <PostHeader>
       <PostHeaderInfo post={post} user={data} />
       <PostHeaderButtons postId={post.id} user={data} />
     </PostHeader>
-  ) : (
-    <SkeletonHeader />
   );
 };
 
