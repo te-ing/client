@@ -83,7 +83,7 @@ const FilterBtn = styled(DefaultButton)`
 
 const MainContent = styled(FlexBox)`
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
 `;
 
 export default PostCards;
