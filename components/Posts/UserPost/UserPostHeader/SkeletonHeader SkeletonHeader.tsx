@@ -9,6 +9,7 @@ const SkeletonHeader = () => {
     setTimeout(() => {
       setIsTimer(true);
     }, 200);
+    return () => setIsTimer(true);
   }, []);
 
   return isTimer ? (
