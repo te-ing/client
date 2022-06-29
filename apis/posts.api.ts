@@ -1,7 +1,7 @@
 import BaseAPI from './base.api';
 
 import type { CustomAxiosRequestConfig } from './type';
-import { PostType, UploadType } from 'types/post';
+import { MainPostType, PostType, UploadType } from 'types/post';
 
 class PostsAPI extends BaseAPI {
   //https://apibora.shop/api/posts/
@@ -18,7 +18,7 @@ class PostsAPI extends BaseAPI {
   }
 
   getMainPosts(config?: CustomAxiosRequestConfig) {
-    return this.get<PostType[]>(`/main`, config);
+    return this.get<MainPostType>(`/main`, config);
   }
 
   editPost(params: unknown, body: UploadType, config: CustomAxiosRequestConfig) {

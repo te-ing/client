@@ -7,7 +7,7 @@ export interface PostTypes {
 
 export interface PostType {
   id: number;
-  author: number;
+  author?: number;
   description: string;
   images: { image: string }[];
   title: string;
@@ -19,6 +19,12 @@ export interface PostType {
   commentCount: number;
   isLike: boolean;
   isScrap: boolean;
+  team?: number;
+}
+
+export interface MainPostType {
+  userPost: PostType[];
+  teamPost: PostType[];
 }
 
 export interface UploadType {
