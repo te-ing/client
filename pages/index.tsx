@@ -33,11 +33,20 @@ const PostCards = () => {
         </FlexBox>
       </MainHeader>
       <MainContent>
-        {isLoading || ![...data.userPost, ...data.teamPost].length
+        {isLoading || !data.userPost?.concat(data.teamPost).length
           ? 'Loading..'
-          : [...data.userPost, ...data.teamPost]?.map((post) => {
-              return <MainCard post={post} key={post.id} type={post.team ? 'team' : 'user'} />;
-            })}
+          : data.userPost
+              .concat(data.teamPost)
+              ?.slice(0, 5)
+              .map((post) => {
+                return (
+                  <MainCard
+                    post={post}
+                    key={post.team ? `team${post.id}` : `user${post.id}`}
+                    type={post.team ? 'team' : 'user'}
+                  />
+                );
+              })}
       </MainContent>
     </Layout>
   );
