@@ -33,6 +33,16 @@ export interface UploadType {
   images?: string[];
 }
 
+export interface TeamPostType {
+  id: number;
+  team: number;
+  title: string;
+  description: string;
+  images: { image: string }[];
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface TeamUploadType {
   team: number;
   title: string;
