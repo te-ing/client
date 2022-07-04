@@ -25,7 +25,7 @@ const MainCard = ({ post, type }: Props) => {
 
   return (
     <Wrapper>
-      <PreviewImageBox onClick={() => router.push(`/post/${post.id}`)}>
+      <PreviewImageBox onClick={() => router.push(`/post/${type === 'user' ? post.id : `/team/${post.id}`}`)}>
         <Image src={post.images[0].image || '/images/logo.svg'} layout="fill" objectFit="cover" />
         <PreviewImageBoxLayer />
         <PostTitle>{post.title}</PostTitle>
