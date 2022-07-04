@@ -1,10 +1,14 @@
 import BaseAPI from './base.api';
 
 import type { CustomAxiosRequestConfig } from './type';
-import { PostType, TeamUploadType } from 'types/post';
+import { TeamPostType, TeamUploadType } from 'types/post';
 
 class TeamPostsAPI extends BaseAPI {
   //https://apibora.shop/api/teams/
+
+  getTeamPost(params: unknown, config?: CustomAxiosRequestConfig) {
+    return this.get<TeamPostType[]>(`/posts/${params}`, config);
+  }
 
   uploadTeamPost(body: TeamUploadType, config: CustomAxiosRequestConfig) {
     return this.post(`/posts`, body, config);
