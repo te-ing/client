@@ -37,7 +37,7 @@ const PostCards = () => {
           ? 'Loading..'
           : data.userPost
               .concat(data.teamPost)
-              ?.slice(0, 5)
+              .sort(() => Math.random() - 0.5)
               .map((post) => {
                 return (
                   <MainCard
