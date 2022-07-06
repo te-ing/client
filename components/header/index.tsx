@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import { User } from 'types/user';
 import { userInfoState } from 'recoil/auth';
 import usersApi from 'apis/users.api';
+import HeaderProfile from './HeaderProfile';
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
@@ -74,7 +75,7 @@ const Header = () => {
             </div>
             <S.SearchBar placeholder="검색어를 입력해주세요" />
             <Image src={'/images/icon-notice.svg'} width={'24px'} height={'24px'} alt={'notice'} />
-            <Image src={'/images/icon-profile.svg'} width={'32px'} height={'32px'} alt={'profile'} />
+            <HeaderProfile userInfo={userInfo} />
           </S.AfterLogin>
         ) : (
           <S.BeforeLogin>
