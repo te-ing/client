@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -65,7 +66,7 @@ export const AfterLogin = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 320px;
+  width: 350px;
   height: 40px;
 `;
 
