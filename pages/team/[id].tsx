@@ -193,11 +193,8 @@ const TeamProfile = () => {
               <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
               {!editMode && <UploadProduct isTeam={true} />}
             </>
-          ) : profileData.checkApplied
-              .filter((member) => member.memberType === 'confirmed')
-              .map((member) => member.member)
-              .includes(userState.id) ? (
-            <QuitTeam memberId={userState.id} teamId={profileData.id} />
+          ) : membersData.find((member) => member.userId === userState.id) ? (
+            <QuitTeam memberId={membersData.find((member) => member.userId === userState.id).memberId} teamId={id} />
           ) : (
             <>
               <ApplyTeam teamId={id} />
