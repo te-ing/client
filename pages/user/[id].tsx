@@ -37,7 +37,14 @@ const UserProfile: React.FC = () => {
   const [interestOnOff, setInterestOnOff] = useState(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState('postCount');
-  const [values, setValues, handler] = useForm<UserEditForm | null>(null);
+  const [values, setValues, handler] = useForm<UserEditForm>({
+    email: '',
+    nickname: '',
+    description: '',
+    profileImage: '',
+    backgroundImage: '',
+    categories: '',
+  });
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
   const [editPost, setEditPost] = useRecoilState(editPostState);
