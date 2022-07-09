@@ -7,7 +7,9 @@ export const Wrapper = styled.div`
   position: relative;
 `;
 
-export const ProfileImage = styled(Image)``;
+export const ProfileImage = styled(Image)`
+  border-radius: 50%;
+`;
 
 export const Dropdown = styled(FlexColumn)<{ open: boolean }>`
   position: absolute;
