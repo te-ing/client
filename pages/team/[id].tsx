@@ -36,22 +36,10 @@ import TeamNickname from 'components/Team/Profile/TeamNickname';
 
 //props로 id 넘겨주기
 
-const TeamProfile = () => {
+const TeamProfile = ({ dehydratedState }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = router.query;
-  const [editMode, setEditMode] = useState(false);
-  const [currentTab, setCurrentTab] = useState('postCount');
-  const [values, setValues, handler] = useForm<TeamEditForm>({
-    title: '',
-    description: '',
-    team_profile_image: '',
-    background_image: '',
-  });
-  const [userState] = useRecoilState(userInfoState);
-  const [editPost, setEditPost] = useRecoilState(editPostState);
-  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
-  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
 
   const {
     isLoading: profileIsLoading,
@@ -86,6 +74,19 @@ const TeamProfile = () => {
       },
     }
   );
+
+  const [editMode, setEditMode] = useState(false);
+  const [currentTab, setCurrentTab] = useState('postCount');
+  const [values, setValues, handler] = useForm<TeamEditForm>({
+    title: profileData.title,
+    description: profileData.description,
+    team_profile_image: profileData.teamProfileImage,
+    background_image: profileData.backgroundImage,
+  });
+  const [userState] = useRecoilState(userInfoState);
+  const [editPost, setEditPost] = useRecoilState(editPostState);
+  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
 
   const postEditHandler = (id: number) => (e: MouseEvent) => {
     e.stopPropagation();

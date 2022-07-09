@@ -33,22 +33,6 @@ const UserProfile: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
   const queryClient = useQueryClient();
-  const [userState] = useRecoilState(userInfoState);
-  const [interestOnOff, setInterestOnOff] = useState(false);
-  const [editMode, setEditMode] = useState<boolean>(false);
-  const [currentTab, setCurrentTab] = useState('postCount');
-  const [values, setValues, handler] = useForm<UserEditForm>({
-    email: '',
-    nickname: '',
-    description: '',
-    profileImage: '',
-    backgroundImage: '',
-    categories: '',
-  });
-  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
-  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
-  const [editPost, setEditPost] = useRecoilState(editPostState);
-  const [interestList, setInterestList] = useState<{ id: number; name: string }[]>([]);
   const { isError, error, data } = useQuery(
     ['user-profile', id],
     () => usersApi.checkUsers(id, { isRequiredLogin: sessionStorage.getItem('jwtToken') ? true : false }),
@@ -75,6 +59,23 @@ const UserProfile: React.FC = () => {
       },
     }
   );
+
+  const [userState] = useRecoilState(userInfoState);
+  const [interestOnOff, setInterestOnOff] = useState(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [currentTab, setCurrentTab] = useState('postCount');
+  const [values, setValues, handler] = useForm<UserEditForm>({
+    email: data.email,
+    nickname: data.nickname,
+    description: data.description,
+    profileImage: data.profileImage,
+    backgroundImage: data.backgroundImage,
+    categories: data.categories.join(','),
+  });
+  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
+  const [editPost, setEditPost] = useRecoilState(editPostState);
+  const [interestList, setInterestList] = useState<{ id: number; name: string }[]>([]);
 
   const postEditHandler = (id: number) => (e: MouseEvent) => {
     e.stopPropagation();
