@@ -16,7 +16,6 @@ interface selectType {
 
 const Edit: React.FC = () => {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { id } = router.query;
   const [values, setValues, handler] = useForm<UploadType>({ title: '', description: '', images: [] });
   const { data, isLoading, isError } = useQuery(['user-post-edit', id], () => postsApi.getPost(id), {
@@ -33,8 +32,6 @@ const Edit: React.FC = () => {
     onSuccess: ({ data }) => {
       alert('작품 수정에 성공하였습니다!');
       router.back();
-      // queryClient.invalidateQueries(['user-profile', data);
-      // setValues({ title: '', description: '', images: [] });
     },
   });
 
