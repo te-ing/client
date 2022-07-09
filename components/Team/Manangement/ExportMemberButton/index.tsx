@@ -20,7 +20,6 @@ const ExportMemberButton = ({ memberId, teamId }: Props) => {
     }
   );
   const exportMemberHandler = () => {
-    console.log('내보내기');
     applyMutate();
   };
 
