@@ -2,12 +2,10 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import AWS from 'aws-sdk';
 import shortId from 'shortid';
 
-export const useUploadImage = (): [
-  string,
-  React.Dispatch<SetStateAction<string>>,
-  (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>
-] => {
-  const [imgUrl, setImgUrl] = useState('');
+export const useUploadImage = (
+  initialImage
+): [string, React.Dispatch<SetStateAction<string>>, (e: React.ChangeEvent<HTMLInputElement>) => Promise<void>] => {
+  const [imgUrl, setImgUrl] = useState(initialImage);
   const poolID = process.env.NEXT_PUBLIC_TEST_COGNITO;
   const bucket = process.env.NEXT_PUBLIC_BUCKET_NAME;
 

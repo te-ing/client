@@ -72,8 +72,8 @@ const UserProfile: React.FC = () => {
     backgroundImage: data.backgroundImage,
     categories: data.categories.join(','),
   });
-  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
-  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
+  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage(data.backgroundImage);
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage(data.profileImage);
   const [editPost, setEditPost] = useRecoilState(editPostState);
   const [interestList, setInterestList] = useState<{ id: number; name: string }[]>([]);
 

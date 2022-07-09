@@ -36,7 +36,7 @@ import TeamNickname from 'components/Team/Profile/TeamNickname';
 
 //props로 id 넘겨주기
 
-const TeamProfile = ({ dehydratedState }) => {
+const TeamProfile = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { id } = router.query;
@@ -85,8 +85,8 @@ const TeamProfile = ({ dehydratedState }) => {
   });
   const [userState] = useRecoilState(userInfoState);
   const [editPost, setEditPost] = useRecoilState(editPostState);
-  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
-  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
+  const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage(profileData.backgroundImage);
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage(profileData.teamProfileImage);
 
   const postEditHandler = (id: number) => (e: MouseEvent) => {
     e.stopPropagation();
@@ -182,7 +182,12 @@ const TeamProfile = ({ dehydratedState }) => {
           />
           <InfoDescription>
             {editMode ? (
-              <DescriptionArea name="description" onChange={handler} placeholder="사용자 소개를 입력해주세요." />
+              <DescriptionArea
+                name="description"
+                onChange={handler}
+                value={values.description}
+                placeholder="사용자 소개를 입력해주세요."
+              />
             ) : (
               <p>{profileData?.description}</p>
             )}
