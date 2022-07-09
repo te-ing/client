@@ -75,7 +75,7 @@ const UserProfile: React.FC = () => {
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage(data.backgroundImage);
   const [profileImg, setProfileImg, profileImgUpload] = useUploadImage(data.profileImage);
   const [editPost, setEditPost] = useRecoilState(editPostState);
-  const [interestList, setInterestList] = useState<{ id: number; name: string }[]>([]);
+  const [interestList, setInterestList] = useState<{ id: number; name: string }[]>([...data.categories]);
 
   const postEditHandler = (id: number) => (e: MouseEvent) => {
     e.stopPropagation();
