@@ -28,7 +28,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               <Component {...pageProps} />
             </ThemeProvider>
           </Hydrate>
-          <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          {process.env.NEXT_PUBLIC_REACT_QUERY_DEV === 'dev' && (
+            <ReactQueryDevtools initialIsOpen={false} position="bottom-right" />
+          )}
         </QueryClientProvider>
       </RecoilRoot>
     </>
