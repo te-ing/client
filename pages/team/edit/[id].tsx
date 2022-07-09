@@ -1,39 +1,50 @@
-import postsApi from 'apis/posts.api';
+import teamPostsApi from 'apis/teamPosts.api';
 import Layout from 'components/Layout';
 import Editor from 'components/Upload/Editor';
 import Register from 'components/Upload/Register';
 import useForm from 'hooks/useForm';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+
 import { dehydrate, QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
 import { TeamUploadType } from 'types/post';
 
+interface selectType {
+  title: string;
+  description: string;
+  images: string[];
+  team: number;
+}
+
 const Edit: React.FC = () => {
   const router = useRouter();
-  const queryClient = useQueryClient();
   const { id } = router.query;
   const [values, setValues, handler] = useForm<TeamUploadType>({ team: -1, title: '', description: '', images: [] });
-  const { data, isLoading, isError } = useQuery(['user-post-edit', id], () => postsApi.getPost(id), {
-    select: (data) => {
-      console.log('에딧', data);
-      const format = { team: data.id, title: data.title, description: data.description, images: [...data.images] };
+  const { data, isLoading, isError } = useQuery(['team-post-edit', id], () => teamPostsApi.getTeamPost(id), {
+    refetchOnWindowFocus: false,
+    select: (data): selectType => {
+      const format = {
+        team: data.team,
+        title: data.title,
+        description: data.description,
+        images: data.images.map((img) => img.image),
+      };
       return format;
     },
-    onSuccess: (data) => {
-      console.log('성공', data);
-      setValues({ ...data, images: data.images.map((img) => img.image) });
+    onSuccess: (data: selectType) => {
+      setValues({ ...data });
     },
   });
-  const { mutate: uploadMutate } = useMutation(() => postsApi.uploadPost(values, { isRequiredLogin: true }), {
-    onSuccess: ({ data }) => {
-      // queryClient.invalidateQueries(['user-profile', data);
-      // setValues({ title: '', description: '', images: [] });
-    },
-  });
-  useEffect(() => {
-    console.log('작품 업로드', values);
-  }, [values]);
+  const { mutate: uploadMutate } = useMutation(
+    () => teamPostsApi.editTeamPost(Number(id), values, { isRequiredLogin: true }),
+    {
+      onSuccess: ({ data }) => {
+        alert('작품 수정에 성공하였습니다!');
+        router.back();
+      },
+    }
+  );
+
   return (
     <Layout>
       <Editor values={values} handler={handler} />
@@ -42,21 +53,24 @@ const Edit: React.FC = () => {
   );
 };
 
-// export const getServerSideProps = async (context: GetStaticPropsContext) => {
-//   try {
-//     const queryClient = new QueryClient();
-//     const id = context.params?.id as string;
-
-//     await queryClient.prefetchQuery(['user-post-edit', id], ({ queryKey }) => postsApi.getPost(Number(queryKey[1])));
-
-//     return {
-//       props: {
-//         dehydratedState: dehydrate(queryClient),
-//       },
-//     };
-//   } catch (err) {
-//     console.error(err);
-//     return err;
-//   }
-// };
 export default Edit;
+
+export const getServerSideProps = async (context: GetStaticPropsContext) => {
+  try {
+    const queryClient = new QueryClient();
+    const id = context.params?.id as string;
+
+    await queryClient.prefetchQuery(['team-post-edit', id], ({ queryKey }) =>
+      teamPostsApi.getTeamPost(Number(queryKey[1]))
+    );
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
+  } catch (err) {
+    console.error(err);
+    return err;
+  }
+};
