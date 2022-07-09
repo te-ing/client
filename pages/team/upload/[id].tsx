@@ -20,13 +20,11 @@ const Upload: React.FC = () => {
   });
   const { mutate: uploadMutate } = useMutation(() => teamPostsApi.uploadTeamPost(values, { isRequiredLogin: true }), {
     onSuccess: ({ data }) => {
-      // queryClient.invalidateQueries(['user-profile', data);
-      setValues({ team: Number(id), title: '', description: '', images: [] });
+      alert('작품 업로드 성공!');
+      router.back();
     },
   });
-  useEffect(() => {
-    console.log('작품 업로드', values);
-  }, [values]);
+
   return (
     <Layout>
       <Editor values={values} handler={handler} />

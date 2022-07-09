@@ -22,7 +22,7 @@ const Thumbnail: React.FC<Props> = ({ item, editMode, isTeam }) => {
     setEditPost({ ...editPost, id });
   };
   return (
-    <Link href={`/post/${item.id}`}>
+    <Link href={isTeam ? `/post/team/${item.id}` : `/post/${item.id}`}>
       <ItemCard>
         {item.images.length > 0 && <ItemImage src={item.images[0].image} layout="fill" quality="100" />}
         {editMode && (

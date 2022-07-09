@@ -42,7 +42,12 @@ const TeamProfile = () => {
   const { id } = router.query;
   const [editMode, setEditMode] = useState(false);
   const [currentTab, setCurrentTab] = useState('postCount');
-  const [values, setValues, handler] = useForm<TeamEditForm>();
+  const [values, setValues, handler] = useForm<TeamEditForm>({
+    title: '',
+    description: '',
+    team_profile_image: '',
+    background_image: '',
+  });
   const [userState] = useRecoilState(userInfoState);
   const [editPost, setEditPost] = useRecoilState(editPostState);
   const [bannerImg, setBannerImg, bannerImgUpload] = useUploadImage();
@@ -188,11 +193,8 @@ const TeamProfile = () => {
               <ProfileEdit editMode={editMode} editModeOnOff={editModeOnOff} />
               {!editMode && <UploadProduct isTeam={true} />}
             </>
-          ) : profileData.checkApplied
-              .filter((member) => member.memberType === 'confirmed')
-              .map((member) => member.member)
-              .includes(userState.id) ? (
-            <QuitTeam />
+          ) : membersData.find((member) => member.userId === userState.id) ? (
+            <QuitTeam memberId={membersData.find((member) => member.userId === userState.id).memberId} teamId={id} />
           ) : (
             <>
               <ApplyTeam teamId={id} />
@@ -271,7 +273,7 @@ const InfoDescription = styled.div`
     color: ${({ theme }) => theme.color.gray_700};
     font-weight: ${({ theme }) => theme.fontWeight.medium};
     font-size: 12px;
-    line-height: 1.416666;
+    line-height: 1.416666;♻️
   }
 `;
 

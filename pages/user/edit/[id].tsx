@@ -8,6 +8,12 @@ import { useRouter } from 'next/router';
 import { dehydrate, QueryClient, useMutation, useQuery, useQueryClient } from 'react-query';
 import { UploadType } from 'types/post';
 
+interface selectType {
+  title: string;
+  description: string;
+  images: string[];
+}
+
 const Edit: React.FC = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
@@ -15,16 +21,18 @@ const Edit: React.FC = () => {
   const [values, setValues, handler] = useForm<UploadType>({ title: '', description: '', images: [] });
   const { data, isLoading, isError } = useQuery(['user-post-edit', id], () => postsApi.getPost(id), {
     refetchOnWindowFocus: false,
-    select: (data) => {
+    select: (data): selectType => {
       const format = { title: data.title, description: data.description, images: data.images.map((img) => img.image) };
       return format;
     },
-    onSuccess: (data) => {
+    onSuccess: (data: selectType) => {
       setValues({ ...data });
     },
   });
   const { mutate: uploadMutate } = useMutation(() => postsApi.editPost(id, values, { isRequiredLogin: true }), {
     onSuccess: ({ data }) => {
+      alert('작품 수정에 성공하였습니다!');
+      router.back();
       // queryClient.invalidateQueries(['user-profile', data);
       // setValues({ title: '', description: '', images: [] });
     },
@@ -37,6 +45,8 @@ const Edit: React.FC = () => {
     </Layout>
   );
 };
+
+export default Edit;
 
 export const getServerSideProps = async (context: GetStaticPropsContext) => {
   try {
@@ -55,4 +65,3 @@ export const getServerSideProps = async (context: GetStaticPropsContext) => {
     return err;
   }
 };
-export default Edit;
