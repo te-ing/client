@@ -16,7 +16,7 @@ interface Props {
 }
 const TeamCreateModal = ({ onOffHandler }: Props) => {
   const queryClient = useQueryClient();
-  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage();
+  const [profileImg, setProfileImg, profileImgUpload] = useUploadImage('');
   const [error, setError] = useState('');
   const [values, setValues, handler] = useForm<TeamEditForm>({
     title: '',

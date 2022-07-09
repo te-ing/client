@@ -16,7 +16,7 @@ interface checkUserNameResult {
 
 const SetUserProfile: React.FC = () => {
   const { skip, isSkip } = useModal();
-  const [imgUrl, setImgUrl, storeImage] = useUploadImage();
+  const [imgUrl, setImgUrl, storeImage] = useUploadImage('');
   const [nickname, setNickname] = useState('');
   const [isNicknameLoading, setIsNicknameLoading] = useState(true);
   const [isNicknameUnique, setisNicknameUnique] = useState(false);
