@@ -31,7 +31,6 @@
   - [🔑 소셜 로그인](#-소셜-로그인)
   - [🔍 게시글 탐색](#-게시글-탐색)
   - [📝 게시글 생성](#-게시글-생성)
-  - [📖 게시글 상세페이지](#-게시글-상세페이지)
   - [👨‍👧‍👦 팀 구성](#-팀-구성)
 - [🌈 프로젝트 WireFrame & UI](#-프로젝트-wireframe--ui)
 - [📁 폴더구조](#-폴더구조)
@@ -71,11 +70,18 @@
 
 ### 🔑 소셜 로그인
 
+<img src="https://user-images.githubusercontent.com/76410985/178191789-59d6ca1c-3f39-4abd-b521-ef1f616ef3a2.gif" width="500" height="300">
+
+<br>
+
 ### 🔍 게시글 탐색
+<img src="https://user-images.githubusercontent.com/76410985/178191801-62352d09-7d84-4fb2-b6da-6c498855fbb5.gif" width="500" height="300">
+
+<br>
 
 ### 📝 게시글 생성
-
-### 📖 게시글 상세페이지
+<img src="https://user-images.githubusercontent.com/76410985/178191804-53567e2a-5c8c-4a4b-a9e8-7cc6b3dc0d28.gif" width="500" height="300">
+<br>
 
 ### 👨‍👧‍👦 팀 구성
 
