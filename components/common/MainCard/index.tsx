@@ -8,6 +8,7 @@ import { FlexBox, FlexCenter, FlexColumn, TextBox } from 'styles/commonStyles';
 import { PostType } from 'types/post';
 import { TeamTypes } from 'types/team';
 import { User } from 'types/user';
+
 interface Props {
   post: PostType;
   type: string;
@@ -79,6 +80,7 @@ const Wrapper = styled(FlexColumn)`
   width: 364px;
   height: 328px;
   margin-bottom: 24px;
+  margin: 10px;
 `;
 
 const PreviewImageBox = styled(FlexCenter)`
