@@ -9,8 +9,8 @@ class TeamsAPI extends BaseAPI {
   createTeam(body: TeamEditForm, config: CustomAxiosRequestConfig) {
     return this.post(``, body, config);
   }
-  checkTeamProfile(params: unknown) {
-    return this.get<TeamTypes>(`/${params}`);
+  checkTeamProfile(params: unknown, config?: CustomAxiosRequestConfig) {
+    return this.get<TeamTypes>(`/${params}`, config);
   }
   getPendedMembers(params: string) {
     return this.get<MemberTypes[]>(`/${params}/pended-members`);
