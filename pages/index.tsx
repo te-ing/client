@@ -47,6 +47,8 @@ const PostCards = () => {
                   />
                 );
               })}
+        <TempVoidCard />
+        <TempVoidCard />
       </MainContent>
     </Layout>
   );
@@ -92,7 +94,12 @@ const FilterBtn = styled(DefaultButton)`
 
 const MainContent = styled(FlexBox)`
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
+`;
+
+const TempVoidCard = styled.div`
+  visibility: hidden;
+  width: 364px;
 `;
 
 export default PostCards;
