@@ -91,8 +91,8 @@ const FilterBtn = styled(DefaultButton)`
 `;
 
 const MainContent = styled(FlexBox)`
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 `;
 
 export default PostCards;
