@@ -39,13 +39,7 @@ const PostCards = () => {
               .concat(data.teamPost)
               .sort(() => Math.random() - 0.5)
               .map((post) => {
-                return (
-                  <MainCard
-                    post={post}
-                    key={post.team ? `team${post.id}` : `user${post.id}`}
-                    type={post.team ? 'team' : 'user'}
-                  />
-                );
+                return <MainCard post={post} key={post.team ? `team${post.id}` : `user${post.id}`} />;
               })}
         <TempVoidCard />
         <TempVoidCard />

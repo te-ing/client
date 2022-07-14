@@ -1,3 +1,15 @@
+type author = {
+  id: number;
+  nickname: string;
+  profileImage: string;
+};
+
+type team = {
+  id: number;
+  title: string;
+  teamProfileImage: string;
+};
+
 export interface PostTypes {
   count: number;
   next: number | null;
@@ -19,12 +31,27 @@ export interface PostType {
   commentCount: number;
   isLike: boolean;
   isScrap: boolean;
-  team?: number;
+}
+
+export interface PostCardType {
+  id: number;
+  author?: author;
+  team?: team;
+  description: string;
+  images: { image: string }[];
+  title: string;
+  createdAt: string;
+  updatedAt: string;
+  likeCount: number;
+  scrapCount: number;
+  commentCount: number;
+  isLike: boolean;
+  isScrap: boolean;
 }
 
 export interface MainPostType {
-  userPost: PostType[];
-  teamPost: PostType[];
+  userPost: PostCardType[];
+  teamPost: PostCardType[];
 }
 
 export interface UploadType {
