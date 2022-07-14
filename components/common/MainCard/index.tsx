@@ -1,55 +1,56 @@
-import teamsApi from 'apis/teams.api';
-import usersApi from 'apis/users.api';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import Link from 'next/link';
 import styled from 'styled-components';
 import { FlexBox, FlexCenter, FlexColumn, TextBox } from 'styles/commonStyles';
-import { PostType } from 'types/post';
-import { TeamTypes } from 'types/team';
-import { User } from 'types/user';
+import { PostCardType } from 'types/post';
 
 interface Props {
-  post: PostType;
-  type: string;
+  post: PostCardType;
 }
 
-const MainCard = ({ post, type }: Props) => {
-  const router = useRouter();
-  const getAuthor = () => usersApi.getUserInfo(post.author);
-  const getTeamProfile = () => teamsApi.checkTeamProfile(post.team);
-  const { data } =
-    type === 'user'
-      ? useQuery<User>(post.id.toString(), getAuthor)
-      : useQuery<TeamTypes>(post?.team?.toString(), getTeamProfile);
-  const isUser = (data: User | TeamTypes): data is User => (data as User)?.nickname !== undefined; // 타입가드
-
+const MainCard = ({ post }: Props) => {
   return (
     <Wrapper>
-      <PreviewImageBox onClick={() => router.push(`/post/${type === 'user' ? post.id : `/team/${post.id}`}`)}>
-        <Image src={post.images[0]?.image || '/images/logo.svg'} layout="fill" objectFit="cover" />
-        <PreviewImageBoxLayer />
-        <PostTitle>{post.title}</PostTitle>
-      </PreviewImageBox>
+      {post.author ? (
+        <Link href={`/post/${post.id}`}>
+          <PreviewImageBox>
+            <Image src={post.images[0]?.image || '/images/logo.svg'} layout="fill" objectFit="cover" />
+            <PreviewImageBoxLayer />
+            <PostTitle>{post.title}</PostTitle>
+          </PreviewImageBox>
+        </Link>
+      ) : (
+        <Link href={`/post/team/${post.id}`}>
+          <PreviewImageBox>
+            <Image src={post.images[0]?.image || '/images/logo.svg'} layout="fill" objectFit="cover" />
+            <PreviewImageBoxLayer />
+            <PostTitle>{post.title}</PostTitle>
+          </PreviewImageBox>
+        </Link>
+      )}
       <CardInfo>
-        {isUser(data) ? (
-          <InfoUserBox onClick={() => router.push(`/user/${post.author}`)}>
-            <ProfileImageBox>
-              <Image src={data?.profileImage || '/images/icon-profile.svg'} width={32} height={32} />
-            </ProfileImageBox>
-            <TextBox size="20" weight={600}>
-              {data?.nickname}
-            </TextBox>
-          </InfoUserBox>
+        {post.author ? (
+          <Link href={`/user/${post.author.id}`}>
+            <InfoUserBox>
+              <ProfileImageBox>
+                <Image src={post.author.profileImage || '/images/icon-profile.svg'} width={32} height={32} />
+              </ProfileImageBox>
+              <TextBox size="20" weight={600}>
+                {post.author.nickname}
+              </TextBox>
+            </InfoUserBox>
+          </Link>
         ) : (
-          <InfoUserBox onClick={() => router.push(`/team/${post.team}`)}>
-            <ProfileImageBox>
-              <Image src={data?.teamProfileImage || '/images/icon-profile.svg'} width={32} height={32} />
-            </ProfileImageBox>
-            <TextBox size="20" weight={600}>
-              {data?.title}
-            </TextBox>
-          </InfoUserBox>
+          <Link href={`/team/${post.team.id}`}>
+            <InfoUserBox>
+              <ProfileImageBox>
+                <Image src={post.team.teamProfileImage || '/images/icon-profile.svg'} width={32} height={32} />
+              </ProfileImageBox>
+              <TextBox size="20" weight={600}>
+                {post.team.title}
+              </TextBox>
+            </InfoUserBox>
+          </Link>
         )}
         <FlexBox>
           <InfoImageBox>
