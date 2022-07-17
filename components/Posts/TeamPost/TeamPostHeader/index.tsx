@@ -6,6 +6,7 @@ import TeamPostHeaderInfo from './TeamPostHeaderInfo';
 import teamsApi from 'apis/teams.api';
 import { TeamTypes } from 'types/team';
 import SkeletonTeamHeader from './SkeletonHeader SkeletonTeamHeader';
+import TeamPostHeaderButtons from './TeamPostHeaderButtons.tsx';
 
 const TeamPostHeader = ({ post }: { post: TeamPostType }) => {
   const getTeamInfo = async () => {
@@ -16,6 +17,7 @@ const TeamPostHeader = ({ post }: { post: TeamPostType }) => {
   return !isLoading ? (
     <PostHeader>
       <TeamPostHeaderInfo post={post} team={data} />
+      <TeamPostHeaderButtons postId={post.id} />
     </PostHeader>
   ) : (
     <SkeletonTeamHeader />

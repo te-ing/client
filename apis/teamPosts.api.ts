@@ -17,8 +17,17 @@ class TeamPostsAPI extends BaseAPI {
   editTeamPost(params: number, body: TeamUploadType, config: CustomAxiosRequestConfig) {
     return this.put(`/posts/${params}`, body, config);
   }
+
   deleteTeamPost(params: number, config: CustomAxiosRequestConfig) {
     return this.delete(`posts/${params}`, config);
+  }
+
+  likeTeamPost(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`posts/${params}/like`, {}, config);
+  }
+
+  scrapTeamPost(params: unknown, config: CustomAxiosRequestConfig) {
+    return this.post(`posts/${params}/scrap`, {}, config);
   }
 }
 
