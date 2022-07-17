@@ -29,10 +29,10 @@
 - [📣 배포 링크](#-배포-링크)
 - [✨ 주요 기능](#-주요-기능)
   - [🔑 소셜 로그인](#-소셜-로그인)
-  - [🔍 게시글 탐색](#-게시글-탐색)
   - [📝 게시글 생성](#-게시글-생성)
-  - [📖 게시글 상세페이지](#-게시글-상세페이지)
-  - [👨‍👧‍👦 팀 구성](#-팀-구성)
+  - [📖 게시글 탐색](#-게시글-탐색)
+  - [👨‍👧‍👦 팀 구성 및 팀 게시글 생성](#-팀-구성-및-팀-게시글-생성)
+  - [👬 팀 신청 및 수락](#-팀-신청-및-수락)
 - [🌈 프로젝트 WireFrame & UI](#-프로젝트-wireframe--ui)
 - [📁 폴더구조](#-폴더구조)
 
@@ -45,7 +45,7 @@
 
 ## 📣 배포 링크
 
-[배포 준비중](https://dreamin.vercel.app/)
+[https://dreamin.vercel.app](https://dreamin.vercel.app/)
 <br />
 <br />
 
@@ -71,13 +71,33 @@
 
 ### 🔑 소셜 로그인
 
-### 🔍 게시글 탐색
+<img src="https://user-images.githubusercontent.com/76410985/179384127-2ee94943-9a9b-4687-ad5e-3aaf7d35e22e.gif" width="600px" alt="소셜 로그인"/>
+
+<br />
 
 ### 📝 게시글 생성
 
-### 📖 게시글 상세페이지
+<img src="https://user-images.githubusercontent.com/76410985/179384131-11a534fd-bb3d-4742-bd12-54e02d71b3e9.gif" width="600px" alt="게시글생성"/>
 
-### 👨‍👧‍👦 팀 구성
+<br />
+
+### 📖 게시글 탐색
+
+<img src="https://user-images.githubusercontent.com/76410985/179384129-30a76e65-9a04-4fe6-83f8-0021b9709b73.gif" width="600px" alt="게시글탐색"/>
+
+<br />
+
+### 👨‍👧‍👦 팀 구성 및 팀 게시글 생성
+
+<img src="https://user-images.githubusercontent.com/76410985/179384143-df59617a-b97b-4a56-b3ca-3bfe26465ff2.gif" width="600px" alt="DreamIn팀생성"/>
+
+<br />
+
+### 👬 팀 신청 및 수락
+
+<img src="https://user-images.githubusercontent.com/76410985/179384151-1da39b17-b6c8-4ef4-a85c-08322fd5d675.gif" width="600px" alt="DreamIn팀가입신청수락"/>
+
+
 
 <br/>
 
