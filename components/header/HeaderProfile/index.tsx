@@ -11,6 +11,7 @@ const HeaderProfile = ({ userInfo }) => {
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('jwtToken');
     router.push(`/`);
+    location.reload();
   };
 
   return (
