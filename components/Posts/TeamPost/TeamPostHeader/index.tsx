@@ -17,7 +17,7 @@ const TeamPostHeader = ({ post }: { post: TeamPostType }) => {
   return !isLoading ? (
     <PostHeader>
       <TeamPostHeaderInfo post={post} team={data} />
-      <TeamPostHeaderButtons postId={post.id} team={data} />
+      <TeamPostHeaderButtons postId={post.id} />
     </PostHeader>
   ) : (
     <SkeletonTeamHeader />

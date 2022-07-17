@@ -1,18 +1,16 @@
 import styled from 'styled-components';
 import { PostType } from 'types/post';
 import Image from 'next/image';
-import usersApi from 'apis/users.api';
 import Login from 'components/Login';
 import useModal from 'hooks/useModal';
 import { isLoggedIn } from 'utils/isLoggedIn';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { TeamTypes } from 'types/team';
 import TeamPostsAPI from 'apis/teamPosts.api';
 
 interface data {
   status?: number;
 }
-const TeamPostHeaderButtons = ({ postId, team }: { postId: number; team: TeamTypes }) => {
+const TeamPostHeaderButtons = ({ postId }: { postId: number }) => {
   const getPost = async () => {
     const data = await TeamPostsAPI.getTeamPost(postId, { isRequiredLogin: isLoggedIn() });
     return data;
@@ -21,7 +19,6 @@ const TeamPostHeaderButtons = ({ postId, team }: { postId: number; team: TeamTyp
   const { data, isLoading } = useQuery<PostType>('post', getPost);
   const { setModalVisible, isShowing } = useModal();
   const queryClient = useQueryClient();
-  const isOwnPost = team.id.toString() === sessionStorage.getItem('id');
   const post = data;
 
   const likePostMutate = useMutation(() => TeamPostsAPI.likeTeamPost(postId, { isRequiredLogin: isLoggedIn() }), {
@@ -34,15 +31,9 @@ const TeamPostHeaderButtons = ({ postId, team }: { postId: number; team: TeamTyp
       data.status === 401 ? setModalVisible() : queryClient.invalidateQueries('post');
     },
   });
-  const followUserMutate = useMutation(() => usersApi.followUser(team.id, { isRequiredLogin: isLoggedIn() }), {
-    onSuccess: (data: data) => {
-      data.status === 401 ? setModalVisible() : queryClient.invalidateQueries();
-    },
-  });
 
   const handlePostLike = () => likePostMutate.mutate();
   const handlePostScrap = () => scrapPostMutate.mutate();
-  const handleUserFollow = () => followUserMutate.mutate();
 
   return isLoading ? (
     <div>Loading..</div>
@@ -71,16 +62,6 @@ const TeamPostHeaderButtons = ({ postId, team }: { postId: number; team: TeamTyp
         </ImageWrapper>
         <ButtonName>스크랩</ButtonName>
       </ButtonWrapper>
-      {isOwnPost ? (
-        ''
-      ) : (
-        <ButtonWrapper onClick={handleUserFollow}>
-          {/* <FollowImageWrapper isFollowing={team.isFollowed}>
-            <ButtonImage alt="follow_btn" src="/images/add.svg" width="26px" height="26px" />
-          </FollowImageWrapper>
-          <ButtonName>팔로우</ButtonName> */}
-        </ButtonWrapper>
-      )}
       <Login isShowing={isShowing} setModalVisible={setModalVisible} />
     </HeaderButtonsWrapper>
   );
@@ -111,10 +92,6 @@ const ImageWrapper = styled.div<{ isFollowing?: boolean }>`
   border-radius: 50%;
   background-color: #eeeeee;
 `;
-
-// const FollowImageWrapper = styled(ImageWrapper)<{ isFollowing?: boolean }>`
-//   background-color: ${(props) => props.isFollowing && '#E4FACC'};
-// `;
 
 const ButtonImage = styled(Image)``;
 
