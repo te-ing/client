@@ -36,7 +36,7 @@ const PostImages = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 0;
+  padding-top: 16px;
   gap: 20px;
 `;
 
