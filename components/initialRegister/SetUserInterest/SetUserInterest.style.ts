@@ -3,7 +3,8 @@ import styled, { css } from 'styled-components';
 import type { StyledTagType } from './index';
 
 export const Wrapper = styled.div`
-  max-width: 824.49px;
+  width: 90vw;
+  max-width: 752px;
   text-align: center;
 `;
 
@@ -12,19 +13,17 @@ export const InfoHeader = styled.header`
 `;
 
 export const Title = styled.p`
-  margin-bottom: 16px;
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 46px;
-  letter-spacing: 0.15px;
-  color: #5bb028;
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.5;
 `;
 
 export const SubInfo = styled.p`
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 29px;
-  letter-spacing: 0.15px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
   color: rgba(0, 0, 0, 0.6);
 `;
 
@@ -44,10 +43,10 @@ export const CategoryInfo = styled.div`
 
 export const CategoryName = styled.p`
   margin-bottom: 16px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.15px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
   color: #000000;
 `;
 
@@ -56,14 +55,14 @@ export const SubCategoryList = styled.div``;
 export const Tag = styled.button<StyledTagType>`
   margin-right: 8px;
   margin-bottom: 12px;
-  padding: 8px 10px;
+  padding: 7px 10px;
   vertical-align: center;
   border: 1px solid #c4c4c4;
   border-radius: 50px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0.15px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
   color: #000000;
 
   &:last-child {
@@ -79,15 +78,15 @@ export const Tag = styled.button<StyledTagType>`
 `;
 
 export const Button = styled.button`
-  min-width: 552px;
-  min-height: 56px;
-  padding: 16px 197px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
   border: none;
   border-radius: 4px;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 500;
-  line-height: 24px;
-  letter-spacing: 0.15px;
   background-color: #abf066;
   color: #000000;
   outline: none;

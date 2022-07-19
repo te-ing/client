@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 
 export const Inner = styled.div`
   text-align: right;
-  padding: 2rem;
+  padding: 16px;
   border: 1px solid #c4c3c2;
   border-radius: 2px;
   background-color: #ffffff;
