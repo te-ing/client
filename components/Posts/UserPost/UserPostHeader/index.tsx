@@ -32,4 +32,5 @@ export const PostHeader = styled.header`
   justify-content: space-between;
   height: 128px;
   padding: 23px;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.12);
 `;

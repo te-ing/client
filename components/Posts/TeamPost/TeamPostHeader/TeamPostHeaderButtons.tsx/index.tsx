@@ -44,8 +44,8 @@ const TeamPostHeaderButtons = ({ postId }: { postId: number }) => {
           <ButtonImage
             alt="like_btn"
             src={post.isLike ? '/images/like.svg' : '/images/like-border.svg'}
-            width="30px"
-            height="30px"
+            width="22px"
+            height="18px"
           />
         </ImageWrapper>
         <ButtonName>좋아요</ButtonName>
@@ -56,8 +56,8 @@ const TeamPostHeaderButtons = ({ postId }: { postId: number }) => {
           <ButtonImage
             alt="scrap_btn"
             src={post.isScrap ? '/images/scrap.svg' : '/images/scrap-border.svg'}
-            width="18px"
-            height="18px"
+            width="22px"
+            height="14px"
           />
         </ImageWrapper>
         <ButtonName>스크랩</ButtonName>

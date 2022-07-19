@@ -36,19 +36,20 @@ const PostImages = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 0;
+  padding-top: 16px;
   gap: 20px;
 `;
 
 const PostImageWrapper = styled.div`
   height: 100%;
+  width: 100%;
   span {
     position: unset !important;
   }
 `;
 
 const PostImage = styled(Image)`
-  object-fit: scale-down;
+  object-fit: fill;
   width: unset !important;
   position: relative !important;
   height: 100% !important;
