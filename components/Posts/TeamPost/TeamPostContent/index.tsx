@@ -42,13 +42,14 @@ const PostImages = styled.div`
 
 const PostImageWrapper = styled.div`
   height: 100%;
+  width: 100%;
   span {
     position: unset !important;
   }
 `;
 
 const PostImage = styled(Image)`
-  object-fit: scale-down;
+  object-fit: fill;
   width: unset !important;
   position: relative !important;
   height: 100% !important;
