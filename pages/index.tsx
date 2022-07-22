@@ -1,4 +1,4 @@
-import { FlexBox } from 'styles/commonStyles';
+import { FlexBox, FlexCenter } from 'styles/commonStyles';
 import styled from 'styled-components';
 import { DefaultButton } from 'components/common/Atomic/Tabs/Button';
 import MainCard from 'components/common/MainCard';
@@ -32,18 +32,18 @@ const PostCards = () => {
           <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>카테고리</FilterBtn>
         </FlexBox>
       </MainHeader>
-      <MainContent>
-        {isLoading || !data.userPost?.concat(data.teamPost).length
-          ? 'Loading..'
-          : data.userPost
-              .concat(data.teamPost)
-              .sort(() => Math.random() - 0.5)
-              .map((post) => {
-                return <MainCard post={post} key={post.team ? `team${post.id}` : `user${post.id}`} />;
-              })}
-        <TempVoidCard />
-        <TempVoidCard />
-      </MainContent>
+      <FlexCenter>
+        <MainContent>
+          {isLoading || !data.userPost?.concat(data.teamPost).length
+            ? 'Loading..'
+            : data.userPost
+                .concat(data.teamPost)
+                .sort(() => Math.random() - 0.5)
+                .map((post) => {
+                  return <MainCard post={post} key={post.team ? `team${post.id}` : `user${post.id}`} />;
+                })}
+        </MainContent>
+      </FlexCenter>
     </Layout>
   );
 };
@@ -86,14 +86,20 @@ const FilterBtn = styled(DefaultButton)`
   }
 `;
 
-const MainContent = styled(FlexBox)`
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-`;
+const MainContent = styled.div`
+  display: grid;
+  @media (min-width: 400px) {
+    grid-template-columns: repeat(1, 362px);
+  }
 
-const TempVoidCard = styled.div`
-  visibility: hidden;
-  width: 364px;
+  @media (min-width: 764px) {
+    grid-template-columns: repeat(2, 362px);
+    gap: 0 3vw;
+  }
+  @media (min-width: 1146px) {
+    grid-template-columns: repeat(3, 362px);
+    gap: 0 2vw;
+  }
 `;
 
 export default PostCards;
