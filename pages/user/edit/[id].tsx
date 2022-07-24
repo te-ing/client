@@ -17,7 +17,6 @@ interface selectType {
 const Edit: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [values, setValues, handler] = useForm<UploadType>({ title: '', description: '', images: [] });
   const { data, isLoading, isError } = useQuery(['user-post-edit', id], () => postsApi.getPost(id), {
     refetchOnWindowFocus: false,
     select: (data): selectType => {
@@ -34,7 +33,11 @@ const Edit: React.FC = () => {
       router.back();
     },
   });
-
+  const [values, setValues, handler] = useForm<UploadType>({
+    title: data.title,
+    description: data.description,
+    images: data.images,
+  });
   return (
     <Layout>
       <Editor values={values} handler={handler} />
