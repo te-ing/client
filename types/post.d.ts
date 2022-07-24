@@ -18,6 +18,7 @@ export interface PostTypes {
 }
 
 export interface PostType {
+  team?: number;
   id: number;
   author?: number;
   description: string;
