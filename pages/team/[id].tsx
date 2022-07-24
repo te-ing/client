@@ -92,7 +92,6 @@ const TeamProfile = () => {
     e.stopPropagation();
     setEditPost({ ...editPost, id });
   };
-
   const editModeOnOff = useCallback(
     (flag: boolean) => () => {
       setEditMode(flag);
@@ -203,7 +202,7 @@ const TeamProfile = () => {
             <QuitTeam memberId={membersData.find((member) => member.userId === userState.id).memberId} teamId={id} />
           ) : (
             <>
-              <ApplyTeam teamId={id} />
+              <ApplyTeam checkApplied={profileData.checkApplied} teamId={id} />
               <Message />
             </>
           )}
@@ -310,28 +309,6 @@ const DescriptionArea = styled.textarea`
 
 const InfoAside = styled.div`
   position: absolute;
+  display: flex;
   right: 24px;
-`;
-
-const EditNickname = styled.input`
-  width: 240px;
-  height: 26px;
-  padding: 8px;
-  border: 1px solid ${({ theme }) => theme.color.gray_400};
-  margin-bottom: 16px;
-  &::placeholder {
-    font-family: 'Noto Sans KR', sans serif;
-    font-weight: ${({ theme }) => theme.fontWeight.medium};
-    font-size: 12px;
-    line-height: 1.416666;
-    color: ${({ theme }) => theme.color.gray_400};
-  }
-`;
-
-const InitButton = styled.button`
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 1.25;
-  color: ${({ theme }) => theme.color.gray_500};
-  margin-left: 16px;
 `;
