@@ -54,7 +54,6 @@ const ItemCard = styled.div`
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.gray_500};
   border: 1px solid ${({ theme }) => theme.color.gray_400};
-  overflow: hidden;
 `;
 
 const ItemImage = styled(Image)`
@@ -67,7 +66,7 @@ const ItemInfo = styled.div`
   width: 100%;
   height: 100px;
   padding: 0 16px;
-
+  border-radius: 10px;
   p {
     position: absolute;
     color: ${({ theme }) => theme.color.white};
