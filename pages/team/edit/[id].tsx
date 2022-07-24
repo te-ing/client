@@ -19,7 +19,7 @@ interface selectType {
 const Edit: React.FC = () => {
   const router = useRouter();
   const { id } = router.query;
-  const [values, setValues, handler] = useForm<TeamUploadType>({ team: -1, title: '', description: '', images: [] });
+
   const { data, isLoading, isError } = useQuery(['team-post-edit', id], () => teamPostsApi.getTeamPost(id), {
     refetchOnWindowFocus: false,
     select: (data): selectType => {
@@ -44,7 +44,12 @@ const Edit: React.FC = () => {
       },
     }
   );
-
+  const [values, setValues, handler] = useForm<TeamUploadType>({
+    team: data.team,
+    title: data.title,
+    description: data.description,
+    images: data.images,
+  });
   return (
     <Layout>
       <Editor values={values} handler={handler} />
