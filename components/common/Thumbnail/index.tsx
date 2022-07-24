@@ -53,6 +53,8 @@ const ItemCard = styled.div`
   height: 280px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.gray_500};
+  border: 1px solid ${({ theme }) => theme.color.gray_400};
+  overflow: hidden;
 `;
 
 const ItemImage = styled(Image)`

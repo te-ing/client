@@ -160,17 +160,17 @@ const Button = styled.button<{ bgColor?: boolean }>`
   }}
 
   & + & {
-    margin-left: 16px;
+    margin-left: 12px;
   }
 
   & > span {
     font-size: 16px;
     font-weight: ${({ theme }) => theme.fontWeight.medium};
     line-height: 1.448125;
-    margin-left: 4px;
+    margin-left: 8px;
     & > span {
       color: ${({ theme }) => theme.color.gray_700};
-      margin-left: 4px;
+      margin-left: 8px;
     }
   }
 `;

@@ -178,6 +178,7 @@ const TeamTitle = styled.div`
 
   & span {
     // width: 100%;
+
     color: ${({ theme }) => theme.color.warningRed};
     font-weight: 400;
     font-size: 16px;
@@ -185,7 +186,7 @@ const TeamTitle = styled.div`
 
     position: absolute;
     right: 0;
-    top: -5spx;
+    top: -5px;
   }
 
   & input {
