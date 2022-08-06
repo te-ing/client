@@ -33,4 +33,10 @@ export const PostHeader = styled.header`
   height: 128px;
   padding: 23px;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.12);
+
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+  }
 `;
