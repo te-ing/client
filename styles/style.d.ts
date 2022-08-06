@@ -31,5 +31,6 @@ declare module 'styled-components' {
       medium: 500;
     };
     desktop: '1200px';
+    mobile: `(max-width: 768px)`;
   }
 }
