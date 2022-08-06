@@ -69,14 +69,19 @@ const Header = () => {
           <S.Line tabNum={tabNum}></S.Line>
         </S.MenuTab>
         {isLoggedIn ? (
-          <S.AfterLogin>
-            <div>
-              <Image src={'/images/icon-search.svg'} width={'24px'} height={'24px'} alt={'search'} />
-            </div>
-            <S.SearchBar placeholder="검색어를 입력해주세요" />
-            <Image src={'/images/icon-notice.svg'} width={'24px'} height={'24px'} alt={'notice'} />
-            <HeaderProfile userInfo={userInfo} />
-          </S.AfterLogin>
+          <>
+            <S.AfterLogin>
+              <div>
+                <Image src={'/images/icon-search.svg'} width={'24px'} height={'24px'} alt={'search'} />
+              </div>
+              <S.SearchBar placeholder="검색어를 입력해주세요" />
+              <Image src={'/images/icon-notice.svg'} width={'24px'} height={'24px'} alt={'notice'} />
+              <HeaderProfile userInfo={userInfo} />
+            </S.AfterLogin>
+            <S.MobileMenu onClick={() => (window.location.href = `/user/${sessionStorage.getItem('id')}`)}>
+              <Image src={'/images/icon-menu.svg'} width={'24px'} height={'24px'} alt={'notice'} />
+            </S.MobileMenu>
+          </>
         ) : (
           <S.BeforeLogin>
             <S.Login onClick={handleLogin}>로그인</S.Login>

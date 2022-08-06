@@ -77,6 +77,18 @@ export const AfterLogin = styled.div`
   align-items: center;
   width: 350px;
   height: 40px;
+
+  @media ${(props) => props.theme.mobile} {
+    display: none;
+  }
+`;
+
+export const MobileMenu = styled.button`
+  display: none;
+
+  @media ${(props) => props.theme.mobile} {
+    display: flex;
+  }
 `;
 
 export const SearchBar = styled.input`
