@@ -82,6 +82,11 @@ const Wrapper = styled(FlexColumn)`
   height: 328px;
   margin-bottom: 24px;
   margin: 10px;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    margin: 0 0 8px 0;
+  }
 `;
 
 const PreviewImageBox = styled(FlexCenter)`

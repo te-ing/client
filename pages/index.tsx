@@ -25,12 +25,12 @@ const PostCards = () => {
             <Image src={'/images/search.svg'} width="24" height="24" />
           </SearchIcon>
         </SearchBox>
-        <FlexBox>
+        <FilterBox>
           <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>전체보기</FilterBtn>
           <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>카테고리</FilterBtn>
           <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>카테고리</FilterBtn>
           <FilterBtn onClick={() => alert('❗ 아직 구현되지 않은 기능입니다.')}>카테고리</FilterBtn>
-        </FlexBox>
+        </FilterBox>
       </MainHeader>
       <FlexCenter>
         <MainContent>
@@ -51,10 +51,16 @@ const PostCards = () => {
 const MainHeader = styled(FlexBox)`
   justify-content: space-between;
   margin: 24px 0 36px;
+
+  @media ${(props) => props.theme.mobile} {
+    flex-direction: column;
+    margin: 18px 0;
+  }
 `;
 
 const SearchBox = styled.div`
   position: relative;
+  width: 100%;
 `;
 
 const SearchInput = styled.input`
@@ -68,6 +74,10 @@ const SearchInput = styled.input`
   outline: none;
 
   font-size: 12px;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+  }
 `;
 
 const SearchIcon = styled.div`
@@ -77,8 +87,16 @@ const SearchIcon = styled.div`
   cursor: pointer;
 `;
 
+const FilterBox = styled(FlexBox)`
+  @media ${(props) => props.theme.mobile} {
+    overflow: auto;
+    margin-top: 18px;
+  }
+`;
+
 const FilterBtn = styled(DefaultButton)`
-  width: 80px;
+  min-width: 5rem;
+  height: 32px;
   margin-right: 12px;
 
   &:last-child {
@@ -88,6 +106,10 @@ const FilterBtn = styled(DefaultButton)`
 
 const MainContent = styled.div`
   display: grid;
+  @media (max-width: 400px) {
+    grid-template-columns: repeat(1, 90vw);
+  }
+
   @media (min-width: 400px) {
     grid-template-columns: repeat(1, 362px);
   }
