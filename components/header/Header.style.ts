@@ -15,12 +15,21 @@ export const ButtonWrapper = styled.div`
   align-items: center;
   width: 1140px;
   height: 80px;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 100%;
+    padding: 0 16px;
+  }
 `;
 
 export const MenuTab = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const Logo = styled.div`
@@ -115,6 +124,10 @@ export const SignUp = styled.div`
   color: white;
 
   cursor: pointer;
+
+  @media ${(props) => props.theme.mobile} {
+    display: none;
+  }
 `;
 
 export const TempAlert = styled.div`
