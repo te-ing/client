@@ -30,5 +30,5 @@ export const theme: DefaultTheme = {
     medium: 500,
   },
   desktop: '1200px',
-  mobile: `(max-width: 768px)`,
+  mobile: `(max-width: 800px)`,
 };
