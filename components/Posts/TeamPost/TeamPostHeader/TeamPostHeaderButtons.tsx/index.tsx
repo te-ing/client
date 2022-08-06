@@ -91,6 +91,11 @@ const ImageWrapper = styled.div<{ isFollowing?: boolean }>`
   margin-bottom: 4px;
   border-radius: 50%;
   background-color: #eeeeee;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 34px;
+    height: 34px;
+  }
 `;
 
 const ButtonImage = styled(Image)``;

@@ -53,7 +53,7 @@ const PostHeaderButtons = ({ postId, user }: { postId: number; user: User }) => 
             alt="like_btn"
             src={post.isLike ? '/images/like.svg' : '/images/like-border.svg'}
             width="22px"
-            height="18px"
+            height="22px"
           />
         </ImageWrapper>
         <ButtonName>좋아요</ButtonName>
@@ -109,6 +109,11 @@ const ImageWrapper = styled.div<{ isFollowing?: boolean }>`
   margin-bottom: 4px;
   border-radius: 50%;
   background-color: #eeeeee;
+
+  @media ${(props) => props.theme.mobile} {
+    width: 34px;
+    height: 34px;
+  }
 `;
 
 const FollowImageWrapper = styled(ImageWrapper)<{ isFollowing?: boolean }>`
