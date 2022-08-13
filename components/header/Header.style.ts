@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -17,8 +16,20 @@ export const ButtonWrapper = styled.div`
   height: 80px;
 
   @media ${(props) => props.theme.mobile} {
-    width: 100%;
-    padding: 0 16px;
+    display: none;
+  }
+`;
+
+export const MobileButtonWrapper = styled.div`
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 80px;
+  padding: 16px;
+
+  @media ${(props) => props.theme.mobile} {
+    display: flex;
   }
 `;
 
@@ -77,18 +88,6 @@ export const AfterLogin = styled.div`
   align-items: center;
   width: 350px;
   height: 40px;
-
-  @media ${(props) => props.theme.mobile} {
-    display: none;
-  }
-`;
-
-export const MobileMenu = styled.button`
-  display: none;
-
-  @media ${(props) => props.theme.mobile} {
-    display: flex;
-  }
 `;
 
 export const SearchBar = styled.input`
@@ -148,3 +147,5 @@ export const TempAlert = styled.div`
   background: #bdf486;
   padding: 16px;
 `;
+
+export const MobileMenuSection = styled.div``;
