@@ -8,6 +8,7 @@ import postsApi from 'apis/posts.api';
 import { MainPostType } from 'types/post';
 import { useQuery } from 'react-query';
 import { isLoggedIn } from 'utils/isLoggedIn';
+import LoadingSpinner from 'components/common/LoadingSpinner';
 
 const PostCards = () => {
   const getPosts = async () => {
@@ -34,14 +35,16 @@ const PostCards = () => {
       </MainHeader>
       <FlexCenter>
         <MainContent>
-          {isLoading || !data.userPost?.concat(data.teamPost).length
-            ? 'Loading..'
-            : data.userPost
-                .concat(data.teamPost)
-                .sort(() => Math.random() - 0.5)
-                .map((post) => {
-                  return <MainCard post={post} key={post.team ? `team${post.id}` : `user${post.id}`} />;
-                })}
+          {isLoading || !data.userPost?.concat(data.teamPost).length ? (
+            <LoadingSpinner />
+          ) : (
+            data.userPost
+              .concat(data.teamPost)
+              .sort(() => Math.random() - 0.5)
+              .map((post) => {
+                return <MainCard post={post} key={post.team ? `team${post.id}` : `user${post.id}`} />;
+              })
+          )}
         </MainContent>
       </FlexCenter>
     </Layout>
